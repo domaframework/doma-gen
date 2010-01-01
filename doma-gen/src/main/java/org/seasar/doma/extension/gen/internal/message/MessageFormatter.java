@@ -18,19 +18,19 @@ package org.seasar.doma.extension.gen.internal.message;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
-import org.seasar.doma.extension.gen.MessageCode;
+import org.seasar.doma.extension.gen.MessageResource;
 
 /**
  * @author taedium
  * 
  */
-public final class MessageFormatter {
+final class MessageFormatter {
 
-    public static String getMessage(MessageCode messageCode, Object... args) {
+    public static String getMessage(MessageResource messageResource, Object... args) {
         ResourceBundle bundle = ResourceBundle
-                .getBundle(GenMessageResource.class.getName());
-        String pattern = bundle.getString(messageCode.getCode());
-        return MessageFormat.format("[" + messageCode.getCode() + "] "
+                .getBundle(GenMessageResourceBundle.class.getName());
+        String pattern = bundle.getString(messageResource.getCode());
+        return MessageFormat.format("[" + messageResource.getCode() + "] "
                 + pattern, args);
     }
 }

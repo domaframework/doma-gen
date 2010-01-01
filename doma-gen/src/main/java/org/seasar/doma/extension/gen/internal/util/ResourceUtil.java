@@ -23,7 +23,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 
 import org.seasar.doma.extension.gen.GenException;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 
 /**
  * @author taedium
@@ -88,7 +88,7 @@ public final class ResourceUtil {
         try {
             return URLDecoder.decode(s, "UTF-8");
         } catch (final UnsupportedEncodingException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
     }
 }

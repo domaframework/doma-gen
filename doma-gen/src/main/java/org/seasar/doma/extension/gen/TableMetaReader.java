@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 import javax.sql.DataSource;
 
 import org.seasar.doma.extension.gen.dialect.Dialect;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
 
 /**
@@ -112,7 +112,7 @@ public class TableMetaReader {
             }
             return dbTableMetas;
         } catch (SQLException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         } finally {
             JdbcUtil.close(con);
         }

@@ -27,7 +27,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 
 import org.seasar.doma.extension.gen.GenException;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 
 /**
  * @author taedium
@@ -50,7 +50,7 @@ public final class IOUtil {
                 c.clear();
             }
         } catch (IOException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         } finally {
             IOUtil.close(reader);
         }
@@ -64,7 +64,7 @@ public final class IOUtil {
             inputStream = new FileInputStream(file);
             return readAsString(inputStream);
         } catch (FileNotFoundException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         } finally {
             IOUtil.close(inputStream);
         }

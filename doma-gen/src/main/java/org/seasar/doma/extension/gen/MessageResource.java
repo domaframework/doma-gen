@@ -16,7 +16,7 @@
 package org.seasar.doma.extension.gen;
 
 /**
- * メッセージコードを表します。
+ * メッセージリソースを表します。
  * <p>
  * このインタフェースの実装はスレッドセーフでなければいけません。
  * <p>
@@ -24,7 +24,7 @@ package org.seasar.doma.extension.gen;
  * @author taedium
  * 
  */
-public interface MessageCode {
+public interface MessageResource {
 
     /**
      * 一意のコードを返します。

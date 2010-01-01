@@ -23,7 +23,7 @@ import org.apache.tools.ant.Task;
 import org.seasar.doma.extension.gen.GenException;
 import org.seasar.doma.extension.gen.GlobalFactory;
 import org.seasar.doma.extension.gen.Logger;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.AssertionUtil;
 
 /**
@@ -98,20 +98,20 @@ public abstract class AbstractTask extends Task {
         try {
             clazz = Class.forName(className);
         } catch (ClassNotFoundException e) {
-            throw new GenException(GenMessageCode.DOMAGEN0013, propertyName,
+            throw new GenException(Message.DOMAGEN0013, propertyName,
                     className, e);
         }
-        if (!GlobalFactory.class.isAssignableFrom(clazz)) {
-            throw new GenException(GenMessageCode.DOMAGEN0014, propertyName,
+        if (!supertype.isAssignableFrom(clazz)) {
+            throw new GenException(Message.DOMAGEN0014, propertyName,
                     className, supertype.getName());
         }
         try {
             return supertype.cast(clazz.newInstance());
         } catch (InstantiationException e) {
-            throw new GenException(GenMessageCode.DOMAGEN0015, propertyName,
+            throw new GenException(Message.DOMAGEN0015, propertyName,
                     className, e);
         } catch (IllegalAccessException e) {
-            throw new GenException(GenMessageCode.DOMAGEN0015, propertyName,
+            throw new GenException(Message.DOMAGEN0015, propertyName,
                     className, e);
         }
     }
@@ -121,7 +121,7 @@ public abstract class AbstractTask extends Task {
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
     }
 

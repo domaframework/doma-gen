@@ -27,8 +27,8 @@ public class GenException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    /** メッセージコード */
-    protected final MessageCode messageCode;
+    /** メッセージリソース */
+    protected final MessageResource messageResource;
 
     /** メッセージへの引数 */
     protected final Object args;
@@ -36,29 +36,29 @@ public class GenException extends RuntimeException {
     /**
      * インスタンスを構築します。
      * 
-     * @param messageCode
-     *            メッセージコード
+     * @param messageResource
+     *            メッセージリソース
      * @param args
      *            メッセージへの引数
      */
-    public GenException(MessageCode messageCode, Object... args) {
-        this(messageCode, null, args);
+    public GenException(MessageResource messageResource, Object... args) {
+        this(messageResource, null, args);
     }
 
     /**
      * この例外の原因となった {@link Throwable} を指定してインスタンスを構築します。
      * 
-     * @param messageCode
-     *            メッセージコード
+     * @param messageResource
+     *            メッセージリソース
      * @param cause
      *            原因
      * @param args
      *            メッセージへの引数
      */
-    public GenException(MessageCode messageCode, Throwable cause,
+    public GenException(MessageResource messageResource, Throwable cause,
             Object... args) {
-        super(messageCode.getMessage(args), cause);
-        this.messageCode = messageCode;
+        super(messageResource.getMessage(args), cause);
+        this.messageResource = messageResource;
         this.args = args;
     }
 
@@ -67,8 +67,8 @@ public class GenException extends RuntimeException {
      * 
      * @return メッセージコード
      */
-    public MessageCode getMessageCode() {
-        return messageCode;
+    public MessageResource getMessageResource() {
+        return messageResource;
     }
 
     /**

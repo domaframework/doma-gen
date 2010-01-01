@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 
 /**
  * エンティティプロパティのクラス名リゾルバです。
@@ -82,7 +82,7 @@ public class EntityPropertyClassNameResolver {
                 result.put(Pattern.compile(key), value);
             }
         } catch (IOException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
         return result;
     }

@@ -25,7 +25,7 @@ import javax.sql.DataSource;
 
 import org.seasar.doma.extension.gen.GenException;
 import org.seasar.doma.extension.gen.Logger;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 
 /**
  * @author taedium
@@ -37,7 +37,7 @@ public final class JdbcUtil {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
     }
 
@@ -45,7 +45,7 @@ public final class JdbcUtil {
         try {
             return connection.createStatement();
         } catch (SQLException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
     }
 
@@ -54,7 +54,7 @@ public final class JdbcUtil {
         try {
             return connection.prepareStatement(sql);
         } catch (SQLException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
     }
 

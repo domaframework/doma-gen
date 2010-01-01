@@ -24,7 +24,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 
 /**
  * 単純なデータソースです。
@@ -199,13 +199,13 @@ public class SimpleDataSource implements DataSource {
     protected Connection getConnectionInternal(Properties info)
             throws SQLException {
         if (url == null) {
-            throw new SQLException(GenMessageCode.DOMAGEN5002.getMessage());
+            throw new SQLException(Message.DOMAGEN5002.getMessage());
         }
         try {
             return DriverManager.getConnection(url, info);
         } catch (SQLException e) {
             if (UNABLE_TO_ESTABLISH_CONNECTION.equals(e.getSQLState())) {
-                throw new SQLException(GenMessageCode.DOMAGEN5001.getMessage(),
+                throw new SQLException(Message.DOMAGEN5001.getMessage(),
                         UNABLE_TO_ESTABLISH_CONNECTION, e);
             }
             throw e;

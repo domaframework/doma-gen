@@ -15,7 +15,7 @@
  */
 package org.seasar.doma.extension.gen;
 
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 
 /**
  * {@code null} でないことを期待されたパラメータへの引数が {@code null} の場合にスローされる例外です。
@@ -40,7 +40,7 @@ public class GenNullPointerException extends GenException {
      *            {@code null} であるパラメータの名前
      */
     public GenNullPointerException(String parameterName) {
-        super(GenMessageCode.DOMAGEN0001, parameterName);
+        super(Message.DOMAGEN0001, parameterName);
         this.parameterName = parameterName;
     }
 

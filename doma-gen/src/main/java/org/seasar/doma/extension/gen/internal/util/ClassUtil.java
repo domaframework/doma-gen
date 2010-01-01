@@ -15,40 +15,12 @@
  */
 package org.seasar.doma.extension.gen.internal.util;
 
-import org.seasar.doma.extension.gen.GenException;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
 
 /**
  * @author taedium
  * 
  */
 public final class ClassUtil {
-
-    public static <T> T newInstance(Class<T> clazz) {
-        AssertionUtil.assertNotNull(clazz);
-        try {
-            return clazz.newInstance();
-        } catch (InstantiationException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
-        } catch (IllegalAccessException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
-        }
-    }
-
-    public static <T> T newInstance(Class<T> supertype, String className) {
-        AssertionUtil.assertNotNull(className, supertype);
-        Class<?> c = forName(className);
-        return supertype.cast(newInstance(c));
-    }
-
-    public static Class<?> forName(String className) {
-        AssertionUtil.assertNotNull(className);
-        try {
-            return Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
-        }
-    }
 
     public static String getPackageName(String qualifiedName) {
         AssertionUtil.assertNotNull(qualifiedName);

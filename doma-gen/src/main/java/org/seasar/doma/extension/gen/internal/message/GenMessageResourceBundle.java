@@ -21,13 +21,13 @@ package org.seasar.doma.extension.gen.internal.message;
  * @author taedium
  * 
  */
-public class GenMessageResource extends AbstractMessageResource<GenMessageCode> {
+public class GenMessageResourceBundle extends AbstractMessageResourceBundle<Message> {
 
     /**
      * インスタンスを構築します。
      */
-    public GenMessageResource() {
-        super(GenMessageCode.class);
+    public GenMessageResourceBundle() {
+        super(Message.class);
     }
 
 }

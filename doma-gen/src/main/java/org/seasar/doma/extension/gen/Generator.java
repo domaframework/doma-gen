@@ -26,7 +26,7 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.IOUtil;
 
 import freemarker.cache.FileTemplateLoader;
@@ -94,7 +94,7 @@ public class Generator {
             try {
                 primary = new FileTemplateLoader(templateFilePrimaryDir);
             } catch (IOException e) {
-                throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+                throw new GenException(Message.DOMAGEN9001, e, e);
             }
         }
         TemplateLoader secondary = new ResourceTemplateLoader(
@@ -129,9 +129,11 @@ public class Generator {
             IOUtil.close(writer);
         }
         if (exists) {
-            Logger.info("File overwritten." + context.getFile().getPath());
+            Logger.info(Message.DOMAGEN0020.getMessage(context.getFile()
+                    .getPath()));
         } else {
-            Logger.info("File created. " + context.getFile().getPath());
+            Logger.info(Message.DOMAGEN0019.getMessage(context.getFile()
+                    .getPath()));
         }
     }
 
@@ -180,7 +182,7 @@ public class Generator {
         try {
             return new FileOutputStream(file);
         } catch (FileNotFoundException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e);
+            throw new GenException(Message.DOMAGEN9001, e);
         }
     }
 
@@ -195,7 +197,7 @@ public class Generator {
         try {
             return configuration.getTemplate(name);
         } catch (IOException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
     }
 
@@ -213,9 +215,9 @@ public class Generator {
         try {
             template.process(dataModel, writer);
         } catch (IOException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         } catch (TemplateException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
     }
 }

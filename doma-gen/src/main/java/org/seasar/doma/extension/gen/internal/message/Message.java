@@ -15,13 +15,13 @@
  */
 package org.seasar.doma.extension.gen.internal.message;
 
-import org.seasar.doma.extension.gen.MessageCode;
+import org.seasar.doma.extension.gen.MessageResource;
 
 /**
  * @author taedium
  * 
  */
-public enum GenMessageCode implements MessageCode {
+public enum Message implements MessageResource {
 
     DOMAGEN0001("パラメータ[{0}]がnullです。"),
     DOMAGEN0002("クラス[{0}]はクラス[{1}]のサブタイプでなければいけません。"),
@@ -41,6 +41,8 @@ public enum GenMessageCode implements MessageCode {
     DOMAGEN0016("プロパティ[{0}]が表すクラス[{1}]のインスタンス化に失敗しました。クラス[{1}]にはpublicのデフォルトコンストラクターが必須です。{2}"),
     DOMAGEN0017("方言にはクラス[{0}]が使用されます。"),
     DOMAGEN0018("テーブル[0]のカラム[1]をJavaのクラスにマッピングできません。(カラム型[{2}] : JDBCのSQL型[{3}])。java.lang.Stringを使用します。"),
+    DOMAGEN0019("ファイルを作成しました。{0}"),
+    DOMAGEN0020("ファイルを上書きしました。{0}"),
 
     DOMAGEN5001("JDBCドライバがロードされていない可能性があります。JDBCドライバをロードするには、クラスパスが通されたMETA-INF/services/java.sql.DriverファイルにJDBCドライバのクラスの完全修飾名を記述してください。 ex) oracle.jdbc.driver.OracleDriver"),
     DOMAGEN5002("urlプロパティが設定されていません。"),
@@ -49,7 +51,7 @@ public enum GenMessageCode implements MessageCode {
 
     private final String messagePattern;
 
-    private GenMessageCode(String messagePattern) {
+    private Message(String messagePattern) {
         this.messagePattern = messagePattern;
     }
 

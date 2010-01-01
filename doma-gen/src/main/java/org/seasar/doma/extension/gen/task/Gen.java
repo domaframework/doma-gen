@@ -21,7 +21,7 @@ import org.seasar.doma.extension.gen.TableMeta;
 import org.seasar.doma.extension.gen.TableMetaReader;
 import org.seasar.doma.extension.gen.dialect.Dialect;
 import org.seasar.doma.extension.gen.dialect.DialectRegistry;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.AssertionUtil;
 import org.seasar.doma.extension.gen.internal.util.FileUtil;
 
@@ -502,27 +502,27 @@ public class Gen extends AbstractTask {
     @Override
     protected void doValidate() {
         if (javaDestDir == null) {
-            throw new GenException(GenMessageCode.DOMAGEN0007, "javaDestDir");
+            throw new GenException(Message.DOMAGEN0007, "javaDestDir");
         }
         if (dialectName == null && dialectClassName == null) {
-            throw new GenException(GenMessageCode.DOMAGEN0012, "dialectName",
+            throw new GenException(Message.DOMAGEN0012, "dialectName",
                     "dialectClassName");
         }
         if (driverClassName == null) {
-            throw new GenException(GenMessageCode.DOMAGEN0007,
+            throw new GenException(Message.DOMAGEN0007,
                     "driverClassName");
         }
         if (url == null) {
-            throw new GenException(GenMessageCode.DOMAGEN0007, "url");
+            throw new GenException(Message.DOMAGEN0007, "url");
         }
         if (user == null) {
-            throw new GenException(GenMessageCode.DOMAGEN0007, "user");
+            throw new GenException(Message.DOMAGEN0007, "user");
         }
         if (password == null) {
-            throw new GenException(GenMessageCode.DOMAGEN0007, "password");
+            throw new GenException(Message.DOMAGEN0007, "password");
         }
         if (configClassName == null) {
-            throw new GenException(GenMessageCode.DOMAGEN0007,
+            throw new GenException(Message.DOMAGEN0007,
                     "configClassName");
         }
     }
@@ -535,7 +535,7 @@ public class Gen extends AbstractTask {
             dialect = DialectRegistry.lookup(dialectName.getValue());
             AssertionUtil.assertNotNull(dialect);
         }
-        Logger.info(GenMessageCode.DOMAGEN0017.getMessage(dialect.getClass()
+        Logger.info(Message.DOMAGEN0017.getMessage(dialect.getClass()
                 .getName()));
 
         Driver driver = newInstance(Driver.class, driverClassName, "driverClassName");
@@ -567,7 +567,7 @@ public class Gen extends AbstractTask {
     protected void doRun() {
         List<TableMeta> tableMetas = tableMetaReader.read();
         if (tableMetas.isEmpty()) {
-            throw new GenException(GenMessageCode.DOMAGEN0005);
+            throw new GenException(Message.DOMAGEN0005);
         }
         for (TableMeta tableMeta : tableMetas) {
             EntityDesc entityDesc = entityDescFactory

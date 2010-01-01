@@ -20,7 +20,7 @@ import java.math.BigInteger;
 import java.util.regex.Pattern;
 
 import org.seasar.doma.extension.gen.dialect.Dialect;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.StringUtil;
 
 /**
@@ -106,12 +106,12 @@ public class EntityPropertyDescFactory {
         }
         if (generationType == GenerationType.IDENTITY) {
             if (!dialect.supportsIdentity()) {
-                throw new GenException(GenMessageCode.DOMAGEN0003, dialect
+                throw new GenException(Message.DOMAGEN0003, dialect
                         .getName());
             }
         } else if (generationType == GenerationType.SEQUENCE) {
             if (!dialect.supportsSequence()) {
-                throw new GenException(GenMessageCode.DOMAGEN0004, dialect
+                throw new GenException(Message.DOMAGEN0004, dialect
                         .getName());
             }
         }
@@ -182,7 +182,7 @@ public class EntityPropertyDescFactory {
         String className = propertyClassNameResolver
                 .resolve(entityDesc, propertyDesc.getName(), defaultClassName);
         if (className == null) {
-            Logger.info(GenMessageCode.DOMAGEN0018.getMessage(columnMeta
+            Logger.info(Message.DOMAGEN0018.getMessage(columnMeta
                     .getTableMeta().getName(), columnMeta.getName(), columnMeta
                     .getTypeName(), columnMeta.getSqlType()));
             className = String.class.getName();
