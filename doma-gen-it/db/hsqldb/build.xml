@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="doma-gen-it-hsqldb" default="gen" basedir=".">
+	
+	<property name="temp" value="temp"/>
+	<property name="build" value="${temp}/build"/>
+	<property name="src" value="${temp}/src"/>
+	<property name="resources" value="resources"/>
+	<property name="sql" value="sql"/>
+	<property name="dialectName" value="hsqldb"/>
+	<property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+	<property name="url" value="jdbc:hsqldb:mem:doma-gen-it"/>
+	<property name="user" value="sa"/>
+	<property name="password" value=""/>
+	
+	<path id="classpath">
+		<pathelement location="${build}"/>
+		<pathelement location="../../bin"/>
+		<pathelement location="../../../doma/bin"/>
+		<pathelement location="../../../doma-gen/bin"/>
+		<fileset dir="lib"/>
+		<fileset dir="../../lib"/>
+	</path>
+
+	<taskdef name="gen" classname="org.seasar.doma.extension.gen.it.ItGen" classpathref="classpath" />
+	
+	<target name="gen" depends="clean">
+		<gen
+			javaDestDir="${src}"
+			dialectName="${dialectName}"
+			driverClassName="${driverClassName}"
+			url="${url}"
+			user="${user}"
+			password="${password}"
+			templatePrimaryDir="template"
+			entityPropertyClassNamesFile="entityPropertyClassNames.properties"
+			configClassName="org.seasar.doma.jdbc.ConfigProxy"
+		/>
+		<javac 
+			srcDir="${src}"
+			destDir="${build}"
+			encoding="UTF-8"
+			fork="true"
+			debug="on"
+			classpathRef="classpath"
+		/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${temp}"/>
+		<mkdir dir="${src}"/>
+		<mkdir dir="${build}"/>
+		<copy todir="${build}">
+			<fileset dir="${resources}">
+				<include name="**"/>
+			</fileset>
+		</copy>
+	</target>
+
+</project>
