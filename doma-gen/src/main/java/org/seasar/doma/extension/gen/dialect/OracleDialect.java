@@ -1,0 +1,146 @@
+/*
+ * Copyright 2004-2009 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+package org.seasar.doma.extension.gen.dialect;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.seasar.doma.extension.gen.ClassConstant;
+import org.seasar.doma.extension.gen.ColumnMeta;
+import org.seasar.doma.extension.gen.GenNullPointerException;
+import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
+
+/**
+ * Oracle Database用の方言です。
+ * 
+ * @author taedium
+ * 
+ */
+public class OracleDialect extends StandardDialect {
+
+    /**
+     * インスタンスを構築します。
+     */
+    public OracleDialect() {
+        classNameMap.put("binary_double", Double.class.getName());
+        classNameMap.put("binary_float", Float.class.getName());
+        classNameMap.put("long", String.class.getName());
+        classNameMap.put("long raw", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("nvarchar2", String.class.getName());
+        classNameMap.put("raw", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("varchar2", String.class.getName());
+    }
+
+    @Override
+    public String getName() {
+        return "oracle";
+    }
+
+    @Override
+    public boolean isJdbcCommentAvailable() {
+        return false;
+    }
+
+    @Override
+    public String getTableComment(Connection connection, String catalogName,
+            String schemaName, String tableName) throws SQLException {
+        if (connection == null) {
+            throw new GenNullPointerException("connection");
+        }
+        if (tableName == null) {
+            throw new GenNullPointerException("tableName");
+        }
+        String sql = "select comments from all_tab_comments where owner = "
+                + schemaName + " and table_name = " + tableName
+                + " and table_type = 'TABLE'";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            try {
+                if (resultSet.next()) {
+                    return resultSet.getString(1);
+                }
+                return null;
+            } finally {
+                JdbcUtil.close(resultSet);
+            }
+        } finally {
+            JdbcUtil.close(preparedStatement);
+        }
+    }
+
+    @Override
+    public Map<String, String> getColumnCommentMap(Connection connection,
+            String catalogName, String schemaName, String tableName)
+            throws SQLException {
+        if (connection == null) {
+            throw new GenNullPointerException("connection");
+        }
+        if (tableName == null) {
+            throw new GenNullPointerException("tableName");
+        }
+        String sql = "select column_name, comments from all_col_comments where owner = "
+                + schemaName + " and table_name = " + tableName;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            try {
+                Map<String, String> commentMap = new HashMap<String, String>();
+                if (resultSet.next()) {
+                    commentMap.put(resultSet.getString(1), resultSet
+                            .getString(2));
+                }
+                return commentMap;
+            } finally {
+                JdbcUtil.close(resultSet);
+            }
+        } finally {
+            JdbcUtil.close(preparedStatement);
+        }
+    }
+
+    @Override
+    public String getMappedClassName(ColumnMeta columnMeta) {
+        if ("number".equalsIgnoreCase(columnMeta.getTypeName())) {
+            if (columnMeta.getScale() != 0) {
+                return BigDecimal.class.getName();
+            }
+            if (columnMeta.getLength() < 5) {
+                return Short.class.getName();
+            }
+            if (columnMeta.getLength() < 10) {
+                return Integer.class.getName();
+            }
+            if (columnMeta.getLength() < 19) {
+                return Long.class.getName();
+            }
+            return BigInteger.class.getName();
+        }
+        return super.getMappedClassName(columnMeta);
+    }
+
+    @Override
+    public boolean supportsSequence() {
+        return true;
+    }
+
+}

@@ -1,0 +1,266 @@
+/*
+ * Copyright 2004-2009 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+package org.seasar.doma.extension.gen;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.regex.Pattern;
+
+import org.seasar.doma.extension.gen.dialect.Dialect;
+import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.util.StringUtil;
+
+/**
+ * エンティティプロパティ記述のファクトリです。
+ * 
+ * @author taedium
+ */
+public class EntityPropertyDescFactory {
+
+    /** 方言 */
+    protected final Dialect dialect;
+
+    /** ドメインクラス名のリゾルバ */
+    protected final EntityPropertyClassNameResolver propertyClassNameResolver;
+
+    /** バージョンカラム名パターン */
+    protected final Pattern versionColumnNamePattern;
+
+    /** ネーミング規約 */
+    protected final NamingType namingType;
+
+    /** 識別子を生成する方法 */
+    protected final GenerationType generationType;
+
+    /** 識別子の初期値 */
+    protected final Long initialValue;
+
+    /** 識別子の割り当てサイズ */
+    protected final Long allocationSize;
+
+    /** カラム名を表示する場合 {@code true} */
+    protected final boolean showColumnName;
+
+    /**
+     * インスタンスを構築します。
+     * 
+     * @param dialect
+     *            方言
+     * @param propertyClassNameResolver
+     *            プロパティクラス名のリゾルバ
+     * @param versionColumnNamePattern
+     *            バージョンカラム名パターン
+     * @param namingType
+     *            ネーミング規約
+     * @param generationType
+     *            識別子を生成する方法
+     * @param initialValue
+     *            識別子の初期値
+     * @param allocationSize
+     *            識別子の割り当てサイズ
+     * @param showColumnName
+     *            カラム名を表示する場合 {@code true}
+     */
+    public EntityPropertyDescFactory(Dialect dialect,
+            EntityPropertyClassNameResolver propertyClassNameResolver,
+            String versionColumnNamePattern, NamingType namingType,
+            GenerationType generationType, Long initialValue,
+            Long allocationSize, boolean showColumnName) {
+        if (dialect == null) {
+            throw new GenNullPointerException("dialect");
+        }
+        if (propertyClassNameResolver == null) {
+            throw new GenNullPointerException("propertyClassNameResolver");
+        }
+        if (versionColumnNamePattern == null) {
+            throw new GenNullPointerException("versionColumnNamePattern");
+        }
+        this.dialect = dialect;
+        this.propertyClassNameResolver = propertyClassNameResolver;
+        this.versionColumnNamePattern = Pattern
+                .compile(versionColumnNamePattern, Pattern.CASE_INSENSITIVE);
+        this.namingType = namingType;
+        this.generationType = generationType;
+        this.initialValue = initialValue;
+        this.allocationSize = allocationSize;
+        this.showColumnName = showColumnName;
+
+        validateGenerationType(generationType);
+    }
+
+    /**
+     * 識別子を生成する方法を検証します。
+     * 
+     * @param generationType
+     *            識別子を生成する方法
+     */
+    protected void validateGenerationType(GenerationType generationType) {
+        if (generationType == null) {
+            return;
+        }
+        if (generationType == GenerationType.IDENTITY) {
+            if (!dialect.supportsIdentity()) {
+                throw new GenException(GenMessageCode.DOMAGEN0003, dialect
+                        .getName());
+            }
+        } else if (generationType == GenerationType.SEQUENCE) {
+            if (!dialect.supportsSequence()) {
+                throw new GenException(GenMessageCode.DOMAGEN0004, dialect
+                        .getName());
+            }
+        }
+    }
+
+    /**
+     * エンティティプロパティ記述を作成します。
+     * 
+     * @param entityDesc
+     *            エンティティ記述
+     * @param columnMeta
+     *            カラムメタデータ
+     * @return エンティティプロパティ記述
+     */
+    public EntityPropertyDesc createEntityPropertyDesc(EntityDesc entityDesc,
+            ColumnMeta columnMeta) {
+        EntityPropertyDesc propertyDesc = new EntityPropertyDesc();
+        handleName(entityDesc, propertyDesc, columnMeta);
+        propertyDesc.setColumnName(columnMeta.getName());
+        if (columnMeta.isPrimaryKey()) {
+            propertyDesc.setId(true);
+            if (!entityDesc.isCompositeId()) {
+                if (columnMeta.isAutoIncrement()) {
+                    propertyDesc.setGenerationType(GenerationType.IDENTITY);
+                } else {
+                    propertyDesc.setGenerationType(generationType);
+                    propertyDesc.setInitialValue(initialValue);
+                    propertyDesc.setAllocationSize(allocationSize);
+                }
+            }
+        }
+        propertyDesc.setComment(columnMeta.getComment());
+        handlePropertyClassName(entityDesc, propertyDesc, columnMeta);
+        handleShowColumnName(entityDesc, propertyDesc, columnMeta);
+        handleVersion(entityDesc, propertyDesc, columnMeta);
+        return propertyDesc;
+    }
+
+    /**
+     * 名前を処理します。
+     * 
+     * @param entityDesc
+     *            エンティティ記述
+     * @param propertyDesc
+     *            エンティティプロパティ記述
+     * @param columnMeta
+     *            カラムメタデータ
+     */
+    protected void handleName(EntityDesc entityDesc,
+            EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
+        String name = StringUtil.fromSnakeCaseToCamelCase(columnMeta.getName());
+        propertyDesc.setName(name);
+    }
+
+    /**
+     * プロパティクラス名を処理します。
+     * 
+     * @param entityDesc
+     *            エンティティ記述
+     * @param propertyDesc
+     *            エンティティプロパティ記述
+     * @param columnMeta
+     *            カラムメタデータ
+     */
+    protected void handlePropertyClassName(EntityDesc entityDesc,
+            EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
+        String defaultClassName = dialect.getMappedClassName(columnMeta);
+        String className = propertyClassNameResolver
+                .resolve(entityDesc, propertyDesc.getName(), defaultClassName);
+        if (className == null) {
+            // TODO
+        }
+        propertyDesc.setPropertyClassName(className);
+    }
+
+    /**
+     * カラム名を表示するかどうかを処理します。
+     * 
+     * @param entityDesc
+     *            エンティティ記述
+     * @param propertyDesc
+     *            エンティティプロパティ記述
+     * @param columnMeta
+     *            カラムメタデータ
+     */
+    protected void handleShowColumnName(EntityDesc entityDesc,
+            EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
+        if (showColumnName
+                || isNameDifferentBetweenPropertyAndColumn(propertyDesc)) {
+            propertyDesc.setShowColumnName(true);
+        }
+    }
+
+    /**
+     * プロパティ名とカラム名が異なる場合 {@code true}を返します。
+     * 
+     * @param propertyDesc
+     *            エンティティプロパティ記述
+     * @return プロパティ名とカラム名が異なる場合 {@code true}
+     */
+    protected boolean isNameDifferentBetweenPropertyAndColumn(
+            EntityPropertyDesc propertyDesc) {
+        return !propertyDesc.getName().equalsIgnoreCase(propertyDesc
+                .getColumnName());
+    }
+
+    /**
+     * バージョンを処理します。
+     * 
+     * @param entityDesc
+     *            エンティティ記述
+     * @param propertyDesc
+     *            エンティティプロパティ記述
+     * @param columnMeta
+     *            カラムメタデータ
+     */
+    protected void handleVersion(EntityDesc entityDesc,
+            EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
+        if (isVersionAnnotatable(propertyDesc.getPropertyClassName())) {
+            if (versionColumnNamePattern.matcher(columnMeta.getName())
+                    .matches()) {
+                propertyDesc.setVersion(true);
+            }
+        }
+    }
+
+    /**
+     * {@code org.seasar.doma.Version} を注釈可能なクラス名の場合 {@code true} を返します。
+     * 
+     * @param className
+     *            クラス名
+     * @return {@code Version} を注釈可能なクラス名の場合 {@code true}
+     */
+    protected boolean isVersionAnnotatable(String className) {
+        return Byte.class.getName().equals(className)
+                || Short.class.getName().equals(className)
+                || Integer.class.getName().equals(className)
+                || Long.class.getName().equals(className)
+                || Float.class.getName().equals(className)
+                || Double.class.getName().equals(className)
+                || BigInteger.class.getName().equals(className)
+                || BigDecimal.class.getName().equals(className);
+    }
+
+}
