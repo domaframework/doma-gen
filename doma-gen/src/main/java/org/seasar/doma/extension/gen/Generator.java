@@ -182,7 +182,7 @@ public class Generator {
         try {
             return new FileOutputStream(file);
         } catch (FileNotFoundException e) {
-            throw new GenException(Message.DOMAGEN9001, e);
+            throw new GenException(Message.DOMAGEN9001, e, e);
         }
     }
 
