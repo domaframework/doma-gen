@@ -31,7 +31,7 @@ public class EntityDescFactory {
     /** エンティティプロパティ記述のファクトリ */
     protected final EntityPropertyDescFactory entityPropertyDescFactory;
 
-    /** 名前付けタイプ */
+    /** ネーミング規約 */
     protected final NamingType namingType;
 
     /** カタログ名を表示する場合 {@code true} */
@@ -87,6 +87,9 @@ public class EntityDescFactory {
         }
         if (entityPropertyDescFactory == null) {
             throw new GenNullPointerException("entityPropertyDescFactory");
+        }
+        if (namingType == null) {
+            throw new GenNullPointerException("namingType");
         }
         this.packageName = packageName;
         this.superclassName = superclassName;
@@ -183,7 +186,7 @@ public class EntityDescFactory {
      */
     protected void handleEntityPropertyDesc(EntityDesc entityDesc,
             TableMeta tableMeta) {
-        for (ColumnMeta columnMeta : tableMeta.getColumnMetaList()) {
+        for (ColumnMeta columnMeta : tableMeta.getColumnMetas()) {
             EntityPropertyDesc propertyDesc = entityPropertyDescFactory
                     .createEntityPropertyDesc(entityDesc, columnMeta);
             entityDesc.addEntityPropertyDesc(propertyDesc);
@@ -211,7 +214,7 @@ public class EntityDescFactory {
         if (listenerClassName != null) {
             classDescSupport.addImportName(entityDesc, listenerClassName);
         }
-        if (namingType != null) {
+        if (namingType != NamingType.NONE) {
             classDescSupport.addImportName(entityDesc, namingType
                     .getEnumConstant());
         }

@@ -101,21 +101,18 @@ public class TableMetaReader {
         Connection con = JdbcUtil.getConnection(dataSource);
         try {
             DatabaseMetaData metaData = con.getMetaData();
-            List<TableMeta> dbTableMetaList = getDbTableMetaList(metaData, schemaName != null ? schemaName
+            List<TableMeta> dbTableMetas = getDbTableMetas(metaData, schemaName != null ? schemaName
                     : getDefaultSchemaName(metaData));
-            if (dbTableMetaList.isEmpty()) {
-                throw new GenException(GenMessageCode.DOMAGEN0005);
-            }
-            for (TableMeta tableMeta : dbTableMetaList) {
-                Set<String> primaryKeySet = getPrimaryKeySet(metaData, tableMeta);
+            for (TableMeta tableMeta : dbTableMetas) {
+                Set<String> primaryKeySet = getPrimaryKeys(metaData, tableMeta);
                 doDbColumnMeta(metaData, tableMeta, primaryKeySet);
             }
             if (dialect.isJdbcCommentAvailable()) {
-                readCommentFromDictinary(con, dbTableMetaList);
+                readCommentFromDictinary(con, dbTableMetas);
             }
-            return dbTableMetaList;
+            return dbTableMetas;
         } catch (SQLException e) {
-            throw new GenException(GenMessageCode.DOMAGEN9001, e);
+            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
         } finally {
             JdbcUtil.close(con);
         }
@@ -123,7 +120,7 @@ public class TableMetaReader {
 
     protected void doDbColumnMeta(DatabaseMetaData metaData,
             TableMeta tableMeta, Set<String> primaryKeySet) throws SQLException {
-        for (ColumnMeta columnMeta : getDbColumnMetaList(metaData, tableMeta)) {
+        for (ColumnMeta columnMeta : getDbColumnMetas(metaData, tableMeta)) {
             if (primaryKeySet.contains(columnMeta.getName())) {
                 columnMeta.setPrimaryKey(true);
                 if (primaryKeySet.size() == 1) {
@@ -142,9 +139,9 @@ public class TableMetaReader {
         return dialect.getDefaultSchemaName(userName);
     }
 
-    protected List<TableMeta> getDbTableMetaList(DatabaseMetaData metaData,
+    protected List<TableMeta> getDbTableMetas(DatabaseMetaData metaData,
             String schemaName) throws SQLException {
-        List<TableMeta> result = new ArrayList<TableMeta>();
+        List<TableMeta> results = new ArrayList<TableMeta>();
         ResultSet rs = metaData
                 .getTables(null, schemaName, null, new String[] { "TABLE" });
         try {
@@ -155,10 +152,10 @@ public class TableMetaReader {
                 dbTableMeta.setName(rs.getString("TABLE_NAME"));
                 dbTableMeta.setComment(rs.getString("REMARKS"));
                 if (isTargetTable(dbTableMeta)) {
-                    result.add(dbTableMeta);
+                    results.add(dbTableMeta);
                 }
             }
-            return result;
+            return results;
         } finally {
             JdbcUtil.close(rs);
         }
@@ -175,9 +172,9 @@ public class TableMetaReader {
         return true;
     }
 
-    protected List<ColumnMeta> getDbColumnMetaList(DatabaseMetaData metaData,
+    protected List<ColumnMeta> getDbColumnMetas(DatabaseMetaData metaData,
             TableMeta tableMeta) throws SQLException {
-        List<ColumnMeta> result = new ArrayList<ColumnMeta>();
+        List<ColumnMeta> results = new ArrayList<ColumnMeta>();
         ResultSet rs = metaData
                 .getColumns(tableMeta.getCatalogName(), tableMeta
                         .getSchemaName(), tableMeta.getName(), null);
@@ -192,28 +189,28 @@ public class TableMetaReader {
                 columnDesc.setNullable(rs.getBoolean("NULLABLE"));
                 columnDesc.setDefaultValue(rs.getString("COLUMN_DEF"));
                 columnDesc.setComment(rs.getString("REMARKS"));
-                result.add(columnDesc);
+                results.add(columnDesc);
             }
-            return result;
+            return results;
         } finally {
             JdbcUtil.close(rs);
         }
     }
 
-    protected Set<String> getPrimaryKeySet(DatabaseMetaData metaData,
+    protected Set<String> getPrimaryKeys(DatabaseMetaData metaData,
             TableMeta tableMeta) throws SQLException {
-        Set<String> result = new HashSet<String>();
+        Set<String> results = new HashSet<String>();
         ResultSet rs = metaData
                 .getPrimaryKeys(tableMeta.getCatalogName(), tableMeta
                         .getSchemaName(), tableMeta.getName());
         try {
             while (rs.next()) {
-                result.add(rs.getString("COLUMN_NAME"));
+                results.add(rs.getString("COLUMN_NAME"));
             }
         } finally {
             JdbcUtil.close(rs);
         }
-        return result;
+        return results;
     }
 
     protected boolean isAutoIncrement(DatabaseMetaData metaData,
@@ -233,7 +230,7 @@ public class TableMetaReader {
             Map<String, String> columnCommentMap = dialect
                     .getColumnCommentMap(connection, tableMeta.getCatalogName(), tableMeta
                             .getSchemaName(), tableMeta.getName());
-            for (ColumnMeta columnMeta : tableMeta.getColumnMetaList()) {
+            for (ColumnMeta columnMeta : tableMeta.getColumnMetas()) {
                 String columnName = columnMeta.getName();
                 if (columnCommentMap.containsKey(columnName)) {
                     String columnComment = columnCommentMap.get(columnName);

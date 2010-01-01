@@ -24,6 +24,8 @@ package org.seasar.doma.extension.gen;
 public enum NamingType {
 
     /** */
+    NONE(EnumConstant.NamingType_NONE),
+    /** */
     LOWER_CASE(EnumConstant.NamingType_LOWER_CASE),
     /** */
     UPPER_CASE(EnumConstant.NamingType_UPPER_CASE),

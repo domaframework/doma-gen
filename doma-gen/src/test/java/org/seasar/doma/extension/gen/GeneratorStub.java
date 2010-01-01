@@ -25,7 +25,7 @@ import java.io.Writer;
  */
 public class GeneratorStub extends Generator {
 
-    StringWriter writer = new StringWriter();
+    private StringWriter writer = new StringWriter(300);
 
     @Override
     protected boolean exists(File file) {
@@ -41,4 +41,11 @@ public class GeneratorStub extends Generator {
         return writer;
     }
 
+    protected String getResult() {
+        return writer.toString();
+    }
+
+    protected void clear() {
+        writer = new StringWriter(300);
+    }
 }

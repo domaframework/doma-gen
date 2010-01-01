@@ -20,9 +20,11 @@ import java.io.StringWriter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.seasar.doma.extension.gen.GenException;
 import org.seasar.doma.extension.gen.GlobalFactory;
 import org.seasar.doma.extension.gen.Logger;
-import org.seasar.doma.extension.gen.internal.util.ClassUtil;
+import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.util.AssertionUtil;
 
 /**
  * {@link Task} の抽象クラスです。
@@ -85,14 +87,42 @@ public abstract class AbstractTask extends Task {
      * 準備します。
      */
     protected final void prepare() {
-        try {
-            globalFactory = ClassUtil
-                    .newInstance(GlobalFactory.class, globalFactoryClassName);
-        } catch (ClassCastException e) {
-            throw e;
-            // TODO
-        }
+        globalFactory = newInstance(GlobalFactory.class, globalFactoryClassName, "globalFactoryClassName");
         doPrepare();
+    }
+
+    protected <T> T newInstance(Class<T> supertype, String className,
+            String propertyName) {
+        AssertionUtil.assertNotNull(supertype, className, propertyName);
+        Class<?> clazz = null;
+        try {
+            clazz = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            throw new GenException(GenMessageCode.DOMAGEN0013, propertyName,
+                    className, e);
+        }
+        if (!GlobalFactory.class.isAssignableFrom(clazz)) {
+            throw new GenException(GenMessageCode.DOMAGEN0014, propertyName,
+                    className, supertype.getName());
+        }
+        try {
+            return supertype.cast(clazz.newInstance());
+        } catch (InstantiationException e) {
+            throw new GenException(GenMessageCode.DOMAGEN0015, propertyName,
+                    className, e);
+        } catch (IllegalAccessException e) {
+            throw new GenException(GenMessageCode.DOMAGEN0015, propertyName,
+                    className, e);
+        }
+    }
+
+    protected Class<?> forName(String className) {
+        AssertionUtil.assertNotNull(className);
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            throw new GenException(GenMessageCode.DOMAGEN9001, e, e);
+        }
     }
 
     /**

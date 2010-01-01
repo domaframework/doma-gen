@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 
 import org.seasar.doma.extension.gen.dialect.Dialect;
 import org.seasar.doma.extension.gen.dialect.PostgresDialect;
+import org.seasar.doma.extension.gen.internal.util.ResourceUtil;
 
 /**
  * @author taedium
@@ -34,7 +35,46 @@ public class GeneratorTest extends TestCase {
 
     private GeneratorStub generator = new GeneratorStub();
 
-    public void test() throws Exception {
+    public void testSimpleEntity() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varcar");
+
+        ColumnMeta version = new ColumnMeta();
+        version.setComment("COMMENT for VERSION");
+        version.setName("VERSION");
+        version.setTypeName("integer");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+        tableMeta.addColumnMeta(version);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testEntityListener() throws Exception {
         ColumnMeta id = new ColumnMeta();
         id.setComment("COMMENT for ID");
         id.setName("ID");
@@ -52,18 +92,265 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", NamingType.SNAKE_UPPER_CASE, GenerationType.SEQUENCE, 100L, 50L, true);
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
         EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("entity", "entity.common.Commmon", "entity.listener.CommonListener", entityPropertyDescFactory, NamingType.SNAKE_UPPER_CASE, false, false, true, true);
+                .createEntityDescFactory("example.entity", null, "entity.listener.CommonListener", entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
-        System.out.println(generator.writer);
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testEntitySuperclass() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", "example.hoge.CommonEntity", null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testNamingType() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.SNAKE_UPPER_CASE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testGenerationType_IDENTITY() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setAutoIncrement(true);
+        id.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testGenerationType_SEQUENCE() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", GenerationType.SEQUENCE, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testGenerationType_TABLE() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", GenerationType.TABLE, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testCompositeId() throws Exception {
+        ColumnMeta id1 = new ColumnMeta();
+        id1.setComment("COMMENT for ID");
+        id1.setName("ID1");
+        id1.setTypeName("integer");
+        id1.setPrimaryKey(true);
+        id1.setNullable(false);
+
+        ColumnMeta id2 = new ColumnMeta();
+        id2.setComment("COMMENT for ID");
+        id2.setName("ID2");
+        id2.setTypeName("integer");
+        id2.setPrimaryKey(true);
+        id2.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id1);
+        tableMeta.addColumnMeta(id2);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testEntityPropertyClassNameResolver() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varcar");
+
+        ColumnMeta xvalue = new ColumnMeta();
+        xvalue.setComment("COMMENT for XVAL");
+        xvalue.setName("XVAL");
+        xvalue.setTypeName("integer");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+        tableMeta.addColumnMeta(xvalue);
+
+        File file = ResourceUtil.getResourceAsFile(getClass().getPackage()
+                .getName().replace(".", "/")
+                + "/entityPropertyClassNames.properties");
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(file);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSimpleDao() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
         DaoDescFactory daoDescFactory = factory
-                .createDaoDescFactory("dao", "Dao", "dao.config.MyConfig");
+                .createDaoDescFactory("example.dao", "Dao", "dao.config.MyConfig");
         DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
         generator.generate(new DaoContext(daoDesc));
-        System.out.println(generator.writer);
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    private String expect() {
+        System.out.println(generator.getResult());
+
+        String path = getClass().getName().replace(".", "/") + "_"
+                + getName().substring(4) + ".txt";
+        return ResourceUtil.getResourceAsString(path);
     }
 
     private class EntityContext extends GenerationContext {

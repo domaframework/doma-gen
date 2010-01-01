@@ -82,7 +82,7 @@ public class ClassDescSupport {
         ClassConstant classConstant = importedClass.getClassConstant();
         String packageName = classConstant.getPackageName();
         if (isImportTargetPackage(classDesc, packageName)) {
-            classDesc.addImportName(classConstant.getQualifiedName());
+            classDesc.addImportName(importedClass.getImportName());
         }
     }
 

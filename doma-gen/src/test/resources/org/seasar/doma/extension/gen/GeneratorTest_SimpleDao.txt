@@ -1,0 +1,32 @@
+package example.dao;
+
+import dao.config.MyConfig;
+import example.entity.Hoge;
+import org.seasar.doma.Dao;
+import org.seasar.doma.Delete;
+import org.seasar.doma.Insert;
+import org.seasar.doma.Update;
+
+/**
+ */
+@Dao(config = MyConfig.class)
+public interface HogeDao {
+
+    /**
+     * @return affected rows
+     */
+    @Insert
+    int insert(Hoge entity);
+
+    /**
+     * @return affected rows
+     */
+    @Update
+    int update(Hoge entity);
+
+    /**
+     * @return affected rows
+     */
+    @Delete
+    int delete(Hoge entity);
+}

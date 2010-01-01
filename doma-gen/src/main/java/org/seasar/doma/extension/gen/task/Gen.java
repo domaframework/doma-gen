@@ -15,10 +15,14 @@ import org.seasar.doma.extension.gen.EntityPropertyDescFactory;
 import org.seasar.doma.extension.gen.GenException;
 import org.seasar.doma.extension.gen.GenerationContext;
 import org.seasar.doma.extension.gen.Generator;
+import org.seasar.doma.extension.gen.Logger;
+import org.seasar.doma.extension.gen.NamingType;
 import org.seasar.doma.extension.gen.TableMeta;
 import org.seasar.doma.extension.gen.TableMetaReader;
 import org.seasar.doma.extension.gen.dialect.Dialect;
+import org.seasar.doma.extension.gen.dialect.DialectRegistry;
 import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
+import org.seasar.doma.extension.gen.internal.util.AssertionUtil;
 import org.seasar.doma.extension.gen.internal.util.FileUtil;
 
 /**
@@ -111,7 +115,7 @@ public class Gen extends AbstractTask {
     protected String configClassName = null;
 
     /** エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル */
-    protected File propertyClassNamesFile = null;
+    protected File entityPropertyClassNamesFile = null;
 
     /** エンティティのJavaコードを生成する場合 {@code true} */
     protected boolean genEntity = true;
@@ -209,9 +213,10 @@ public class Gen extends AbstractTask {
     }
 
     /**
-     * @link Dialect} のサブタイプのクラス名を設定します。
+     * {@link Dialect} のサブタイプのクラス名を設定します。
+     * 
      * @param dialectClassName
-     * @link Dialect} のサブタイプのクラス名
+     *            {@link Dialect} のサブタイプのクラス名
      */
     public void setDialectClassName(String dialectClassName) {
         this.dialectClassName = dialectClassName;
@@ -486,11 +491,12 @@ public class Gen extends AbstractTask {
     /**
      * エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイルを設定します。
      * 
-     * @param propertyClassNamesFile
+     * @param entityPropertyClassNamesFile
      *            エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル
      */
-    public void setPropertyClassNamesFile(File propertyClassNamesFile) {
-        this.propertyClassNamesFile = propertyClassNamesFile;
+    public void setEntityPropertyClassNamesFile(
+            File entityPropertyClassNamesFile) {
+        this.entityPropertyClassNamesFile = entityPropertyClassNamesFile;
     }
 
     @Override
@@ -523,23 +529,36 @@ public class Gen extends AbstractTask {
 
     @Override
     protected void doPrepare() {
-        dialect = globalFactory.createDialect(dialectName == null ? null
-                : dialectName.getValue(), dialectClassName);
+        if (dialectClassName != null) {
+            dialect = newInstance(Dialect.class, dialectClassName, "dialectClassName");
+        } else {
+            dialect = DialectRegistry.lookup(dialectName.getValue());
+            AssertionUtil.assertNotNull(dialect);
+        }
+        Logger.info(GenMessageCode.DOMAGEN0017.getMessage(dialect.getClass()
+                .getName()));
+
+        Driver driver = newInstance(Driver.class, driverClassName, "driverClassName");
         dataSource = globalFactory
-                .createDataSource(user, password, url, driverClassName);
+                .createDataSource(driver, user, password, url);
+
         tableMetaReader = globalFactory
                 .createTableMetaReader(dialect, dataSource, schemaName, tableNamePattern, ignoredTableNamePattern);
+
         entityPropertyClassNameResolver = globalFactory
-                .createEntityPropertyClassNameResolver(null);
+                .createEntityPropertyClassNameResolver(entityPropertyClassNamesFile);
+
         entityPropertyDescFactory = globalFactory
-                .createEntityPropertyDescFactory(dialect, entityPropertyClassNameResolver, versionColumnNamePattern, namingType == null ? null
-                        : namingType.convertToEnum(), generationType == null ? null
+                .createEntityPropertyDescFactory(dialect, entityPropertyClassNameResolver, versionColumnNamePattern, generationType == null ? null
                         : generationType.convertToEnum(), initialValue, allocationSize, showColumnName);
+
         entityDescFactory = globalFactory
-                .createEntityDescFactory(entityPackageName, entitySuperclassName, entityListenerClassName, entityPropertyDescFactory, namingType == null ? null
+                .createEntityDescFactory(entityPackageName, entitySuperclassName, entityListenerClassName, entityPropertyDescFactory, namingType == null ? NamingType.NONE
                         : namingType.convertToEnum(), showCatalogName, showSchemaName, showTableName, useAccessor);
+
         daoDescFactory = globalFactory
                 .createDaoDescFactory(daoPackageName, daoSuffix, configClassName);
+
         generator = globalFactory
                 .createGenerator(templateEncoding, templatePrimaryDir);
     }
@@ -547,6 +566,9 @@ public class Gen extends AbstractTask {
     @Override
     protected void doRun() {
         List<TableMeta> tableMetas = tableMetaReader.read();
+        if (tableMetas.isEmpty()) {
+            throw new GenException(GenMessageCode.DOMAGEN0005);
+        }
         for (TableMeta tableMeta : tableMetas) {
             EntityDesc entityDesc = entityDescFactory
                     .createEntityDesc(tableMeta);

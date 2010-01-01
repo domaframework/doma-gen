@@ -59,6 +59,15 @@ public enum EnumConstant {
     }
 
     /**
+     * インポート名を返します。
+     * 
+     * @return インポート名
+     */
+    public String getImportName() {
+        return classConstant.getQualifiedName();
+    }
+
+    /**
      * 参照名を返します。
      * 
      * @return 参照名

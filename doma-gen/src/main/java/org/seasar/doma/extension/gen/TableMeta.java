@@ -41,10 +41,10 @@ public class TableMeta {
     protected String comment;
 
     /** カラムメタデータのリスト */
-    protected final List<ColumnMeta> columnMetaList = new ArrayList<ColumnMeta>();
+    protected final List<ColumnMeta> columnMetas = new ArrayList<ColumnMeta>();
 
     /** 主キーのカラムメタデータのリスト */
-    protected final List<ColumnMeta> primaryKeyColumnMetaList = new ArrayList<ColumnMeta>();
+    protected final List<ColumnMeta> primaryKeyColumnMetas = new ArrayList<ColumnMeta>();
 
     /**
      * カタログ名を返します。
@@ -127,8 +127,8 @@ public class TableMeta {
      * 
      * @return カラムのメタデータのリスト
      */
-    public List<ColumnMeta> getColumnMetaList() {
-        return Collections.unmodifiableList(columnMetaList);
+    public List<ColumnMeta> getColumnMetas() {
+        return Collections.unmodifiableList(columnMetas);
     }
 
     /**
@@ -138,10 +138,10 @@ public class TableMeta {
      *            カラム記述
      */
     public void addColumnMeta(ColumnMeta columnMeta) {
-        columnMetaList.add(columnMeta);
+        columnMetas.add(columnMeta);
         columnMeta.setTableMeta(this);
         if (columnMeta.isPrimaryKey()) {
-            primaryKeyColumnMetaList.add(columnMeta);
+            primaryKeyColumnMetas.add(columnMeta);
         }
     }
 
@@ -150,8 +150,8 @@ public class TableMeta {
      * 
      * @return 主キーのカラムメタデータのリスト
      */
-    public List<ColumnMeta> getPrimaryKeyColumnMetaList() {
-        return Collections.unmodifiableList(primaryKeyColumnMetaList);
+    public List<ColumnMeta> getPrimaryKeyColumnMetas() {
+        return Collections.unmodifiableList(primaryKeyColumnMetas);
     }
 
     /**
@@ -169,6 +169,6 @@ public class TableMeta {
      * @return 複合主キーを持つ場合{@code true}、そうでない場合{@code false}
      */
     public boolean hasCompositePrimaryKey() {
-        return primaryKeyColumnMetaList.size() > 1;
+        return primaryKeyColumnMetas.size() > 1;
     }
 }

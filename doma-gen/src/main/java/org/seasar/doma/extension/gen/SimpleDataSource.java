@@ -17,6 +17,7 @@ package org.seasar.doma.extension.gen;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -38,6 +39,9 @@ public class SimpleDataSource implements DataSource {
      */
     protected static final String UNABLE_TO_ESTABLISH_CONNECTION = "08001";
 
+    /** JDBCドライバ */
+    protected Driver driver;
+
     /**
      * {@code jdbc:subprotocol:subname}という形式のデータベースへの接続URLです。
      */
@@ -57,6 +61,25 @@ public class SimpleDataSource implements DataSource {
      * JDBCドライバへのプロパティです。
      */
     protected final Properties properties = new Properties();
+
+    /**
+     * JDBCドライバを返します。
+     * 
+     * @return JDBCドライバ
+     */
+    public Driver getDriver() {
+        return driver;
+    }
+
+    /**
+     * JDBCドライバを設定します。
+     * 
+     * @param driver
+     *            JDBCドライバ
+     */
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
 
     /**
      * データベースへの接続URLを返します。

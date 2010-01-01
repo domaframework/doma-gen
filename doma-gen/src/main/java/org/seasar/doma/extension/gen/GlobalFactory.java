@@ -16,12 +16,11 @@
 package org.seasar.doma.extension.gen;
 
 import java.io.File;
+import java.sql.Driver;
 
 import javax.sql.DataSource;
 
 import org.seasar.doma.extension.gen.dialect.Dialect;
-import org.seasar.doma.extension.gen.dialect.DialectRegistry;
-import org.seasar.doma.extension.gen.internal.util.ClassUtil;
 
 /**
  * グローバルなファクトリです。
@@ -32,35 +31,20 @@ import org.seasar.doma.extension.gen.internal.util.ClassUtil;
 public class GlobalFactory {
 
     /**
-     * 方言を作成します。
-     * 
-     * @param dialectClassName
-     *            方言クラス名
-     * @return 方言
-     */
-    public Dialect createDialect(String dialectName, String dialectClassName) {
-        if (dialectClassName != null) {
-            return ClassUtil.newInstance(Dialect.class, dialectClassName);
-        }
-        return DialectRegistry.lookup(dialectName);
-    }
-
-    /**
      * データソースを作成します。
      * 
+     * @param driver
+     *            JDBCドライバー
      * @param user
      *            ユーザー
      * @param password
      *            パスワード
      * @param url
      *            接続URL
-     * @param driverClassName
-     *            JDBCドライバークラス名
      * @return データソース
      */
-    public DataSource createDataSource(String user, String password,
-            String url, String driverClassName) {
-        ClassUtil.forName(driverClassName);
+    public DataSource createDataSource(Driver driver, String user,
+            String password, String url) {
         SimpleDataSource dataSource = new SimpleDataSource();
         dataSource.setUser(user);
         dataSource.setPassword(password);
@@ -99,8 +83,6 @@ public class GlobalFactory {
      *            プロパティクラス名のリゾルバ
      * @param versionColumnNamePattern
      *            バージョンカラム名パターン
-     * @param namingType
-     *            ネーミング規約
      * @param generationType
      *            識別子を生成する方法
      * @param initialValue
@@ -114,13 +96,11 @@ public class GlobalFactory {
     public EntityPropertyDescFactory createEntityPropertyDescFactory(
             Dialect dialect,
             EntityPropertyClassNameResolver propertyClassNameResolver,
-            String versionColumnNamePattern, NamingType namingType,
-            GenerationType generationType, Long initialValue,
-            Long allocationSize, boolean showColumnName) {
+            String versionColumnNamePattern, GenerationType generationType,
+            Long initialValue, Long allocationSize, boolean showColumnName) {
         return new EntityPropertyDescFactory(dialect,
                 propertyClassNameResolver, versionColumnNamePattern,
-                namingType, generationType, initialValue, allocationSize,
-                showColumnName);
+                generationType, initialValue, allocationSize, showColumnName);
     }
 
     /**

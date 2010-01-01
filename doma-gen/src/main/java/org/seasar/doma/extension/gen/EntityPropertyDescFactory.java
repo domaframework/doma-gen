@@ -39,9 +39,6 @@ public class EntityPropertyDescFactory {
     /** バージョンカラム名パターン */
     protected final Pattern versionColumnNamePattern;
 
-    /** ネーミング規約 */
-    protected final NamingType namingType;
-
     /** 識別子を生成する方法 */
     protected final GenerationType generationType;
 
@@ -63,8 +60,6 @@ public class EntityPropertyDescFactory {
      *            プロパティクラス名のリゾルバ
      * @param versionColumnNamePattern
      *            バージョンカラム名パターン
-     * @param namingType
-     *            ネーミング規約
      * @param generationType
      *            識別子を生成する方法
      * @param initialValue
@@ -76,9 +71,8 @@ public class EntityPropertyDescFactory {
      */
     public EntityPropertyDescFactory(Dialect dialect,
             EntityPropertyClassNameResolver propertyClassNameResolver,
-            String versionColumnNamePattern, NamingType namingType,
-            GenerationType generationType, Long initialValue,
-            Long allocationSize, boolean showColumnName) {
+            String versionColumnNamePattern, GenerationType generationType,
+            Long initialValue, Long allocationSize, boolean showColumnName) {
         if (dialect == null) {
             throw new GenNullPointerException("dialect");
         }
@@ -92,7 +86,6 @@ public class EntityPropertyDescFactory {
         this.propertyClassNameResolver = propertyClassNameResolver;
         this.versionColumnNamePattern = Pattern
                 .compile(versionColumnNamePattern, Pattern.CASE_INSENSITIVE);
-        this.namingType = namingType;
         this.generationType = generationType;
         this.initialValue = initialValue;
         this.allocationSize = allocationSize;
@@ -189,7 +182,10 @@ public class EntityPropertyDescFactory {
         String className = propertyClassNameResolver
                 .resolve(entityDesc, propertyDesc.getName(), defaultClassName);
         if (className == null) {
-            // TODO
+            Logger.info(GenMessageCode.DOMAGEN0018.getMessage(columnMeta
+                    .getTableMeta().getName(), columnMeta.getName(), columnMeta
+                    .getTypeName(), columnMeta.getSqlType()));
+            className = String.class.getName();
         }
         propertyDesc.setPropertyClassName(className);
     }

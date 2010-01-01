@@ -50,7 +50,7 @@ public class ResourceTemplateLoader extends URLTemplateLoader {
 
     @Override
     protected URL getURL(String name) {
-        String path = "/" + basePath + "/" + name;
+        String path = basePath + "/" + name;
         return ResourceUtil.getResource(path);
     }
 

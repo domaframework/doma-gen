@@ -33,9 +33,7 @@ import java.util.Map;
 
 import org.seasar.doma.extension.gen.ClassConstant;
 import org.seasar.doma.extension.gen.ColumnMeta;
-import org.seasar.doma.extension.gen.GenException;
 import org.seasar.doma.extension.gen.GenNullPointerException;
-import org.seasar.doma.extension.gen.internal.message.GenMessageCode;
 import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
 import org.seasar.doma.extension.gen.internal.util.TableUtil;
 
@@ -192,8 +190,7 @@ public class StandardDialect implements Dialect {
         if (mappedClassName != null) {
             return mappedClassName;
         }
-        throw new GenException(GenMessageCode.DOMAGEN0011, columnMeta
-                .getTypeName(), columnMeta.getSqlType());
+        return null;
     }
 
 }
