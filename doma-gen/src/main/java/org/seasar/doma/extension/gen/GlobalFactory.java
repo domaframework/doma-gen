@@ -122,6 +122,8 @@ public class GlobalFactory {
      *            スキーマ名を表示する場合 {@code true}
      * @param showTableName
      *            テーブル名を表示する場合 {@code true}
+     * @param showDbComment
+     *            データベースのコメントを表示する場合 {@code true}
      * @param useAccessor
      *            アクセッサーを使用する場合 {@code true}
      * @return エンティティ記述のファクトリ
@@ -130,10 +132,12 @@ public class GlobalFactory {
             String entitySuperclassName, String entityListenerClassName,
             EntityPropertyDescFactory entityPropertyDescFactory,
             NamingType namingType, boolean showCatalogName,
-            boolean showSchemaName, boolean showTableName, boolean useAccessor) {
+            boolean showSchemaName, boolean showTableName,
+            boolean showDbComment, boolean useAccessor) {
         return new EntityDescFactory(entityPackageName, entitySuperclassName,
                 entityListenerClassName, entityPropertyDescFactory, namingType,
-                showCatalogName, showSchemaName, showTableName, useAccessor);
+                showCatalogName, showSchemaName, showTableName, showDbComment,
+                useAccessor);
     }
 
     /**

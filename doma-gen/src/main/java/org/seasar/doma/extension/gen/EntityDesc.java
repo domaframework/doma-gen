@@ -58,6 +58,9 @@ public class EntityDesc extends ClassDesc {
     /** アクセッサーを使用する場合 {@code true} */
     protected boolean useAccessor;
 
+    /** データベースのコメントを表示する場合 {@code true} */
+    protected boolean showDbComment;
+
     /** プロパティのモデルのリスト */
     protected final List<EntityPropertyDesc> entityPropertyDescs = new ArrayList<EntityPropertyDesc>();
 
@@ -268,6 +271,25 @@ public class EntityDesc extends ClassDesc {
      */
     public void setUseAccessor(boolean useAccessor) {
         this.useAccessor = useAccessor;
+    }
+
+    /**
+     * データベースのコメントを表示する場合 {@code true} を返します。
+     * 
+     * @return データベースのコメントを表示する場合 {@code true}
+     */
+    public boolean isShowDbComment() {
+        return showDbComment;
+    }
+
+    /**
+     * データベースのコメントを表示する場合 {@code true} を設定します。
+     * 
+     * @param showDbComment
+     *            データベースのコメントを表示する場合 {@code true}
+     */
+    public void setShowDbComment(boolean showDbComment) {
+        this.showDbComment = showDbComment;
     }
 
     /**

@@ -87,6 +87,9 @@ public class Gen extends AbstractTask {
     /** {@code org.seasar.doma.Column#name()} でカラム名を表示する場合 {@code true} */
     protected boolean showColumnName = true;
 
+    /** エンティティクラスのJavadocコメントでデータベースのコメントを表示する場合 {@code true} */
+    protected boolean showDbComment = true;
+
     /** エンティティクラスでアクセッサーを使用する場合 {@code true} */
     protected boolean useAccessor = true;
 
@@ -123,14 +126,14 @@ public class Gen extends AbstractTask {
     /** DaoのJavaコードを生成する場合 {@code true} */
     protected boolean genDao = true;
 
-    /** すべてのエンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null} **/
+    /** このタスクで対象とするエンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null} **/
     protected String entitySuperclassName = null;
 
-    /** すべてのエンティティクラスに共通のエンティティリスナーの名前、指定しない場合は {@code null} **/
+    /** このタスクで対象とするエンティティクラスに共通のエンティティリスナーの名前、指定しない場合は {@code null} **/
     protected String entityListenerClassName = null;
 
     /** 生成されるJavaファイルの出力先ディレクトリ */
-    protected File javaDestDir;
+    protected File javaDestDir = null;
 
     /** Javaファイルのエンコーディング */
     protected String javaEncoding = "UTF-8";
@@ -348,6 +351,16 @@ public class Gen extends AbstractTask {
     }
 
     /**
+     * エンティティクラスのJavadocコメントでデータベースのコメントを表示する場合 {@code true} を設定します。
+     * 
+     * @param showDbComment
+     *            エンティティクラスのJavadocコメントでデータベースのコメントを表示する場合 {@code true}
+     */
+    public void setShowDbComment(boolean showDbComment) {
+        this.showDbComment = showDbComment;
+    }
+
+    /**
      * テンプレートのエンコーディングを設定します。
      * 
      * @param templateEncoding
@@ -378,20 +391,20 @@ public class Gen extends AbstractTask {
     }
 
     /**
-     * すべてのエンティティクラスに共通のスーパークラスの名前を設定します。
+     * このタスクで対象とするエンティティクラスに共通のスーパークラスの名前を設定します。
      * 
      * @param entitySuperclassName
-     *            すべてのエンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null}
+     *            このタスクで対象とするエンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null}
      */
     public void setEntitySuperclassName(String entitySuperclassName) {
         this.entitySuperclassName = entitySuperclassName;
     }
 
     /**
-     * すべてのエンティティクラスに共通のエンティティリスナーの名前を設定します。
+     * このタスクで対象とするエンティティクラスに共通のエンティティリスナーの名前を設定します。
      * 
      * @param entityListenerClassName
-     *            すべてのエンティティクラスに共通のエンティティリスナーの名前、指定しない場合は {@code null}
+     *            このタスクで対象とするエンティティクラスに共通のエンティティリスナーの名前、指定しない場合は {@code null}
      */
     public void setEntityListenerClassName(String entityListenerClassName) {
         this.entityListenerClassName = entityListenerClassName;
@@ -509,8 +522,7 @@ public class Gen extends AbstractTask {
                     "dialectClassName");
         }
         if (driverClassName == null) {
-            throw new GenException(Message.DOMAGEN0007,
-                    "driverClassName");
+            throw new GenException(Message.DOMAGEN0007, "driverClassName");
         }
         if (url == null) {
             throw new GenException(Message.DOMAGEN0007, "url");
@@ -522,8 +534,7 @@ public class Gen extends AbstractTask {
             throw new GenException(Message.DOMAGEN0007, "password");
         }
         if (configClassName == null) {
-            throw new GenException(Message.DOMAGEN0007,
-                    "configClassName");
+            throw new GenException(Message.DOMAGEN0007, "configClassName");
         }
     }
 
@@ -535,8 +546,8 @@ public class Gen extends AbstractTask {
             dialect = DialectRegistry.lookup(dialectName.getValue());
             AssertionUtil.assertNotNull(dialect);
         }
-        Logger.info(Message.DOMAGEN0017.getMessage(dialect.getClass()
-                .getName()));
+        Logger.info(Message.DOMAGEN0017
+                .getMessage(dialect.getClass().getName()));
 
         Driver driver = newInstance(Driver.class, driverClassName, "driverClassName");
         dataSource = globalFactory
@@ -554,7 +565,7 @@ public class Gen extends AbstractTask {
 
         entityDescFactory = globalFactory
                 .createEntityDescFactory(entityPackageName, entitySuperclassName, entityListenerClassName, entityPropertyDescFactory, namingType == null ? NamingType.NONE
-                        : namingType.convertToEnum(), showCatalogName, showSchemaName, showTableName, useAccessor);
+                        : namingType.convertToEnum(), showCatalogName, showSchemaName, showTableName, showDbComment, useAccessor);
 
         daoDescFactory = globalFactory
                 .createDaoDescFactory(daoPackageName, daoSuffix, configClassName);

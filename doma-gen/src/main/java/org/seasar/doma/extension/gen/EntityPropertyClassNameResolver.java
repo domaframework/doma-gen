@@ -100,9 +100,11 @@ public class EntityPropertyClassNameResolver {
      */
     public String resolve(EntityDesc entityDesc, String propertyName,
             String defaultPropertyClassName) {
+        String qualifiedPropertyName = entityDesc.getSimpleName() + "@"
+                + propertyName;
         for (Map.Entry<Pattern, String> entry : patternMap.entrySet()) {
             Pattern pattern = entry.getKey();
-            Matcher matcher = pattern.matcher(propertyName);
+            Matcher matcher = pattern.matcher(qualifiedPropertyName);
             if (!matcher.matches()) {
                 continue;
             }

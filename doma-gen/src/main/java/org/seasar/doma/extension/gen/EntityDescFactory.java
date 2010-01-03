@@ -43,6 +43,9 @@ public class EntityDescFactory {
     /** テーブル名を表示する場合 {@code true} */
     protected final boolean showTableName;
 
+    /** データベースのコメントを表示する場合 {@code true} */
+    protected final boolean showDbComment;
+
     /** アクセッサーを使用する場合 {@code true} */
     protected final boolean useAccessor;
 
@@ -81,7 +84,8 @@ public class EntityDescFactory {
             String listenerClassName,
             EntityPropertyDescFactory entityPropertyDescFactory,
             NamingType namingType, boolean showCatalogName,
-            boolean showSchemaName, boolean showTableName, boolean useAccessor) {
+            boolean showSchemaName, boolean showTableName,
+            boolean showDbComment, boolean useAccessor) {
         if (packageName == null) {
             throw new GenNullPointerException("packageName");
         }
@@ -99,6 +103,7 @@ public class EntityDescFactory {
         this.showCatalogName = showCatalogName;
         this.showSchemaName = showSchemaName;
         this.showTableName = showTableName;
+        this.showDbComment = showDbComment;
         this.useAccessor = useAccessor;
     }
 
@@ -129,6 +134,7 @@ public class EntityDescFactory {
         entityDesc.setComment(tableMeta.comment);
         entityDesc.setShowCatalogName(showCatalogName);
         entityDesc.setShowSchemaName(showSchemaName);
+        entityDesc.setShowDbComment(true);
         entityDesc.setUseAccessor(useAccessor);
         handleShowTableName(entityDesc, tableMeta);
         handleEntityPropertyDesc(entityDesc, tableMeta);

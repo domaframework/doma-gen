@@ -11,7 +11,7 @@ import ${importName};
 </#list>
 
 /**
-<#if comment??>
+<#if showDbComment && comment??>
  * ${comment}
 </#if>
 <#if lib.author??>
@@ -25,7 +25,7 @@ import ${importName};
 public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpleName}</#if> {
 <#list entityPropertyDescs as property>
 
-  <#if property.comment??>
+  <#if showDbComment && property.comment??>
     /** ${property.comment} */
   </#if>
   <#if property.id>
@@ -43,7 +43,7 @@ public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpl
     @Version
   </#if>
     @Column(<#if property.showColumnName && property.columnName??>name = "${property.columnName}"</#if>)
-    ${property.propertyClassSimpleName} ${property.name};
+    <#if !useAccessor>public </#if>${property.propertyClassSimpleName} ${property.name};
 </#list>
 <#if useAccessor>
   <#list entityPropertyDescs as property>
