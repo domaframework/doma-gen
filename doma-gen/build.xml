@@ -1,0 +1,30 @@
+<project name="doma-gen" default="dist" basedir=".">
+	<tstamp>
+		<format property="releaseDate" pattern="yyyy-MM-dd" locale="ja,JP"/>
+	</tstamp>
+	<property name="zipDir" value="target/site/download/${releaseDate}"/>
+
+	<target name="dist">
+		<mkdir dir="${zipDir}"/>
+		<zip zipfile="${zipDir}/doma-gen-${ver}.zip">
+			<zipfileset prefix="doma-gen" dir=".">
+				<exclude name="**/bin**"/>
+				<exclude name="**/target/**"/>
+				<exclude name="**/site/**"/>
+				<exclude name="src/**"/>
+			</zipfileset>
+			<zipfileset prefix="doma-gen/lib" dir="target">
+				<include name="doma-gen-${ver}.jar"/>
+			</zipfileset>
+			<zipfileset prefix="doma-gen/libsrc" dir="target">
+				<include name="doma-gen-${ver}-sources.jar"/>
+			</zipfileset>
+			<zipfileset prefix="doma-gen/resources" dir="src/main/resources/org/seasar/doma/extension/gen">
+				<include name="template/**"/>
+			</zipfileset>
+			<zipfileset prefix="doma-gen/resources" dir="src/test/resources">
+				<include name="doma-gen-build.xml"/>
+			</zipfileset>
+		</zip>
+	</target>
+</project>

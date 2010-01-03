@@ -143,6 +143,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<!--
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
@@ -159,6 +160,26 @@
 						<phase>site</phase>
 						<goals>
 							<goal>javadoc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			-->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>ant-dist</id>
+						<phase>site</phase>
+						<configuration>
+							<tasks>
+								<ant antfile="build.xml" target="dist">
+									<property name="ver" value="${version}"/>
+								</ant>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
 						</goals>
 					</execution>
 				</executions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="doma-gen-example" default="gen" basedir=".">
+	
+	<property name="lib" value="lib"/>
+	<property name="javaDestDir" value="src"/>
+	<property name="dialectName" value="hsqldb"/>
+	<property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+	<property name="url" value="jdbc:hsqldb:file:example"/>
+	<property name="user" value="sa"/>
+	<property name="password" value=""/>
+	<property name="entityPackageName" value="example.entity"/>
+	<property name="daoPackageName" value="example.dao"/>
+	<property name="configClassName" value="example.AppConfig"/>
+	
+	<path id="classpath">
+		<fileset dir="lib"/>
+	</path>
+
+	<taskdef name="gen" classname="org.seasar.doma.extension.gen.task.Gen" classpathref="classpath" />
+	
+	<target name="gen">
+		<gen
+			javaDestDir="${javaDestDir}"
+			dialectName="${dialectName}"
+			driverClassName="${driverClassName}"
+			url="${url}"
+			user="${user}"
+			password="${password}"
+			entityPackageName="${entityPackageName}"
+			daoPackageName="${daoPackageName}"
+			configClassName="${configClassName}"
+		/>
+	</target>
+
+</project>
