@@ -1,0 +1,7 @@
+select
+    ID,
+    EMP_NAME
+from
+    CATALOG.SCHEMA.HOGE
+where
+    ID = /* id */1

@@ -34,6 +34,9 @@ public class EntityDesc extends ClassDesc {
     /** テーブル名 */
     protected String tableName;
 
+    /** テーブルの完全修飾名 */
+    protected String qualifiedTableName;
+
     /** スーパークラスの単純名 */
     protected String superclassSimpleName;
 
@@ -61,8 +64,36 @@ public class EntityDesc extends ClassDesc {
     /** データベースのコメントを表示する場合 {@code true} */
     protected boolean showDbComment;
 
-    /** プロパティのモデルのリスト */
+    /** テンプレート名 */
+    protected String templateName;
+
+    /** エンティティプロパティ記述のリスト */
     protected final List<EntityPropertyDesc> entityPropertyDescs = new ArrayList<EntityPropertyDesc>();
+
+    /** 識別子のエンティティプロパティ記述のリスト */
+    protected final List<EntityPropertyDesc> idEntityPropertyDescs = new ArrayList<EntityPropertyDesc>();
+
+    /** バージョンのエンティティプロパティ記述 */
+    protected EntityPropertyDesc versionEntityPropertyDesc;
+
+    /**
+     * テンプレート名を設定します。
+     * 
+     * @param templateName
+     *            テンプレート名
+     */
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
+
+    /**
+     * テンプレート名を返します。
+     * 
+     * @return テンプレート名
+     */
+    public String getTemplateName() {
+        return templateName;
+    }
 
     /**
      * カタログ名を設定します。
@@ -300,6 +331,12 @@ public class EntityDesc extends ClassDesc {
      */
     public void addEntityPropertyDesc(EntityPropertyDesc entityPropertyDesc) {
         entityPropertyDescs.add(entityPropertyDesc);
+        if (entityPropertyDesc.isId()) {
+            idEntityPropertyDescs.add(entityPropertyDesc);
+        }
+        if (entityPropertyDesc.isVersion()) {
+            versionEntityPropertyDesc = entityPropertyDesc;
+        }
     }
 
     /**
@@ -309,6 +346,43 @@ public class EntityDesc extends ClassDesc {
      */
     public List<EntityPropertyDesc> getEntityPropertyDescs() {
         return entityPropertyDescs;
+    }
+
+    /**
+     * 識別子のエンティティプロパティ記述のリストを返します。
+     * 
+     * @return 識別子のエンティティプロパティ記述のリスト
+     */
+    public List<EntityPropertyDesc> getIdEntityPropertyDescs() {
+        return idEntityPropertyDescs;
+    }
+
+    /**
+     * バージョンのエンティティプロパティ記述を返します。
+     * 
+     * @return バージョンのエンティティプロパティ記述
+     */
+    public EntityPropertyDesc getVersionEntityPropertyDesc() {
+        return versionEntityPropertyDesc;
+    }
+
+    /**
+     * テーブルの完全修飾名を返します。
+     * 
+     * @return テーブルの完全修飾名
+     */
+    public String getQualifiedTableName() {
+        return qualifiedTableName;
+    }
+
+    /**
+     * テーブルの完全修飾名
+     * 
+     * @param qualifiedTableName
+     *            テーブルの完全修飾名を設定します。
+     */
+    public void setQualifiedTableName(String qualifiedTableName) {
+        this.qualifiedTableName = qualifiedTableName;
     }
 
 }

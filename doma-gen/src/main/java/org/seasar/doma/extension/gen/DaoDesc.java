@@ -25,8 +25,11 @@ public class DaoDesc extends ClassDesc {
     /** 設定クラスの単純名 */
     protected String configClassSimpleName;
 
-    /** エンティティクラスの単純名 */
-    protected String entityClassSimpleName;
+    /** エンティティ記述 */
+    protected EntityDesc entityDesc;
+
+    /** テンプレート名 */
+    protected String templateName;
 
     /**
      * 設定クラスの単純名を返します。
@@ -48,22 +51,41 @@ public class DaoDesc extends ClassDesc {
     }
 
     /**
-     * エンティティクラスの単純名を返します。
+     * エンティティ記述を返します。
      * 
-     * @return エンティティクラスの単純名
+     * @return エンティティ記述
      */
-    public String getEntityClassSimpleName() {
-        return entityClassSimpleName;
+    public EntityDesc getEntityDesc() {
+        return entityDesc;
     }
 
     /**
-     * エンティティクラスの単純名を設定します。
+     * エンティティ記述を設定します。
      * 
-     * @param entityClassSimpleName
-     *            エンティティクラスの単純名
+     * @param fileName
+     *            エンティティ記述
      */
-    public void setEntityClassSimpleName(String entityClassSimpleName) {
-        this.entityClassSimpleName = entityClassSimpleName;
+    public void setEntityDesc(EntityDesc entityDesc) {
+        this.entityDesc = entityDesc;
+    }
+
+    /**
+     * テンプレート名を設定します。
+     * 
+     * @param templateName
+     *            テンプレート名
+     */
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
+
+    /**
+     * テンプレート名を返します。
+     * 
+     * @return テンプレート名
+     */
+    public String getTemplateName() {
+        return templateName;
     }
 
 }

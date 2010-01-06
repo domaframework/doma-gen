@@ -30,9 +30,12 @@ public final class FileUtil {
         return new File(baseDir, javaFilePath);
     }
 
-    public static File createSqlDir(File baseDir, String className) {
+    public static File createSqlDir(File baseDir, String className,
+            String fileName) {
         AssertionUtil.assertNotNull(baseDir, className);
         File metaInfDir = new File(baseDir, "META-INF");
-        return new File(metaInfDir, className.replace('.', File.separatorChar));
+        File dir = new File(metaInfDir, className
+                .replace('.', File.separatorChar));
+        return new File(dir, fileName);
     }
 }

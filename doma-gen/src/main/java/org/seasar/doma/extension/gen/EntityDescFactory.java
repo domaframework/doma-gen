@@ -120,6 +120,7 @@ public class EntityDescFactory {
         entityDesc.setCatalogName(tableMeta.getCatalogName());
         entityDesc.setSchemaName(tableMeta.getSchemaName());
         entityDesc.setTableName(tableMeta.getName());
+        entityDesc.setQualifiedTableName(tableMeta.getQualifiedTableName());
         entityDesc.setPackageName(packageName);
         handleSimpleName(entityDesc, tableMeta);
         if (superclassName != null) {
@@ -136,6 +137,7 @@ public class EntityDescFactory {
         entityDesc.setShowSchemaName(showSchemaName);
         entityDesc.setShowDbComment(true);
         entityDesc.setUseAccessor(useAccessor);
+        entityDesc.setTemplateName("entity.ftl");
         handleShowTableName(entityDesc, tableMeta);
         handleEntityPropertyDesc(entityDesc, tableMeta);
         handleImportName(entityDesc, tableMeta);

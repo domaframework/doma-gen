@@ -1,0 +1,10 @@
+select
+    ID,
+    EMP_NAME,
+    VERSION
+from
+    CATALOG.SCHEMA.HOGE
+where
+    ID = /* id */1
+    and
+    VERSION = /* version */1

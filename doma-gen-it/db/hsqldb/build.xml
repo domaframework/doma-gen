@@ -26,6 +26,7 @@
 	<target name="gen" depends="clean">
 		<gen
 			javaDestDir="${src}"
+			sqlDestDir="${src}"
 			dialectName="${dialectName}"
 			driverClassName="${driverClassName}"
 			url="${url}"
@@ -35,6 +36,11 @@
 			entityPropertyClassNamesFile="entityPropertyClassNames.properties"
 			configClassName="org.seasar.doma.jdbc.ConfigProxy"
 		/>
+		<copy todir="${build}">
+			<fileset dir="${src}">
+				<include name="META-INF/**" />
+			</fileset>
+		</copy>
 		<javac 
 			srcDir="${src}"
 			destDir="${build}"

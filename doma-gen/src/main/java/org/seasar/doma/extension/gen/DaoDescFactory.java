@@ -75,8 +75,8 @@ public class DaoDescFactory {
         daoDesc.setSimpleName(entityDesc.getSimpleName() + suffix);
         daoDesc.setConfigClassSimpleName(ClassUtil
                 .getSimpleName(configClassName));
-        daoDesc.setEntityClassSimpleName(ClassUtil.getSimpleName(entityDesc
-                .getSimpleName()));
+        daoDesc.setEntityDesc(entityDesc);
+        daoDesc.setTemplateName("dao.ftl");
         handleImportName(daoDesc, entityDesc);
         return daoDesc;
     }
@@ -96,6 +96,24 @@ public class DaoDescFactory {
         classDescSupport.addImportName(daoDesc, ClassConstant.Delete);
         classDescSupport.addImportName(daoDesc, configClassName);
         classDescSupport.addImportName(daoDesc, entityDesc.getQualifiedName());
+        for (EntityPropertyDesc propertyDesc : entityDesc
+                .getIdEntityPropertyDescs()) {
+            classDescSupport.addImportName(daoDesc, propertyDesc
+                    .getPropertyClassName());
+            classDescSupport.addImportName(daoDesc, ClassConstant.Select);
+        }
+        if (entityDesc.getIdEntityPropertyDescs().size() > 0) {
+            classDescSupport.addImportName(daoDesc, ClassConstant.Select);
+            for (EntityPropertyDesc propertyDesc : entityDesc
+                    .getIdEntityPropertyDescs()) {
+                classDescSupport.addImportName(daoDesc, propertyDesc
+                        .getPropertyClassName());
+            }
+            if (entityDesc.getVersionEntityPropertyDesc() != null) {
+                classDescSupport.addImportName(daoDesc, entityDesc
+                        .getVersionEntityPropertyDesc().getPropertyClassName());
+            }
+        }
     }
 
 }

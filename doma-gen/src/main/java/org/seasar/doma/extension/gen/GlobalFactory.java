@@ -168,6 +168,10 @@ public class GlobalFactory {
         return new EntityPropertyClassNameResolver(propertyFile);
     }
 
+    public SqlDescFactory createSqlDescFactory() {
+        return new SqlDescFactory();
+    }
+
     /**
      * ジェネレータを作成します。
      * 

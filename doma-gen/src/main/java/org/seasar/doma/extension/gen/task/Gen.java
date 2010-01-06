@@ -17,6 +17,8 @@ import org.seasar.doma.extension.gen.GenerationContext;
 import org.seasar.doma.extension.gen.Generator;
 import org.seasar.doma.extension.gen.Logger;
 import org.seasar.doma.extension.gen.NamingType;
+import org.seasar.doma.extension.gen.SqlDesc;
+import org.seasar.doma.extension.gen.SqlDescFactory;
 import org.seasar.doma.extension.gen.TableMeta;
 import org.seasar.doma.extension.gen.TableMetaReader;
 import org.seasar.doma.extension.gen.dialect.Dialect;
@@ -93,12 +95,6 @@ public class Gen extends AbstractTask {
     /** エンティティクラスでアクセッサーを使用する場合 {@code true} */
     protected boolean useAccessor = true;
 
-    /** エンティティクラスのテンプレート名 */
-    protected String entityTemplateName = "entity.ftl";
-
-    /** Daoインタフェースのテンプレート名 */
-    protected String daoTemplateName = "dao.ftl";
-
     /** テンプレートのエンコーディング */
     protected String templateEncoding = "UTF-8";
 
@@ -126,6 +122,9 @@ public class Gen extends AbstractTask {
     /** DaoのJavaコードを生成する場合 {@code true} */
     protected boolean genDao = true;
 
+    /** SQLドを生成する場合 {@code true} */
+    protected boolean genSql = true;
+
     /** このタスクで対象とするエンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null} **/
     protected String entitySuperclassName = null;
 
@@ -137,6 +136,9 @@ public class Gen extends AbstractTask {
 
     /** Javaファイルのエンコーディング */
     protected String javaEncoding = "UTF-8";
+
+    /** 生成されるSQLファイルの出力先ディレクトリ */
+    protected File sqlDestDir = null;
 
     /** 生成されるJavaファイルと同名のファイルが存在する際に上書きする場合{@code true}、しない場合{@code false} */
     protected boolean overwrite = false;
@@ -161,6 +163,9 @@ public class Gen extends AbstractTask {
 
     /** Dao記述のファクトリ */
     protected DaoDescFactory daoDescFactory;
+
+    /** SQL記述ファクトリ */
+    protected SqlDescFactory sqlDescFactory;
 
     /** ジェネレータ */
     protected Generator generator;
@@ -492,6 +497,16 @@ public class Gen extends AbstractTask {
     }
 
     /**
+     * SQLを生成する場合 {@code true} を設定します。
+     * 
+     * @param genSql
+     *            SQLを生成する場合 {@code true}
+     */
+    public void setGenSql(boolean genSql) {
+        this.genSql = genSql;
+    }
+
+    /**
      * 設定クラス名を設定します。
      * 
      * @param configClassName
@@ -512,11 +527,17 @@ public class Gen extends AbstractTask {
         this.entityPropertyClassNamesFile = entityPropertyClassNamesFile;
     }
 
+    /**
+     * 生成されるSQLファイルの出力先ディレクトリを設定します。
+     * 
+     * @return 生成されるSQLファイルの出力先ディレクトリ
+     */
+    public void setSqlDestDir(File sqlDestDir) {
+        this.sqlDestDir = sqlDestDir;
+    }
+
     @Override
     protected void doValidate() {
-        if (javaDestDir == null) {
-            throw new GenException(Message.DOMAGEN0007, "javaDestDir");
-        }
         if (dialectName == null && dialectClassName == null) {
             throw new GenException(Message.DOMAGEN0012, "dialectName",
                     "dialectClassName");
@@ -540,6 +561,12 @@ public class Gen extends AbstractTask {
 
     @Override
     protected void doPrepare() {
+        if (javaDestDir == null) {
+            javaDestDir = new File(getProject().getBaseDir(), "src");
+        }
+        if (sqlDestDir == null) {
+            sqlDestDir = new File(getProject().getBaseDir(), "src");
+        }
         if (dialectClassName != null) {
             dialect = newInstance(Dialect.class, dialectClassName, "dialectClassName");
         } else {
@@ -552,24 +579,19 @@ public class Gen extends AbstractTask {
         Driver driver = newInstance(Driver.class, driverClassName, "driverClassName");
         dataSource = globalFactory
                 .createDataSource(driver, user, password, url);
-
         tableMetaReader = globalFactory
                 .createTableMetaReader(dialect, dataSource, schemaName, tableNamePattern, ignoredTableNamePattern);
-
         entityPropertyClassNameResolver = globalFactory
                 .createEntityPropertyClassNameResolver(entityPropertyClassNamesFile);
-
         entityPropertyDescFactory = globalFactory
                 .createEntityPropertyDescFactory(dialect, entityPropertyClassNameResolver, versionColumnNamePattern, generationType == null ? null
                         : generationType.convertToEnum(), initialValue, allocationSize, showColumnName);
-
         entityDescFactory = globalFactory
                 .createEntityDescFactory(entityPackageName, entitySuperclassName, entityListenerClassName, entityPropertyDescFactory, namingType == null ? NamingType.NONE
                         : namingType.convertToEnum(), showCatalogName, showSchemaName, showTableName, showDbComment, useAccessor);
-
         daoDescFactory = globalFactory
                 .createDaoDescFactory(daoPackageName, daoSuffix, configClassName);
-
+        sqlDescFactory = globalFactory.createSqlDescFactory();
         generator = globalFactory
                 .createGenerator(templateEncoding, templatePrimaryDir);
     }
@@ -590,6 +612,12 @@ public class Gen extends AbstractTask {
             if (genDao) {
                 generateDao(daoDesc);
             }
+            if (genSql) {
+                for (SqlDesc sqlDesc : sqlDescFactory
+                        .createSqlDescs(entityDesc)) {
+                    generateSql(daoDesc, sqlDesc);
+                }
+            }
         }
     }
 
@@ -603,7 +631,7 @@ public class Gen extends AbstractTask {
         File javaFile = FileUtil.createJavaFile(javaDestDir, entityDesc
                 .getQualifiedName());
         GenerationContext context = new GenerationContext(entityDesc, javaFile,
-                entityTemplateName, javaEncoding, overwrite);
+                entityDesc.getTemplateName(), javaEncoding, overwrite);
         generator.generate(context);
     }
 
@@ -617,7 +645,23 @@ public class Gen extends AbstractTask {
         File javaFile = FileUtil.createJavaFile(javaDestDir, daoDesc
                 .getQualifiedName());
         GenerationContext context = new GenerationContext(daoDesc, javaFile,
-                daoTemplateName, javaEncoding, overwrite);
+                daoDesc.getTemplateName(), javaEncoding, overwrite);
+        generator.generate(context);
+    }
+
+    /**
+     * SQLを生成します。
+     * 
+     * @param daoDesc
+     *            Dao記述
+     * @param sqlDesc
+     *            SQL記述
+     */
+    protected void generateSql(DaoDesc daoDesc, SqlDesc sqlDesc) {
+        File sqlFile = FileUtil.createSqlDir(sqlDestDir, daoDesc
+                .getQualifiedName(), sqlDesc.getFileName());
+        GenerationContext context = new GenerationContext(sqlDesc, sqlFile,
+                sqlDesc.getTemplateName(), "UTF-8", overwrite);
         generator.generate(context);
     }
 

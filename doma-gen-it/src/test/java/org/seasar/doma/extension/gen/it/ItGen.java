@@ -109,7 +109,6 @@ public class ItGen extends Gen {
                         .executeUpdate("create table varbinary_table (varbinary_column varbinary)");
                 statement
                         .executeUpdate("create table longvarbinary_table (longvarbinary_column longvarbinary)");
-                statement.executeUpdate("create table テーブル (カラム varchar(255))");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } finally {

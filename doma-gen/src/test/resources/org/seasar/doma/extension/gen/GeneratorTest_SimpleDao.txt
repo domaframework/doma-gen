@@ -5,12 +5,25 @@ import example.entity.Hoge;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
+import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 
 /**
  */
 @Dao(config = MyConfig.class)
 public interface HogeDao {
+
+    /**
+     * @return the Hoge entity
+     */
+    @Select
+    Hoge selectById(Integer id);
+
+    /**
+     * @return the Hoge entity
+     */
+    @Select
+    Hoge selectByIdAndVersion(Integer id, Integer version);
 
     /**
      * @return affected rows

@@ -18,21 +18,37 @@ import ${importName};
 @Dao(config = ${configClassSimpleName}.class)
 public interface ${simpleName} {
 
+<#if entityDesc.idEntityPropertyDescs?size gt 0>
+    /**
+     * @return the ${entityDesc.simpleName} entity
+     */
+    @Select
+    ${entityDesc.simpleName} selectById(<#list entityDesc.idEntityPropertyDescs as property>${property.propertyClassSimpleName} ${property.name}<#if property_has_next>, </#if></#list>);
+
+</#if>
+<#if entityDesc.idEntityPropertyDescs?size gt 0 && entityDesc.versionEntityPropertyDesc??>
+    /**
+     * @return the ${entityDesc.simpleName} entity
+     */
+    @Select
+    ${entityDesc.simpleName} selectByIdAndVersion(<#list entityDesc.idEntityPropertyDescs as property>${property.propertyClassSimpleName} ${property.name}, </#list>${entityDesc.versionEntityPropertyDesc.propertyClassSimpleName} ${entityDesc.versionEntityPropertyDesc.name});
+
+</#if>
     /**
      * @return affected rows
      */
     @Insert
-    int insert(${entityClassSimpleName} entity);
+    int insert(${entityDesc.simpleName} entity);
 
     /**
      * @return affected rows
      */
     @Update
-    int update(${entityClassSimpleName} entity);
+    int update(${entityDesc.simpleName} entity);
 
     /**
      * @return affected rows
      */
     @Delete
-    int delete(${entityClassSimpleName} entity);
+    int delete(${entityDesc.simpleName} entity);
 }

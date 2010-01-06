@@ -322,12 +322,18 @@ public class GeneratorTest extends TestCase {
         id.setPrimaryKey(true);
         id.setNullable(false);
 
+        ColumnMeta version = new ColumnMeta();
+        version.setComment("COMMENT for VERSION");
+        version.setName("VERSION");
+        version.setTypeName("integer");
+
         TableMeta tableMeta = new TableMeta();
         tableMeta.setCatalogName("CATALOG");
         tableMeta.setSchemaName("SCHEMA");
         tableMeta.setName("HOGE");
         tableMeta.setComment("COMMENT for HOGE");
         tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(version);
 
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
@@ -345,6 +351,88 @@ public class GeneratorTest extends TestCase {
         assertEquals(expect(), generator.getResult());
     }
 
+    public void testSelectById() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varcar");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory();
+        SqlDesc sqlDesc = sqlDescFactory
+                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+
+        generator.generate(new SqlContext(sqlDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSelectByIdAndVersion() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varcar");
+
+        ColumnMeta version = new ColumnMeta();
+        version.setComment("COMMENT for VERSION");
+        version.setName("VERSION");
+        version.setTypeName("integer");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+        tableMeta.addColumnMeta(version);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, null, entityPropertyDescFactory, NamingType.NONE, false, false, true, true, true);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory();
+        SqlDesc sqlDesc = sqlDescFactory
+                .createSqlDesc(entityDesc, "dummy", "selectByIdAndVersion.sql.ftl");
+
+        generator.generate(new SqlContext(sqlDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
     private String expect() {
         System.out.println(generator.getResult());
 
@@ -356,14 +444,24 @@ public class GeneratorTest extends TestCase {
     private class EntityContext extends GenerationContext {
 
         public EntityContext(EntityDesc model) {
-            super(model, new File("dummy"), "entity.ftl", "UTF-8", true);
+            super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
+                    true);
         }
     }
 
     private class DaoContext extends GenerationContext {
 
         public DaoContext(DaoDesc model) {
-            super(model, new File("dummy"), "dao.ftl", "UTF-8", true);
+            super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
+                    true);
+        }
+    }
+
+    private class SqlContext extends GenerationContext {
+
+        public SqlContext(SqlDesc model) {
+            super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
+                    true);
         }
     }
 }
