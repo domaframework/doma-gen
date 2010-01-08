@@ -65,83 +65,11 @@ public class Gen extends AbstractTask {
     /** バージョンカラム名のパターン。このパターンに合致した場合は {@code org.seasar.doma.Versino} が注釈されます。 */
     protected String versionColumnNamePattern = "VERSION([_]?NO)?";
 
-    /** 識別子の生成方法、指定しない場合は {@code null} */
-    protected GenerationTypeAttribute generationType = null;
-
-    /** ネーミング規約、指定しない場合は {@code null} */
-    protected NamingTypeAttribute namingType = null;
-
-    /** 識別子の初期値、指定しない場合は {@code null} */
-    protected Long initialValue = null;
-
-    /** 識別子の割り当てサイズ、指定しない場合は {@code null} */
-    protected Long allocationSize = null;
-
-    /** {@code org.seasar.doma.Table#catalog()} でカタログ名を表示する場合 {@code true} */
-    protected boolean showCatalogName = false;
-
-    /** {@code org.seasar.doma.Table#schema()} でスキーマ名を表示する場合 {@code true} */
-    protected boolean showSchemaName = false;
-
-    /** {@code org.seasar.doma.Table#name()} でテーブル名を表示する場合 {@code true} */
-    protected boolean showTableName = true;
-
-    /** {@code org.seasar.doma.Column#name()} でカラム名を表示する場合 {@code true} */
-    protected boolean showColumnName = true;
-
-    /** エンティティクラスのJavadocコメントでデータベースのコメントを表示する場合 {@code true} */
-    protected boolean showDbComment = true;
-
-    /** エンティティクラスでアクセッサーを使用する場合 {@code true} */
-    protected boolean useAccessor = true;
-
     /** テンプレートのエンコーディング */
     protected String templateEncoding = "UTF-8";
 
     /** テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null} */
     protected File templatePrimaryDir = null;
-
-    /** エンティティクラスのパッケージ名 */
-    protected String entityPackageName = "example.entity";
-
-    /** Daoインタフェースのパッケージ名 */
-    protected String daoPackageName = "example.dao";
-
-    /** Daoインタフェースのサフィックス */
-    protected String daoSuffix = "Dao";
-
-    /** 設定クラス名 */
-    protected String configClassName = null;
-
-    /** エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル */
-    protected File entityPropertyClassNamesFile = null;
-
-    /** エンティティのJavaコードを生成する場合 {@code true} */
-    protected boolean genEntity = true;
-
-    /** DaoのJavaコードを生成する場合 {@code true} */
-    protected boolean genDao = true;
-
-    /** SQLドを生成する場合 {@code true} */
-    protected boolean genSql = true;
-
-    /** このタスクで対象とするエンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null} **/
-    protected String entitySuperclassName = null;
-
-    /** このタスクで対象とするエンティティクラスに共通のエンティティリスナーの名前、指定しない場合は {@code null} **/
-    protected String entityListenerClassName = null;
-
-    /** 生成されるJavaファイルの出力先ディレクトリ */
-    protected File javaDestDir = null;
-
-    /** Javaファイルのエンコーディング */
-    protected String javaEncoding = "UTF-8";
-
-    /** 生成されるSQLファイルの出力先ディレクトリ */
-    protected File sqlDestDir = null;
-
-    /** 生成されるJavaファイルと同名のファイルが存在する際に上書きする場合{@code true}、しない場合{@code false} */
-    protected boolean overwrite = false;
 
     /** 方言 */
     protected Dialect dialect;
@@ -169,6 +97,12 @@ public class Gen extends AbstractTask {
 
     /** ジェネレータ */
     protected Generator generator;
+
+    protected Entity entity;
+
+    protected Dao dao;
+
+    protected Sql sql;
 
     /**
      * JDBC接続ユーザーを設定します。
@@ -271,101 +205,6 @@ public class Gen extends AbstractTask {
     }
 
     /**
-     * 識別子の生成方法を設定します。
-     * 
-     * @param generationType
-     *            識別子の生成方法、指定しない場合は {@code null}
-     */
-    public void setGenerationType(GenerationTypeAttribute generationType) {
-        this.generationType = generationType;
-    }
-
-    /**
-     * ネーミング規約を設定します。
-     * 
-     * @param namingType
-     *            ネーミング規約、指定しない場合は {@code null}
-     */
-    public void setNamingType(NamingTypeAttribute namingType) {
-        this.namingType = namingType;
-    }
-
-    /**
-     * 識別子の初期値を設定します。
-     * 
-     * @param initialValue
-     *            識別子の初期値、指定しない場合は {@code null}
-     */
-    public void setInitialValue(Long initialValue) {
-        this.initialValue = initialValue;
-    }
-
-    /**
-     * 識別子の割り当てサイズを設定します。
-     * 
-     * @param allocationSize
-     *            識別子の割り当てサイズ、指定しない場合は {@code null}
-     */
-    public void setAllocationSize(Long allocationSize) {
-        this.allocationSize = allocationSize;
-    }
-
-    /**
-     * {@code org.seasar.doma.Table#catalog()} でカタログ名を表示する場合 {@code true}
-     * を設定します。
-     * 
-     * @param showCatalogName
-     *            {@code org.seasar.doma.Table#catalog()} でカタログ名を表示する場合 {@code
-     *            true}
-     */
-    public void setShowCatalogName(boolean showCatalogName) {
-        this.showCatalogName = showCatalogName;
-    }
-
-    /**
-     * {@code org.seasar.doma.Table#schema()} でスキーマ名を表示する場合 {@code true} を設定します。
-     * 
-     * @param showSchemaName
-     *            {@code org.seasar.doma.Table#schema()} でスキーマ名を表示する場合 {@code
-     *            true}
-     */
-    public void setShowSchemaName(boolean showSchemaName) {
-        this.showSchemaName = showSchemaName;
-    }
-
-    /**
-     * {@code org.seasar.doma.Table#name()} でテーブル名を表示する場合 {@code true} を設定します。
-     * 
-     * @param showTableName
-     *            {@code org.seasar.doma.Table#name()} でテーブル名を表示する場合 {@code
-     *            true}
-     */
-    public void setShowTableName(boolean showTableName) {
-        this.showTableName = showTableName;
-    }
-
-    /**
-     * {@code org.seasar.doma.Column#name()} でカラム名を表示する場合 {@code true} を設定します。
-     * 
-     * @param showColumnName
-     *            {@code org.seasar.doma.Column#name()} でカラム名を表示する場合 {@code
-     *            true}
-     */
-    public void setShowColumnName(boolean showColumnName) {
-        this.showColumnName = showColumnName;
-    }
-
-    /**
-     * エンティティクラスのJavadocコメントでデータベースのコメントを表示する場合 {@code true} を設定します。
-     * 
-     * @param showDbComment
-     *            エンティティクラスのJavadocコメントでデータベースのコメントを表示する場合 {@code true}
-     */
-    public void setShowDbComment(boolean showDbComment) {
-        this.showDbComment = showDbComment;
-    }
-
-    /**
      * テンプレートのエンコーディングを設定します。
      * 
      * @param templateEncoding
@@ -383,157 +222,6 @@ public class Gen extends AbstractTask {
      */
     public void setTemplatePrimaryDir(File templatePrimaryDir) {
         this.templatePrimaryDir = templatePrimaryDir;
-    }
-
-    /**
-     * エンティティクラスのパッケージ名を設定します。
-     * 
-     * @param entityPackageName
-     *            エンティティクラスのパッケージ名
-     */
-    public void setEntityPackageName(String entityPackageName) {
-        this.entityPackageName = entityPackageName;
-    }
-
-    /**
-     * このタスクで対象とするエンティティクラスに共通のスーパークラスの名前を設定します。
-     * 
-     * @param entitySuperclassName
-     *            このタスクで対象とするエンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null}
-     */
-    public void setEntitySuperclassName(String entitySuperclassName) {
-        this.entitySuperclassName = entitySuperclassName;
-    }
-
-    /**
-     * このタスクで対象とするエンティティクラスに共通のエンティティリスナーの名前を設定します。
-     * 
-     * @param entityListenerClassName
-     *            このタスクで対象とするエンティティクラスに共通のエンティティリスナーの名前、指定しない場合は {@code null}
-     */
-    public void setEntityListenerClassName(String entityListenerClassName) {
-        this.entityListenerClassName = entityListenerClassName;
-    }
-
-    /**
-     * 生成されるJavaファイルの出力先ディレクトリを設定します。
-     * 
-     * @param javaDestDir
-     *            生成されるJavaファイルの出力先ディレクトリ
-     */
-    public void setJavaDestDir(File javaDestDir) {
-        this.javaDestDir = javaDestDir;
-    }
-
-    /**
-     * Javaファイルのエンコーディングを設定します。
-     * 
-     * @param javaEncoding
-     *            Javaファイルのエンコーディング
-     */
-    public void setJavaEncoding(String javaEncoding) {
-        this.javaEncoding = javaEncoding;
-    }
-
-    /**
-     * 生成されるJavaファイルと同名のファイルが存在する際に上書きする場合{@code true} を設定します。
-     * 
-     * @param overwrite
-     *            生成されるJavaファイルと同名のファイルが存在する際に上書きする場合{@code true}、しない場合{@code
-     *            false}
-     */
-    public void setOverwrite(boolean overwrite) {
-        this.overwrite = overwrite;
-    }
-
-    /**
-     * エンティティクラスでアクセッサーを使用する場合 {@code true} を設定します。
-     * 
-     * @param useAccessor
-     *            エンティティクラスでアクセッサーを使用する場合 {@code true}
-     */
-    public void setUseAccessor(boolean useAccessor) {
-        this.useAccessor = useAccessor;
-    }
-
-    /**
-     * Daoインタフェースのパッケージ名を設定します。
-     * 
-     * @param daoPackageName
-     *            Daoインタフェースのパッケージ名
-     */
-    public void setDaoPackageName(String daoPackageName) {
-        this.daoPackageName = daoPackageName;
-    }
-
-    /**
-     * Daoインタフェースのサフィックスを設定します。
-     * 
-     * @param daoSuffix
-     *            Daoインタフェースのサフィックス
-     */
-    public void setDaoSuffix(String daoSuffix) {
-        this.daoSuffix = daoSuffix;
-    }
-
-    /**
-     * エンティティのJavaコードを生成する場合 {@code true}を設定します。
-     * 
-     * @param genEntity
-     *            エンティティのJavaコードを生成する場合 {@code true}
-     */
-    public void setGenEntity(boolean genEntity) {
-        this.genEntity = genEntity;
-    }
-
-    /**
-     * DaoのJavaコードを生成する場合 {@code true} を設定します。
-     * 
-     * @param genDao
-     *            DaoのJavaコードを生成する場合 {@code true}
-     */
-    public void setGenDao(boolean genDao) {
-        this.genDao = genDao;
-    }
-
-    /**
-     * SQLを生成する場合 {@code true} を設定します。
-     * 
-     * @param genSql
-     *            SQLを生成する場合 {@code true}
-     */
-    public void setGenSql(boolean genSql) {
-        this.genSql = genSql;
-    }
-
-    /**
-     * 設定クラス名を設定します。
-     * 
-     * @param configClassName
-     *            設定クラス名
-     */
-    public void setConfigClassName(String configClassName) {
-        this.configClassName = configClassName;
-    }
-
-    /**
-     * エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイルを設定します。
-     * 
-     * @param entityPropertyClassNamesFile
-     *            エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル
-     */
-    public void setEntityPropertyClassNamesFile(
-            File entityPropertyClassNamesFile) {
-        this.entityPropertyClassNamesFile = entityPropertyClassNamesFile;
-    }
-
-    /**
-     * 生成されるSQLファイルの出力先ディレクトリを設定します。
-     * 
-     * @return 生成されるSQLファイルの出力先ディレクトリ
-     */
-    public void setSqlDestDir(File sqlDestDir) {
-        this.sqlDestDir = sqlDestDir;
     }
 
     @Override
@@ -554,19 +242,49 @@ public class Gen extends AbstractTask {
         if (password == null) {
             throw new GenException(Message.DOMAGEN0007, "password");
         }
-        if (configClassName == null) {
-            throw new GenException(Message.DOMAGEN0007, "configClassName");
-        }
+    }
+
+    public Object createEntity() {
+        entity = new Entity();
+        return entity;
+    }
+
+    public Object createDao() {
+        dao = new Dao();
+        return dao;
+    }
+
+    public Object createSql() {
+        sql = new Sql();
+        return sql;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
+    }
+
+    public Dao getDao() {
+        return dao;
+    }
+
+    public void setDao(Dao dao) {
+        this.dao = dao;
+    }
+
+    public Sql getSql() {
+        return sql;
+    }
+
+    public void setSql(Sql sql) {
+        this.sql = sql;
     }
 
     @Override
     protected void doPrepare() {
-        if (javaDestDir == null) {
-            javaDestDir = new File(getProject().getBaseDir(), "src");
-        }
-        if (sqlDestDir == null) {
-            sqlDestDir = new File(getProject().getBaseDir(), "src");
-        }
         if (dialectClassName != null) {
             dialect = newInstance(Dialect.class, dialectClassName, "dialectClassName");
         } else {
@@ -582,15 +300,24 @@ public class Gen extends AbstractTask {
         tableMetaReader = globalFactory
                 .createTableMetaReader(dialect, dataSource, schemaName, tableNamePattern, ignoredTableNamePattern);
         entityPropertyClassNameResolver = globalFactory
-                .createEntityPropertyClassNameResolver(entityPropertyClassNamesFile);
+                .createEntityPropertyClassNameResolver(entity
+                        .getEntityPropertyClassNamesFile());
         entityPropertyDescFactory = globalFactory
-                .createEntityPropertyDescFactory(dialect, entityPropertyClassNameResolver, versionColumnNamePattern, generationType == null ? null
-                        : generationType.convertToEnum(), initialValue, allocationSize, showColumnName);
+                .createEntityPropertyDescFactory(dialect, entityPropertyClassNameResolver, versionColumnNamePattern, entity
+                        .getGenerationType() == null ? null : entity
+                        .getGenerationType().convertToEnum(), entity
+                        .getInitialValue(), entity.getAllocationSize(), entity
+                        .isShowColumnName());
         entityDescFactory = globalFactory
-                .createEntityDescFactory(entityPackageName, entitySuperclassName, entityListenerClassName, entityPropertyDescFactory, namingType == null ? NamingType.NONE
-                        : namingType.convertToEnum(), showCatalogName, showSchemaName, showTableName, showDbComment, useAccessor);
-        daoDescFactory = globalFactory
-                .createDaoDescFactory(daoPackageName, daoSuffix, configClassName);
+                .createEntityDescFactory(entity.getPackageName(), entity
+                        .getSuperclassName(), entity.getListenerClassName(), entityPropertyDescFactory, entity
+                        .getNamingType() == null ? NamingType.NONE : entity
+                        .getNamingType().convertToEnum(), entity
+                        .isShowCatalogName(), entity.isShowSchemaName(), entity
+                        .isShowTableName(), entity.isShowDbComment(), entity
+                        .isUseAccessor());
+        daoDescFactory = globalFactory.createDaoDescFactory(dao
+                .getPackageName(), dao.getSuffix(), dao.getConfigClassName());
         sqlDescFactory = globalFactory.createSqlDescFactory();
         generator = globalFactory
                 .createGenerator(templateEncoding, templatePrimaryDir);
@@ -605,14 +332,14 @@ public class Gen extends AbstractTask {
         for (TableMeta tableMeta : tableMetas) {
             EntityDesc entityDesc = entityDescFactory
                     .createEntityDesc(tableMeta);
-            if (genEntity) {
+            if (entity.isGenerate()) {
                 generateEntity(entityDesc);
             }
             DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
-            if (genDao) {
+            if (dao.isGenerate()) {
                 generateDao(daoDesc);
             }
-            if (genSql) {
+            if (sql.isGenerate()) {
                 for (SqlDesc sqlDesc : sqlDescFactory
                         .createSqlDescs(entityDesc)) {
                     generateSql(daoDesc, sqlDesc);
@@ -628,10 +355,11 @@ public class Gen extends AbstractTask {
      *            エンティティ記述
      */
     protected void generateEntity(EntityDesc entityDesc) {
-        File javaFile = FileUtil.createJavaFile(javaDestDir, entityDesc
+        File javaFile = FileUtil.createJavaFile(entity.getDestDir(), entityDesc
                 .getQualifiedName());
         GenerationContext context = new GenerationContext(entityDesc, javaFile,
-                entityDesc.getTemplateName(), javaEncoding, overwrite);
+                entityDesc.getTemplateName(), entity.getEncoding(), entity
+                        .isOverwrite());
         generator.generate(context);
     }
 
@@ -642,10 +370,10 @@ public class Gen extends AbstractTask {
      *            Dao記述
      */
     protected void generateDao(DaoDesc daoDesc) {
-        File javaFile = FileUtil.createJavaFile(javaDestDir, daoDesc
+        File javaFile = FileUtil.createJavaFile(dao.getDestDir(), daoDesc
                 .getQualifiedName());
         GenerationContext context = new GenerationContext(daoDesc, javaFile,
-                daoDesc.getTemplateName(), javaEncoding, overwrite);
+                daoDesc.getTemplateName(), dao.getEncoding(), dao.isOverwrite());
         generator.generate(context);
     }
 
@@ -658,10 +386,10 @@ public class Gen extends AbstractTask {
      *            SQL記述
      */
     protected void generateSql(DaoDesc daoDesc, SqlDesc sqlDesc) {
-        File sqlFile = FileUtil.createSqlDir(sqlDestDir, daoDesc
+        File sqlFile = FileUtil.createSqlDir(sql.getDestDir(), daoDesc
                 .getQualifiedName(), sqlDesc.getFileName());
         GenerationContext context = new GenerationContext(sqlDesc, sqlFile,
-                sqlDesc.getTemplateName(), "UTF-8", overwrite);
+                sqlDesc.getTemplateName(), "UTF-8", sql.isOverwrite());
         generator.generate(context);
     }
 

@@ -22,20 +22,30 @@
 	</path>
 
 	<taskdef name="gen" classname="org.seasar.doma.extension.gen.it.ItGen" classpathref="classpath" />
+	<typedef name="gen-entity" classname="org.seasar.doma.extension.gen.task.Entity" classpathref="classpath" />
+	<typedef name="gen-dao" classname="org.seasar.doma.extension.gen.task.Dao" classpathref="classpath" />
+	<typedef name="gen-sql" classname="org.seasar.doma.extension.gen.task.Sql" classpathref="classpath" />
 	
 	<target name="gen" depends="clean">
 		<gen
-			javaDestDir="${src}"
-			sqlDestDir="${src}"
 			dialectName="${dialectName}"
 			driverClassName="${driverClassName}"
 			url="${url}"
 			user="${user}"
 			password="${password}"
-			templatePrimaryDir="template"
-			entityPropertyClassNamesFile="entityPropertyClassNames.properties"
-			configClassName="org.seasar.doma.jdbc.ConfigProxy"
-		/>
+			templatePrimaryDir="template">
+			<gen-entity
+				destDir="${src}"
+				entityPropertyClassNamesFile="entityPropertyClassNames.properties"
+			/>
+			<gen-dao
+				destDir="${src}"
+				configClassName="org.seasar.doma.jdbc.ConfigProxy"
+			/>
+			<gen-sql
+				destDir="${src}"
+			/>
+		</gen>
 		<copy todir="${build}">
 			<fileset dir="${src}">
 				<include name="META-INF/**" />
