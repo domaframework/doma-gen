@@ -60,6 +60,9 @@ public class NamingTypeAttribute extends EnumeratedAttribute {
         if (NamingType.SNAKE_UPPER_CASE.name().equalsIgnoreCase(value)) {
             return NamingType.SNAKE_UPPER_CASE;
         }
-        return null;
+        if (NamingType.NONE.name().equalsIgnoreCase(value)) {
+            return NamingType.NONE;
+        }
+        throw new AssertionError("unreachable.");
     }
 }

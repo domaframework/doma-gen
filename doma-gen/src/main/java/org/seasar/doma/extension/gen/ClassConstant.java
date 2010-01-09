@@ -54,6 +54,8 @@ public enum ClassConstant {
     /** */
     NamingType("org.seasar.doma", "NamingType"),
     /** */
+    OriginalStates("org.seasar.doma", "OriginalStates"),
+    /** */
     bytes("", "byte[]"), ;
 
     private final String packageName;

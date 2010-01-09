@@ -69,6 +69,8 @@ public class Entity extends DataType {
     /** エンティティクラスでアクセッサーを使用する場合 {@code true} */
     protected boolean useAccessor = true;
 
+    protected String originalStatesPropertyName = null;
+
     /** エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル */
     protected File entityPropertyClassNamesFile = null;
 
@@ -224,6 +226,14 @@ public class Entity extends DataType {
 
     public void setEncoding(String encoding) {
         this.encoding = encoding;
+    }
+
+    public String getOriginalStatesPropertyName() {
+        return originalStatesPropertyName;
+    }
+
+    public void setOriginalStatesPropertyName(String originalStatesPropertyName) {
+        this.originalStatesPropertyName = originalStatesPropertyName;
     }
 
 }

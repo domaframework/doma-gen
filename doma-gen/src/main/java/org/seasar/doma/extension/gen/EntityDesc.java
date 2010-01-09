@@ -46,6 +46,9 @@ public class EntityDesc extends ClassDesc {
     /** ネーミング規約 */
     protected NamingType namingType;
 
+    /** 元のステートを表すプロパティの名前 */
+    protected String originalStatesPropertyName;
+
     /** 複合識別子を持つ場合 {@code true} */
     protected boolean compositeId;
 
@@ -207,6 +210,25 @@ public class EntityDesc extends ClassDesc {
      */
     public void setNamingType(NamingType namingType) {
         this.namingType = namingType;
+    }
+
+    /**
+     * 元のステートを表すプロパティの名前を返します。
+     * 
+     * @return t元のステートを表すプロパティの名前
+     */
+    public String getOriginalStatesPropertyName() {
+        return originalStatesPropertyName;
+    }
+
+    /**
+     * 元のステートを表すプロパティの名前を設定します。
+     * 
+     * @param originalStatesPropertyName
+     *            元のステートを表すプロパティの名前
+     */
+    public void setOriginalStatesPropertyName(String originalStatesPropertyName) {
+        this.originalStatesPropertyName = originalStatesPropertyName;
     }
 
     /**

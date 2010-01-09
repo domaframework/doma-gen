@@ -34,6 +34,9 @@ public class EntityDescFactory {
     /** ネーミング規約 */
     protected final NamingType namingType;
 
+    /** 元のステートを表すプロパティの名前 */
+    protected String originalStatesPropertyName;
+
     /** カタログ名を表示する場合 {@code true} */
     protected final boolean showCatalogName;
 
@@ -83,9 +86,9 @@ public class EntityDescFactory {
     public EntityDescFactory(String packageName, String superclassName,
             String listenerClassName,
             EntityPropertyDescFactory entityPropertyDescFactory,
-            NamingType namingType, boolean showCatalogName,
-            boolean showSchemaName, boolean showTableName,
-            boolean showDbComment, boolean useAccessor) {
+            NamingType namingType, String originalStatesPropertyName,
+            boolean showCatalogName, boolean showSchemaName,
+            boolean showTableName, boolean showDbComment, boolean useAccessor) {
         if (packageName == null) {
             throw new GenNullPointerException("packageName");
         }
@@ -100,6 +103,7 @@ public class EntityDescFactory {
         this.listenerClassName = listenerClassName;
         this.entityPropertyDescFactory = entityPropertyDescFactory;
         this.namingType = namingType;
+        this.originalStatesPropertyName = originalStatesPropertyName;
         this.showCatalogName = showCatalogName;
         this.showSchemaName = showSchemaName;
         this.showTableName = showTableName;
@@ -117,6 +121,7 @@ public class EntityDescFactory {
     public EntityDesc createEntityDesc(TableMeta tableMeta) {
         EntityDesc entityDesc = new EntityDesc();
         entityDesc.setNamingType(namingType);
+        entityDesc.setOriginalStatesPropertyName(originalStatesPropertyName);
         entityDesc.setCatalogName(tableMeta.getCatalogName());
         entityDesc.setSchemaName(tableMeta.getSchemaName());
         entityDesc.setTableName(tableMeta.getName());
@@ -225,6 +230,10 @@ public class EntityDescFactory {
         if (namingType != NamingType.NONE) {
             classDescSupport.addImportName(entityDesc, namingType
                     .getEnumConstant());
+        }
+        if (originalStatesPropertyName != null) {
+            classDescSupport
+                    .addImportName(entityDesc, ClassConstant.OriginalStates);
         }
         for (EntityPropertyDesc propertyDesc : entityDesc
                 .getEntityPropertyDescs()) {

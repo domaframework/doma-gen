@@ -131,13 +131,13 @@ public class GlobalFactory {
     public EntityDescFactory createEntityDescFactory(String entityPackageName,
             String entitySuperclassName, String entityListenerClassName,
             EntityPropertyDescFactory entityPropertyDescFactory,
-            NamingType namingType, boolean showCatalogName,
-            boolean showSchemaName, boolean showTableName,
-            boolean showDbComment, boolean useAccessor) {
+            NamingType namingType, String originalStatesPropertyName,
+            boolean showCatalogName, boolean showSchemaName,
+            boolean showTableName, boolean showDbComment, boolean useAccessor) {
         return new EntityDescFactory(entityPackageName, entitySuperclassName,
                 entityListenerClassName, entityPropertyDescFactory, namingType,
-                showCatalogName, showSchemaName, showTableName, showDbComment,
-                useAccessor);
+                originalStatesPropertyName, showCatalogName, showSchemaName,
+                showTableName, showDbComment, useAccessor);
     }
 
     /**

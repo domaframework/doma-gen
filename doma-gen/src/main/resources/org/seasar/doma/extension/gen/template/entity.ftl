@@ -27,6 +27,8 @@ public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpl
 
   <#if showDbComment && property.comment??>
     /** ${property.comment} */
+  <#else>
+    /** */
   </#if>
   <#if property.id>
     @Id
@@ -45,6 +47,12 @@ public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpl
     @Column(<#if property.showColumnName && property.columnName??>name = "${property.columnName}"</#if>)
     <#if !useAccessor>public </#if>${property.propertyClassSimpleName} ${property.name};
 </#list>
+<#if originalStatesPropertyName??>
+
+    /** */
+    @OriginalStates
+    ${simpleName} ${originalStatesPropertyName};
+</#if>
 <#if useAccessor>
   <#list entityPropertyDescs as property>
 

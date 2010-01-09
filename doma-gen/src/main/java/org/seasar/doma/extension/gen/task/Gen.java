@@ -313,6 +313,7 @@ public class Gen extends AbstractTask {
                         .getSuperclassName(), entity.getListenerClassName(), entityPropertyDescFactory, entity
                         .getNamingType() == null ? NamingType.NONE : entity
                         .getNamingType().convertToEnum(), entity
+                        .getOriginalStatesPropertyName(), entity
                         .isShowCatalogName(), entity.isShowSchemaName(), entity
                         .isShowTableName(), entity.isShowDbComment(), entity
                         .isUseAccessor());
