@@ -20,21 +20,27 @@ import java.io.File;
 import org.apache.tools.ant.types.DataType;
 
 /**
+ * エンティティの設定です。
+ * 
  * @author taedium
  * 
  */
-public class Entity extends DataType {
+public class EntityConfig extends DataType {
 
+    /** 生成する場合{@code true} */
     protected boolean generate = true;
 
-    /** 生成されるJavaファイルと同名のファイルが存在する際に上書きする場合{@code true}、しない場合{@code false} */
+    /** 同名のエンティティクラスのJavaファイルを上書きする場合{@code true}、しない場合{@code false} */
     protected boolean overwrite = true;
 
-    /** このタスクで対象とするエンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null} **/
+    /** 同名のエンティティリスナークラスのJavaファイルを上書きする場合{@code true}、しない場合{@code false} */
+    protected boolean overwriteListener = false;
+
+    /** エンティティクラスに共通のスーパークラスの名前、指定しない場合は {@code null} **/
     protected String superclassName = null;
 
-    /** このタスクで対象とするエンティティクラスに共通のエンティティリスナーの名前、指定しない場合は {@code null} **/
-    protected String listenerClassName = null;
+    /** エンティティリスナーに共通のスーパークラスの名前、指定しない場合は {@code null} **/
+    protected String listenerSuperclassName = null;
 
     /** エンティティクラスのパッケージ名 */
     protected String packageName = "example.entity";
@@ -69,6 +75,9 @@ public class Entity extends DataType {
     /** エンティティクラスでアクセッサーを使用する場合 {@code true} */
     protected boolean useAccessor = true;
 
+    /** エンティティリスナーを使用する場合 {@code true} */
+    protected boolean useListener = true;
+
     protected String originalStatesPropertyName = null;
 
     /** エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル */
@@ -96,6 +105,14 @@ public class Entity extends DataType {
         this.overwrite = overwrite;
     }
 
+    public boolean isOverwriteListener() {
+        return overwriteListener;
+    }
+
+    public void setOverwriteListener(boolean overwriteListener) {
+        this.overwriteListener = overwriteListener;
+    }
+
     public String getSuperclassName() {
         return superclassName;
     }
@@ -104,12 +121,12 @@ public class Entity extends DataType {
         this.superclassName = superclassName;
     }
 
-    public String getListenerClassName() {
-        return listenerClassName;
+    public String getListenerSuperclassName() {
+        return listenerSuperclassName;
     }
 
-    public void setListenerClassName(String listenerClassName) {
-        this.listenerClassName = listenerClassName;
+    public void setListenerSuperclassName(String listenerSuperclassName) {
+        this.listenerSuperclassName = listenerSuperclassName;
     }
 
     public String getPackageName() {
@@ -198,6 +215,14 @@ public class Entity extends DataType {
 
     public void setUseAccessor(boolean useAccessor) {
         this.useAccessor = useAccessor;
+    }
+
+    public boolean isUseListener() {
+        return useListener;
+    }
+
+    public void setUseListener(boolean useListener) {
+        this.useListener = useListener;
     }
 
     public File getEntityPropertyClassNamesFile() {

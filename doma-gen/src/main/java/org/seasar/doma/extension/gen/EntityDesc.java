@@ -64,6 +64,9 @@ public class EntityDesc extends ClassDesc {
     /** アクセッサーを使用する場合 {@code true} */
     protected boolean useAccessor;
 
+    /** エンティティリスナーを使用する場合 {@code true} */
+    protected boolean useListener;
+
     /** データベースのコメントを表示する場合 {@code true} */
     protected boolean showDbComment;
 
@@ -324,6 +327,25 @@ public class EntityDesc extends ClassDesc {
      */
     public void setUseAccessor(boolean useAccessor) {
         this.useAccessor = useAccessor;
+    }
+
+    /**
+     * エンティティリスナーを使用する場合 {@code true}を返します。
+     * 
+     * @return エンティティリスナーを使用する場合 {@code true}
+     */
+    public boolean isUseListener() {
+        return useListener;
+    }
+
+    /**
+     * エンティティリスナーを使用する場合 {@code true}を返します。
+     * 
+     * @param useListener
+     *            エンティティリスナーを使用する場合 {@code true}
+     */
+    public void setUseListener(boolean useListener) {
+        this.useListener = useListener;
     }
 
     /**

@@ -70,10 +70,10 @@ public class SqlDescFactory {
         List<SqlDesc> results = new ArrayList<SqlDesc>();
         if (entityDesc.getIdEntityPropertyDescs().size() > 0) {
             results
-                    .add(createSqlDesc(entityDesc, selectByIdFileName, "selectById.sql.ftl"));
+                    .add(createSqlDesc(entityDesc, selectByIdFileName, Constants.SELECT_BY_ID_SQL_TEMPLATE));
             if (entityDesc.getVersionEntityPropertyDesc() != null) {
                 results
-                        .add(createSqlDesc(entityDesc, selectByIdAndVersionFileName, "selectByIdAndVersion.sql.ftl"));
+                        .add(createSqlDesc(entityDesc, selectByIdAndVersionFileName, Constants.SELECT_BY_ID_AND_VERSION_SQL_TEMPLATE));
             }
         }
         return results;

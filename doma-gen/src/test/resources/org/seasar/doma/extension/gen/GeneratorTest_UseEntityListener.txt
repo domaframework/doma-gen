@@ -1,6 +1,5 @@
 package example.entity;
 
-import entity.listener.CommonListener;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
@@ -9,7 +8,7 @@ import org.seasar.doma.Table;
 /**
  * COMMENT for HOGE
  */
-@Entity(listener = CommonListener.class)
+@Entity(listener = HogeListener.class)
 @Table(name = "HOGE")
 public class Hoge {
 

@@ -52,8 +52,8 @@ public class EntityDescFactory {
     /** アクセッサーを使用する場合 {@code true} */
     protected final boolean useAccessor;
 
-    /** リスナークラス名 */
-    protected final String listenerClassName;
+    /** エンティティリスナーを使用する場合 {@code true} */
+    protected final boolean useListener;
 
     /** スーパークラス名 */
     protected final String superclassName;
@@ -68,8 +68,6 @@ public class EntityDescFactory {
      *            パッケージ名
      * @param superclassName
      *            スーパークラス名
-     * @param listenerClassName
-     *            リスナークラス名
      * @param entityPropertyDescFactory
      *            エンティティプロパティ記述のファクトリ
      * @param namingType
@@ -82,16 +80,15 @@ public class EntityDescFactory {
      *            テーブル名を表示する場合 {@code true}
      * @param useAccessor
      *            アクセッサーを使用する場合 {@code true}
+     * @param useListener
+     *            エンティティリスナーを使用する場合 {@code true}
      */
     public EntityDescFactory(String packageName, String superclassName,
-            String listenerClassName,
             EntityPropertyDescFactory entityPropertyDescFactory,
             NamingType namingType, String originalStatesPropertyName,
             boolean showCatalogName, boolean showSchemaName,
-            boolean showTableName, boolean showDbComment, boolean useAccessor) {
-        if (packageName == null) {
-            throw new GenNullPointerException("packageName");
-        }
+            boolean showTableName, boolean showDbComment, boolean useAccessor,
+            boolean useListener) {
         if (entityPropertyDescFactory == null) {
             throw new GenNullPointerException("entityPropertyDescFactory");
         }
@@ -100,7 +97,6 @@ public class EntityDescFactory {
         }
         this.packageName = packageName;
         this.superclassName = superclassName;
-        this.listenerClassName = listenerClassName;
         this.entityPropertyDescFactory = entityPropertyDescFactory;
         this.namingType = namingType;
         this.originalStatesPropertyName = originalStatesPropertyName;
@@ -109,6 +105,7 @@ public class EntityDescFactory {
         this.showTableName = showTableName;
         this.showDbComment = showDbComment;
         this.useAccessor = useAccessor;
+        this.useListener = useListener;
     }
 
     /**
@@ -132,17 +129,17 @@ public class EntityDescFactory {
             entityDesc.setSuperclassSimpleName(ClassUtil
                     .getSimpleName(superclassName));
         }
-        if (listenerClassName != null) {
-            entityDesc.setListenerClassSimpleName(ClassUtil
-                    .getSimpleName(listenerClassName));
-        }
+        entityDesc.setListenerClassSimpleName(ClassUtil
+                .getSimpleName(entityDesc.getSimpleName()
+                        + Constants.ENTITY_LISTENER_SUFFIX));
         entityDesc.setCompositeId(tableMeta.hasCompositePrimaryKey());
         entityDesc.setComment(tableMeta.comment);
         entityDesc.setShowCatalogName(showCatalogName);
         entityDesc.setShowSchemaName(showSchemaName);
         entityDesc.setShowDbComment(true);
         entityDesc.setUseAccessor(useAccessor);
-        entityDesc.setTemplateName("entity.ftl");
+        entityDesc.setUseListener(useListener);
+        entityDesc.setTemplateName(Constants.ENTITY_TEMPLATE);
         handleShowTableName(entityDesc, tableMeta);
         handleEntityPropertyDesc(entityDesc, tableMeta);
         handleImportName(entityDesc, tableMeta);
@@ -223,9 +220,6 @@ public class EntityDescFactory {
         }
         if (superclassName != null) {
             classDescSupport.addImportName(entityDesc, superclassName);
-        }
-        if (listenerClassName != null) {
-            classDescSupport.addImportName(entityDesc, listenerClassName);
         }
         if (namingType != NamingType.NONE) {
             classDescSupport.addImportName(entityDesc, namingType

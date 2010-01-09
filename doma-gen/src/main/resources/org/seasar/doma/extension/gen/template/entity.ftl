@@ -18,7 +18,7 @@ import ${importName};
  * @author ${lib.author}
 </#if>
  */
-@Entity<#if listenerClassSimpleName?? || namingType != "NONE">(</#if><#if listenerClassSimpleName??>listener = ${listenerClassSimpleName}.class</#if><#if namingType != "NONE"><#if listenerClassSimpleName??>, </#if>naming = ${namingType.referenceName}</#if><#if listenerClassSimpleName?? || namingType != "NONE">)</#if>
+@Entity<#if useListener || namingType != "NONE">(</#if><#if useListener>listener = ${listenerClassSimpleName}.class</#if><#if namingType != "NONE"><#if useListener>, </#if>naming = ${namingType.referenceName}</#if><#if useListener || namingType != "NONE">)</#if>
 <#if showCatalogName && catalogName?? || showSchemaName && schemaName?? || showTableName && tableName??>
 @Table(<#if showCatalogName && catalogName??>catalog = "${catalogName}"</#if><#if showSchemaName && schemaName??><#if showCatalogName && catalogName??>, </#if>schema = "${schemaName}"</#if><#if showTableName><#if showCatalogName && catalogName?? || showSchemaName && schemaName??>, </#if>name = "${tableName}"</#if>)
 </#if>

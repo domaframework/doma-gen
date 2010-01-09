@@ -10,6 +10,8 @@ import org.seasar.doma.extension.gen.DaoDesc;
 import org.seasar.doma.extension.gen.DaoDescFactory;
 import org.seasar.doma.extension.gen.EntityDesc;
 import org.seasar.doma.extension.gen.EntityDescFactory;
+import org.seasar.doma.extension.gen.EntityListenerDesc;
+import org.seasar.doma.extension.gen.EntityListenerDescFactory;
 import org.seasar.doma.extension.gen.EntityPropertyClassNameResolver;
 import org.seasar.doma.extension.gen.EntityPropertyDescFactory;
 import org.seasar.doma.extension.gen.GenException;
@@ -86,6 +88,8 @@ public class Gen extends AbstractTask {
     /** エンティティ記述のファクトリ */
     protected EntityDescFactory entityDescFactory;
 
+    protected EntityListenerDescFactory entityListenerDescFactory;
+
     /** エンティティプロパティ記述のファクトリ */
     protected EntityPropertyDescFactory entityPropertyDescFactory;
 
@@ -98,11 +102,14 @@ public class Gen extends AbstractTask {
     /** ジェネレータ */
     protected Generator generator;
 
-    protected Entity entity;
+    /** エンティティの設定 */
+    protected EntityConfig entityConfig;
 
-    protected Dao dao;
+    /** Daoの設定 */
+    protected DaoConfig daoConfig;
 
-    protected Sql sql;
+    /** SQLの設定 */
+    protected SqlConfig sqlConfig;
 
     /**
      * JDBC接続ユーザーを設定します。
@@ -224,6 +231,36 @@ public class Gen extends AbstractTask {
         this.templatePrimaryDir = templatePrimaryDir;
     }
 
+    /**
+     * エンティティの設定を作成します。
+     * 
+     * @return エンティティの設定
+     */
+    public EntityConfig createEntityConfig() {
+        entityConfig = new EntityConfig();
+        return entityConfig;
+    }
+
+    /**
+     * Daoの設定を作成します。
+     * 
+     * @return Daoの設定
+     */
+    public DaoConfig createDaoConfig() {
+        daoConfig = new DaoConfig();
+        return daoConfig;
+    }
+
+    /**
+     * SQLの設定を作成します。
+     * 
+     * @return SQLの設定
+     */
+    public SqlConfig createSqlConfig() {
+        sqlConfig = new SqlConfig();
+        return sqlConfig;
+    }
+
     @Override
     protected void doValidate() {
         if (dialectName == null && dialectClassName == null) {
@@ -242,45 +279,18 @@ public class Gen extends AbstractTask {
         if (password == null) {
             throw new GenException(Message.DOMAGEN0007, "password");
         }
-    }
-
-    public Object createEntity() {
-        entity = new Entity();
-        return entity;
-    }
-
-    public Object createDao() {
-        dao = new Dao();
-        return dao;
-    }
-
-    public Object createSql() {
-        sql = new Sql();
-        return sql;
-    }
-
-    public Entity getEntity() {
-        return entity;
-    }
-
-    public void setEntity(Entity entity) {
-        this.entity = entity;
-    }
-
-    public Dao getDao() {
-        return dao;
-    }
-
-    public void setDao(Dao dao) {
-        this.dao = dao;
-    }
-
-    public Sql getSql() {
-        return sql;
-    }
-
-    public void setSql(Sql sql) {
-        this.sql = sql;
+        if (entityConfig == null) {
+            entityConfig = new EntityConfig();
+            entityConfig.setGenerate(false);
+        }
+        if (daoConfig == null) {
+            daoConfig = new DaoConfig();
+            daoConfig.setGenerate(false);
+        }
+        if (sqlConfig == null) {
+            sqlConfig = new SqlConfig();
+            sqlConfig.setGenerate(false);
+        }
     }
 
     @Override
@@ -294,33 +304,115 @@ public class Gen extends AbstractTask {
         Logger.info(Message.DOMAGEN0017
                 .getMessage(dialect.getClass().getName()));
 
+        dataSource = createDataSource();
+        tableMetaReader = createTableMetaReader();
+        entityPropertyClassNameResolver = createEntityPropertyClassNameResolver();
+        entityPropertyDescFactory = createEntityPropertyDescFactory();
+        entityDescFactory = createEntityDescFactory();
+        entityListenerDescFactory = createEntityListenerDescFactory();
+        daoDescFactory = createDaoDescFactory();
+        sqlDescFactory = createSqlDescFactory();
+        generator = createGenerator();
+    }
+
+    /**
+     * データソースを作成します。
+     * 
+     * @return データソース
+     */
+    protected DataSource createDataSource() {
         Driver driver = newInstance(Driver.class, driverClassName, "driverClassName");
-        dataSource = globalFactory
-                .createDataSource(driver, user, password, url);
-        tableMetaReader = globalFactory
+        return globalFactory.createDataSource(driver, user, password, url);
+    }
+
+    /**
+     * テーブルメタデータを作成します。
+     * 
+     * @return テーブルメタデータ
+     */
+    protected TableMetaReader createTableMetaReader() {
+        return globalFactory
                 .createTableMetaReader(dialect, dataSource, schemaName, tableNamePattern, ignoredTableNamePattern);
-        entityPropertyClassNameResolver = globalFactory
-                .createEntityPropertyClassNameResolver(entity
-                        .getEntityPropertyClassNamesFile());
-        entityPropertyDescFactory = globalFactory
-                .createEntityPropertyDescFactory(dialect, entityPropertyClassNameResolver, versionColumnNamePattern, entity
-                        .getGenerationType() == null ? null : entity
-                        .getGenerationType().convertToEnum(), entity
-                        .getInitialValue(), entity.getAllocationSize(), entity
+    }
+
+    /**
+     * エンティティプロパティのクラス名リゾルバを作成します。
+     * 
+     * @return エンティティプロパティのクラス名リゾルバ
+     */
+    protected EntityPropertyClassNameResolver createEntityPropertyClassNameResolver() {
+        return globalFactory.createEntityPropertyClassNameResolver(entityConfig
+                .getEntityPropertyClassNamesFile());
+    }
+
+    /**
+     * グローバルファクトリを作成します。
+     * 
+     * @return グローバルファクトリ
+     */
+    protected EntityPropertyDescFactory createEntityPropertyDescFactory() {
+        return globalFactory
+                .createEntityPropertyDescFactory(dialect, entityPropertyClassNameResolver, versionColumnNamePattern, entityConfig
+                        .getGenerationType() == null ? null : entityConfig
+                        .getGenerationType().convertToEnum(), entityConfig
+                        .getInitialValue(), entityConfig.getAllocationSize(), entityConfig
                         .isShowColumnName());
-        entityDescFactory = globalFactory
-                .createEntityDescFactory(entity.getPackageName(), entity
-                        .getSuperclassName(), entity.getListenerClassName(), entityPropertyDescFactory, entity
-                        .getNamingType() == null ? NamingType.NONE : entity
-                        .getNamingType().convertToEnum(), entity
-                        .getOriginalStatesPropertyName(), entity
-                        .isShowCatalogName(), entity.isShowSchemaName(), entity
-                        .isShowTableName(), entity.isShowDbComment(), entity
-                        .isUseAccessor());
-        daoDescFactory = globalFactory.createDaoDescFactory(dao
-                .getPackageName(), dao.getSuffix(), dao.getConfigClassName());
-        sqlDescFactory = globalFactory.createSqlDescFactory();
-        generator = globalFactory
+    }
+
+    /**
+     * エンティティ記述ファクトリを作成します。
+     * 
+     * @return エンティティ記述ファクトリ
+     */
+    protected EntityDescFactory createEntityDescFactory() {
+        return globalFactory
+                .createEntityDescFactory(entityConfig.getPackageName(), entityConfig
+                        .getSuperclassName(), entityPropertyDescFactory, entityConfig
+                        .getNamingType() == null ? NamingType.NONE
+                        : entityConfig.getNamingType().convertToEnum(), entityConfig
+                        .getOriginalStatesPropertyName(), entityConfig
+                        .isShowCatalogName(), entityConfig.isShowSchemaName(), entityConfig
+                        .isShowTableName(), entityConfig.isShowDbComment(), entityConfig
+                        .isUseAccessor(), entityConfig.isUseListener());
+    }
+
+    /**
+     * エンティティリスナー記述ファクトリを作成します。
+     * 
+     * @return エンティティリスナー記述ファクトリ
+     */
+    protected EntityListenerDescFactory createEntityListenerDescFactory() {
+        return globalFactory.createEntityListenerDescFactory(entityConfig
+                .getPackageName(), entityConfig.getListenerSuperclassName());
+    }
+
+    /**
+     * Dao記述ファクトリを作成します。
+     * 
+     * @return Dao記述ファクトリ
+     */
+    protected DaoDescFactory createDaoDescFactory() {
+        return globalFactory
+                .createDaoDescFactory(daoConfig.getPackageName(), daoConfig
+                        .getSuffix(), daoConfig.getConfigClassName());
+    }
+
+    /**
+     * SQL記述ファクトリを作成します。
+     * 
+     * @return SQL記述ファクトリ
+     */
+    protected SqlDescFactory createSqlDescFactory() {
+        return globalFactory.createSqlDescFactory();
+    }
+
+    /**
+     * ジェネレータを作成します。
+     * 
+     * @return ジェネレータ
+     */
+    protected Generator createGenerator() {
+        return globalFactory
                 .createGenerator(templateEncoding, templatePrimaryDir);
     }
 
@@ -333,14 +425,19 @@ public class Gen extends AbstractTask {
         for (TableMeta tableMeta : tableMetas) {
             EntityDesc entityDesc = entityDescFactory
                     .createEntityDesc(tableMeta);
-            if (entity.isGenerate()) {
+            if (entityConfig.isGenerate()) {
                 generateEntity(entityDesc);
+                if (entityConfig.isUseListener()) {
+                    EntityListenerDesc entityListenerDesc = entityListenerDescFactory
+                            .createEntityListenerDesc(entityDesc);
+                    generateEntityListener(entityListenerDesc);
+                }
             }
             DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
-            if (dao.isGenerate()) {
+            if (daoConfig.isGenerate()) {
                 generateDao(daoDesc);
             }
-            if (sql.isGenerate()) {
+            if (sqlConfig.isGenerate()) {
                 for (SqlDesc sqlDesc : sqlDescFactory
                         .createSqlDescs(entityDesc)) {
                     generateSql(daoDesc, sqlDesc);
@@ -356,11 +453,22 @@ public class Gen extends AbstractTask {
      *            エンティティ記述
      */
     protected void generateEntity(EntityDesc entityDesc) {
-        File javaFile = FileUtil.createJavaFile(entity.getDestDir(), entityDesc
-                .getQualifiedName());
+        File javaFile = FileUtil
+                .createJavaFile(entityConfig.getDestDir(), entityDesc
+                        .getQualifiedName());
         GenerationContext context = new GenerationContext(entityDesc, javaFile,
-                entityDesc.getTemplateName(), entity.getEncoding(), entity
-                        .isOverwrite());
+                entityDesc.getTemplateName(), entityConfig.getEncoding(),
+                entityConfig.isOverwrite());
+        generator.generate(context);
+    }
+
+    protected void generateEntityListener(EntityListenerDesc entityListenerDesc) {
+        File javaFile = FileUtil
+                .createJavaFile(entityConfig.getDestDir(), entityListenerDesc
+                        .getQualifiedName());
+        GenerationContext context = new GenerationContext(entityListenerDesc,
+                javaFile, entityListenerDesc.getTemplateName(), entityConfig
+                        .getEncoding(), entityConfig.isOverwriteListener());
         generator.generate(context);
     }
 
@@ -371,10 +479,11 @@ public class Gen extends AbstractTask {
      *            Dao記述
      */
     protected void generateDao(DaoDesc daoDesc) {
-        File javaFile = FileUtil.createJavaFile(dao.getDestDir(), daoDesc
+        File javaFile = FileUtil.createJavaFile(daoConfig.getDestDir(), daoDesc
                 .getQualifiedName());
         GenerationContext context = new GenerationContext(daoDesc, javaFile,
-                daoDesc.getTemplateName(), dao.getEncoding(), dao.isOverwrite());
+                daoDesc.getTemplateName(), daoConfig.getEncoding(), daoConfig
+                        .isOverwrite());
         generator.generate(context);
     }
 
@@ -387,10 +496,10 @@ public class Gen extends AbstractTask {
      *            SQL記述
      */
     protected void generateSql(DaoDesc daoDesc, SqlDesc sqlDesc) {
-        File sqlFile = FileUtil.createSqlDir(sql.getDestDir(), daoDesc
+        File sqlFile = FileUtil.createSqlDir(sqlConfig.getDestDir(), daoDesc
                 .getQualifiedName(), sqlDesc.getFileName());
         GenerationContext context = new GenerationContext(sqlDesc, sqlFile,
-                sqlDesc.getTemplateName(), "UTF-8", sql.isOverwrite());
+                sqlDesc.getTemplateName(), "UTF-8", sqlConfig.isOverwrite());
         generator.generate(context);
     }
 

@@ -48,9 +48,6 @@ public class DaoDescFactory {
      */
     public DaoDescFactory(String packageName, String suffix,
             String configClassName) {
-        if (packageName == null) {
-            throw new GenNullPointerException("packageName");
-        }
         if (suffix == null) {
             throw new GenNullPointerException("suffix");
         }
@@ -76,7 +73,7 @@ public class DaoDescFactory {
         daoDesc.setConfigClassSimpleName(ClassUtil
                 .getSimpleName(configClassName));
         daoDesc.setEntityDesc(entityDesc);
-        daoDesc.setTemplateName("dao.ftl");
+        daoDesc.setTemplateName(Constants.DAO_TEMPLATE);
         handleImportName(daoDesc, entityDesc);
         return daoDesc;
     }

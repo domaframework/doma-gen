@@ -1,0 +1,9 @@
+package example.entity;
+
+import aaa.HogeListener;
+
+/**
+ * 
+ */
+public class HogeListener extends HogeListener {
+}

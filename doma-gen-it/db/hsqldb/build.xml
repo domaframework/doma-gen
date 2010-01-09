@@ -21,11 +21,11 @@
 		<fileset dir="../../lib"/>
 	</path>
 
-	<taskdef name="gen" classname="org.seasar.doma.extension.gen.it.ItGen" classpathref="classpath" />
-	<typedef name="gen-entity" classname="org.seasar.doma.extension.gen.task.Entity" classpathref="classpath" />
-	<typedef name="gen-dao" classname="org.seasar.doma.extension.gen.task.Dao" classpathref="classpath" />
-	<typedef name="gen-sql" classname="org.seasar.doma.extension.gen.task.Sql" classpathref="classpath" />
-	
+	<taskdef name="gen" classname="org.seasar.doma.extension.gen.it.ItGen" classpathref="classpath" loaderref="genLoaderref" />
+	<typedef name="entityConfig" classname="org.seasar.doma.extension.gen.task.EntityConfig" loaderref="genLoaderref" />
+	<typedef name="daoConfig" classname="org.seasar.doma.extension.gen.task.DaoConfig" loaderref="genLoaderref" />
+	<typedef name="sqlConfig" classname="org.seasar.doma.extension.gen.task.SqlConfig" loaderref="genLoaderref" />
+
 	<target name="gen" depends="clean">
 		<gen
 			dialectName="${dialectName}"
@@ -34,15 +34,15 @@
 			user="${user}"
 			password="${password}"
 			templatePrimaryDir="template">
-			<gen-entity
+			<entityConfig
 				destDir="${src}"
 				entityPropertyClassNamesFile="entityPropertyClassNames.properties"
 			/>
-			<gen-dao
+			<daoConfig
 				destDir="${src}"
-				configClassName="org.seasar.doma.jdbc.ConfigProxy"
+				configClassname="org.seasar.doma.jdbc.ConfigProxy"
 			/>
-			<gen-sql
+			<sqlConfig
 				destDir="${src}"
 			/>
 		</gen>

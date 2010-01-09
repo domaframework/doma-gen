@@ -20,14 +20,17 @@ import java.io.File;
 import org.apache.tools.ant.types.DataType;
 
 /**
+ * SQLの設定です。
+ * 
  * @author taedium
  * 
  */
-public class Sql extends DataType {
+public class SqlConfig extends DataType {
 
-    /** SQLドを生成する場合 {@code true} */
+    /** SQLを生成する場合 {@code true} */
     protected boolean generate = true;
 
+    /** 同名のSQLファイルを上書きする場合 */
     protected boolean overwrite = true;
 
     /** 生成されるSQLファイルの出力先ディレクトリ */

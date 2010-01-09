@@ -106,12 +106,10 @@ public class GlobalFactory {
     /**
      * エンティティ記述のファクトリを作成します。
      * 
-     * @param entityPackageName
+     * @param packageName
      *            パッケージ名
-     * @param entitySuperclassName
+     * @param superclassName
      *            スーパークラス名
-     * @param entityListenerClassName
-     *            リスナークラス名
      * @param entityPropertyDescFactory
      *            エンティティプロパティ記述のファクトリ
      * @param namingType
@@ -128,32 +126,38 @@ public class GlobalFactory {
      *            アクセッサーを使用する場合 {@code true}
      * @return エンティティ記述のファクトリ
      */
-    public EntityDescFactory createEntityDescFactory(String entityPackageName,
-            String entitySuperclassName, String entityListenerClassName,
+    public EntityDescFactory createEntityDescFactory(String packageName,
+            String superclassName,
             EntityPropertyDescFactory entityPropertyDescFactory,
             NamingType namingType, String originalStatesPropertyName,
             boolean showCatalogName, boolean showSchemaName,
-            boolean showTableName, boolean showDbComment, boolean useAccessor) {
-        return new EntityDescFactory(entityPackageName, entitySuperclassName,
-                entityListenerClassName, entityPropertyDescFactory, namingType,
+            boolean showTableName, boolean showDbComment, boolean useAccessor,
+            boolean useListener) {
+        return new EntityDescFactory(packageName, superclassName,
+                entityPropertyDescFactory, namingType,
                 originalStatesPropertyName, showCatalogName, showSchemaName,
-                showTableName, showDbComment, useAccessor);
+                showTableName, showDbComment, useAccessor, useListener);
+    }
+
+    public EntityListenerDescFactory createEntityListenerDescFactory(
+            String packageName, String superclassName) {
+        return new EntityListenerDescFactory(packageName, superclassName);
     }
 
     /**
      * Dao記述のファクトリを作成します。
      * 
-     * @param daoPackageName
+     * @param packageName
      *            パッケージ名
-     * @param daoSuffix
+     * @param suffix
      *            サフィックス
      * @param configClassName
      *            設定クラス名
      * @return Dao記述のファクトリ
      */
-    public DaoDescFactory createDaoDescFactory(String daoPackageName,
-            String daoSuffix, String configClassName) {
-        return new DaoDescFactory(daoPackageName, daoSuffix, configClassName);
+    public DaoDescFactory createDaoDescFactory(String packageName,
+            String suffix, String configClassName) {
+        return new DaoDescFactory(packageName, suffix, configClassName);
     }
 
     /**
@@ -168,6 +172,11 @@ public class GlobalFactory {
         return new EntityPropertyClassNameResolver(propertyFile);
     }
 
+    /**
+     * SQL記述ファクトリを作成します。
+     * 
+     * @return SQL記述ファクトリ
+     */
     public SqlDescFactory createSqlDescFactory() {
         return new SqlDescFactory();
     }

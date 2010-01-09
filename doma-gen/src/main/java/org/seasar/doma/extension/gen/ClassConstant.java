@@ -56,6 +56,8 @@ public enum ClassConstant {
     /** */
     OriginalStates("org.seasar.doma", "OriginalStates"),
     /** */
+    EntityListener("org.seasar.doma.jdbc.entity", "EntityListener"),
+    /** */
     bytes("", "byte[]"), ;
 
     private final String packageName;

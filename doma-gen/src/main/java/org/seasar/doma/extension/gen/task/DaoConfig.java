@@ -18,18 +18,19 @@ package org.seasar.doma.extension.gen.task;
 import java.io.File;
 
 import org.apache.tools.ant.types.DataType;
-import org.seasar.doma.extension.gen.GenException;
-import org.seasar.doma.extension.gen.internal.message.Message;
 
 /**
+ * Daoの設定です。
+ * 
  * @author taedium
  * 
  */
-public class Dao extends DataType {
+public class DaoConfig extends DataType {
 
     /** DaoのJavaコードを生成する場合 {@code true} */
     protected boolean generate = true;
 
+    /** 同名のDaoインタフェースのJavaファイルを上書きする場合{@code true}、しない場合{@code false} */
     protected boolean overwrite = false;
 
     /** Daoインタフェースのパッケージ名 */
@@ -39,7 +40,7 @@ public class Dao extends DataType {
     protected String suffix = "Dao";
 
     /** 設定クラス名 */
-    protected String configClassName = null;
+    protected String configClassName = "example.config.AppConfig";
 
     /** 生成されるJavaファイルの出力先ディレクトリ */
     protected File destDir = null;
@@ -106,9 +107,4 @@ public class Dao extends DataType {
         this.encoding = encoding;
     }
 
-    public void validate() {
-        if (configClassName == null) {
-            throw new GenException(Message.DOMAGEN0007, "configClassName");
-        }
-    }
 }

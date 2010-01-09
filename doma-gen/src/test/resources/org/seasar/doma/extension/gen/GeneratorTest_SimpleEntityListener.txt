@@ -1,0 +1,21 @@
+package example.entity;
+
+import org.seasar.doma.jdbc.entity.EntityListener;
+
+/**
+ * 
+ */
+public class HogeListener implements EntityListener<Hoge> {
+
+    @Override
+    public void preInsert(Hoge entity) {
+    }
+
+    @Override
+    public void preUpdate(Hoge entity) {
+    }
+
+    @Override
+    public void preDelete(Hoge entity) {
+    }
+}
