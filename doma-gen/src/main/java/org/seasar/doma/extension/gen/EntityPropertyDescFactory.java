@@ -106,13 +106,11 @@ public class EntityPropertyDescFactory {
         }
         if (generationType == GenerationType.IDENTITY) {
             if (!dialect.supportsIdentity()) {
-                throw new GenException(Message.DOMAGEN0003, dialect
-                        .getName());
+                throw new GenException(Message.DOMAGEN0003, dialect.getName());
             }
         } else if (generationType == GenerationType.SEQUENCE) {
             if (!dialect.supportsSequence()) {
-                throw new GenException(Message.DOMAGEN0004, dialect
-                        .getName());
+                throw new GenException(Message.DOMAGEN0004, dialect.getName());
             }
         }
     }
@@ -145,6 +143,7 @@ public class EntityPropertyDescFactory {
         }
         propertyDesc.setComment(columnMeta.getComment());
         handlePropertyClassName(entityDesc, propertyDesc, columnMeta);
+        handleNumber(entityDesc, propertyDesc, columnMeta);
         handleShowColumnName(entityDesc, propertyDesc, columnMeta);
         handleVersion(entityDesc, propertyDesc, columnMeta);
         return propertyDesc;
@@ -188,6 +187,37 @@ public class EntityPropertyDescFactory {
             className = String.class.getName();
         }
         propertyDesc.setPropertyClassName(className);
+    }
+
+    /**
+     * 数値かどうかを処理します。
+     * 
+     * @param entityDesc
+     *            エンティティ記述
+     * @param propertyDesc
+     *            エンティティプロパティ記述
+     * @param columnMeta
+     *            カラムメタデータ
+     */
+    protected void handleNumber(EntityDesc entityDesc,
+            EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
+        String defaultClassName = dialect.getMappedClassName(columnMeta);
+        if (Byte.class.getName().equals(defaultClassName)
+                || Short.class.getName().equals(defaultClassName)
+                || Integer.class.getName().equals(defaultClassName)
+                || Long.class.getName().equals(defaultClassName)
+                || Float.class.getName().equals(defaultClassName)
+                || Double.class.getName().equals(defaultClassName)
+                || BigInteger.class.getName().equals(defaultClassName)
+                || BigDecimal.class.getName().equals(defaultClassName)
+                || byte.class.getName().equals(defaultClassName)
+                || short.class.getName().equals(defaultClassName)
+                || int.class.getName().equals(defaultClassName)
+                || long.class.getName().equals(defaultClassName)
+                || float.class.getName().equals(defaultClassName)
+                || double.class.getName().equals(defaultClassName)) {
+            propertyDesc.setNumber(true);
+        }
     }
 
     /**

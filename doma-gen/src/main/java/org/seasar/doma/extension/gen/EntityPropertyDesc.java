@@ -54,6 +54,9 @@ public class EntityPropertyDesc {
     /** カラム名を表示する場合 {@code true} */
     protected boolean showColumnName;
 
+    /** 数値を表す場合 {@code true} */
+    protected boolean number;
+
     /**
      * 名前を設定します。
      * 
@@ -251,6 +254,25 @@ public class EntityPropertyDesc {
      */
     public void setShowColumnName(boolean showColumnName) {
         this.showColumnName = showColumnName;
+    }
+
+    /**
+     * 数値を表す場合 {@code true}を返します。
+     * 
+     * @return the number
+     */
+    public boolean isNumber() {
+        return number;
+    }
+
+    /**
+     * 数値を表す場合 {@code true}を設定します。
+     * 
+     * @param number
+     *            数値を表す場合 {@code true}
+     */
+    public void setNumber(boolean number) {
+        this.number = number;
     }
 
 }

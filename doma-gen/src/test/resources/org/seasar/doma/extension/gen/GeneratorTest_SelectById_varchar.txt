@@ -4,4 +4,4 @@ select
 from
 	HOGE
 where
-	ID = /* id */1
+	ID = /* id */'a'
