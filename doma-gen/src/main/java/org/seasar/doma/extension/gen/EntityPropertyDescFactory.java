@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.regex.Pattern;
 
-import org.seasar.doma.extension.gen.dialect.Dialect;
+import org.seasar.doma.extension.gen.dialect.GenDialect;
 import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.StringUtil;
 
@@ -31,7 +31,7 @@ import org.seasar.doma.extension.gen.internal.util.StringUtil;
 public class EntityPropertyDescFactory {
 
     /** 方言 */
-    protected final Dialect dialect;
+    protected final GenDialect dialect;
 
     /** ドメインクラス名のリゾルバ */
     protected final EntityPropertyClassNameResolver propertyClassNameResolver;
@@ -69,7 +69,7 @@ public class EntityPropertyDescFactory {
      * @param showColumnName
      *            カラム名を表示する場合 {@code true}
      */
-    public EntityPropertyDescFactory(Dialect dialect,
+    public EntityPropertyDescFactory(GenDialect dialect,
             EntityPropertyClassNameResolver propertyClassNameResolver,
             String versionColumnNamePattern, GenerationType generationType,
             Long initialValue, Long allocationSize, boolean showColumnName) {

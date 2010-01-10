@@ -66,7 +66,7 @@ public class GenerationContext {
             throw new GenNullPointerException("templateName");
         }
         if (encoding == null) {
-            throw new GenNullPointerException("dumpFileEncoding");
+            throw new GenNullPointerException("fileEncoding");
         }
         this.model = model;
         this.file = file;

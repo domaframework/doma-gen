@@ -79,6 +79,11 @@ public class SimpleDataSource implements DataSource {
      */
     public void setDriver(Driver driver) {
         this.driver = driver;
+        try {
+            DriverManager.registerDriver(driver);
+        } catch (SQLException e) {
+            throw new GenException(Message.DOMAGEN9001, e, e);
+        }
     }
 
     /**

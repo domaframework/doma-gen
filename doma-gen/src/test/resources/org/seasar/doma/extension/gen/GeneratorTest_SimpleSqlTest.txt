@@ -1,0 +1,109 @@
+package example.dao;
+
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+import junit.framework.TestCase;
+
+import org.seasar.doma.jdbc.NoCacheSqlFileRepository;
+import org.seasar.doma.jdbc.SqlFile;
+import org.seasar.doma.jdbc.SqlFileRepository;
+import org.seasar.doma.jdbc.dialect.Dialect;
+
+/**
+ * 
+ */
+public class SqlTest extends TestCase {
+
+    /** */
+    protected SqlFileRepository repository;
+
+    /** */
+    protected Dialect dialect;
+
+    /** */
+    protected Driver driver;
+
+    /** */
+    protected String url;
+
+    /** */
+    protected String user;
+
+    /** */
+    protected String password;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        repository = new NoCacheSqlFileRepository();
+        dialect = new org.seasar.doma.jdbc.dialect.StandardDialect();
+        @SuppressWarnings("unchecked")
+        Class<Driver> driverClass = (Class<Driver>) Class.forName("org.hsqldb.jdbcDriver");
+        driver = driverClass.newInstance();
+        DriverManager.registerDriver(driver);
+        url = "jdbc:hsqldb:mem:example";
+        user = "sa";
+        password = "";
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        DriverManager.deregisterDriver(driver);
+        super.tearDown();
+    }
+
+    /**
+     * 
+     * @param sqlFile
+     * @throws Exception
+     */
+    protected void execute(SqlFile sqlFile) throws Exception {
+        Connection connection = getConnection();
+        try {
+            connection.setAutoCommit(false);
+            Statement statement = connection.createStatement();
+            try {
+                statement.execute(sqlFile.getSql());
+            } finally {
+                statement.close();
+            }
+        } finally {
+            try {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        }
+    }
+
+    /**
+     * 
+     * @return
+     * @throws Exception
+     */
+    protected Connection getConnection() throws Exception {
+        return DriverManager.getConnection(url, user, password);
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    public void test0() throws Exception {
+        SqlFile sqlFile = repository.getSqlFile("META-INF/org/seasar/doma/extension/gen/GeneratorTest/select.sql", dialect);
+        execute(sqlFile);
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    public void test1() throws Exception {
+        SqlFile sqlFile = repository.getSqlFile("META-INF/org/seasar/doma/extension/gen/GeneratorTest/update.sql", dialect);
+        execute(sqlFile);
+    }
+
+}

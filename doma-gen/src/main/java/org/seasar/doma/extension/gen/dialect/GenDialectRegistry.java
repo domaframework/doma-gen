@@ -29,18 +29,18 @@ import org.seasar.doma.extension.gen.internal.util.AssertionUtil;
  * @author taedium
  * 
  */
-public class DialectRegistry {
+public class GenDialectRegistry {
 
     /** 方言名をキー、方言を値とするマップ */
-    protected final static Map<String, Dialect> dialectMap = Collections
-            .synchronizedMap(new HashMap<String, Dialect>());
+    protected final static Map<String, GenDialect> genDialectMap = Collections
+            .synchronizedMap(new HashMap<String, GenDialect>());
     static {
-        register(new StandardDialect());
-        register(new HsqldbDialect());
-        register(new H2Dialect());
-        register(new MysqlDialect());
-        register(new PostgresDialect());
-        register(new OracleDialect());
+        register(new StandardGenDialect());
+        register(new HsqldbGenDialect());
+        register(new H2GenDialect());
+        register(new MysqlGenDialect());
+        register(new PostgresGenDialect());
+        register(new OracleGenDialect());
     }
 
     /**
@@ -49,9 +49,9 @@ public class DialectRegistry {
      * @param dialect
      *            方言
      */
-    public static void register(Dialect dialect) {
+    public static void register(GenDialect dialect) {
         AssertionUtil.assertNotNull(dialect);
-        dialectMap.put(dialect.getName(), dialect);
+        genDialectMap.put(dialect.getName(), dialect);
     }
 
     /**
@@ -61,8 +61,8 @@ public class DialectRegistry {
      *            方言名
      * @return 方言、登録されていなければ {@code null}
      */
-    public static Dialect lookup(String dialectName) {
-        return dialectMap.get(dialectName);
+    public static GenDialect lookup(String dialectName) {
+        return genDialectMap.get(dialectName);
     }
 
     /**
@@ -71,6 +71,6 @@ public class DialectRegistry {
      * @return 登録されている方言名のリスト
      */
     public static List<String> getDialectNames() {
-        return new ArrayList<String>(dialectMap.keySet());
+        return new ArrayList<String>(genDialectMap.keySet());
     }
 }

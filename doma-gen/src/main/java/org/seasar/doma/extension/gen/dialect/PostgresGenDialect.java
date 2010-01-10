@@ -27,12 +27,12 @@ import org.seasar.doma.extension.gen.ClassConstant;
  * @author taedium
  * 
  */
-public class PostgresDialect extends StandardDialect {
+public class PostgresGenDialect extends StandardGenDialect {
 
     /**
      * インスタンスを構築します。
      */
-    public PostgresDialect() {
+    public PostgresGenDialect() {
         classNameMap.put("bigserial", Long.class.getName());
         classNameMap.put("bit", ClassConstant.bytes.getQualifiedName());
         classNameMap.put("bool", Boolean.class.getName());
@@ -56,6 +56,11 @@ public class PostgresDialect extends StandardDialect {
     @Override
     public String getName() {
         return "postgres";
+    }
+
+    @Override
+    public ClassConstant getDialectClassConstant() {
+        return ClassConstant.PostgresDialect;
     }
 
     @Override

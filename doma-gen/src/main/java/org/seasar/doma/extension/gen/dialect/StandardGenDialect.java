@@ -43,7 +43,7 @@ import org.seasar.doma.extension.gen.internal.util.TableUtil;
  * @author taedium
  * 
  */
-public class StandardDialect implements Dialect {
+public class StandardGenDialect implements GenDialect {
 
     /** RDBMSのカラムの型をキー、Javaのクラス名を値とするマップ */
     protected final Map<String, String> classNameMap = new HashMap<String, String>();
@@ -54,7 +54,7 @@ public class StandardDialect implements Dialect {
     /**
      * インスタンスを構築します。
      */
-    public StandardDialect() {
+    public StandardGenDialect() {
         classNameMap.put("bigint", Long.class.getName());
         classNameMap.put("binary", ClassConstant.bytes.getQualifiedName());
         classNameMap.put("bit", Boolean.class.getName());
@@ -115,6 +115,11 @@ public class StandardDialect implements Dialect {
 
     public String getName() {
         return "standard";
+    }
+
+    @Override
+    public ClassConstant getDialectClassConstant() {
+        return ClassConstant.StandardDialect;
     }
 
     @Override

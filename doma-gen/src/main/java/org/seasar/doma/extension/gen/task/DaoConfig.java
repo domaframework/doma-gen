@@ -40,7 +40,9 @@ public class DaoConfig extends DataType {
     protected String suffix = "Dao";
 
     /** 設定クラス名 */
-    protected String configClassName = "example.config.AppConfig";
+    protected String configClassName = "example.AppConfig";
+
+    protected File baseDir = null;
 
     /** 生成されるJavaファイルの出力先ディレクトリ */
     protected File destDir = null;
@@ -90,7 +92,8 @@ public class DaoConfig extends DataType {
 
     public File getDestDir() {
         if (destDir == null) {
-            return new File(getProject().getBaseDir(), "src");
+            destDir = new File(baseDir != null ? baseDir : getProject()
+                    .getBaseDir(), "src");
         }
         return destDir;
     }
@@ -105,6 +108,14 @@ public class DaoConfig extends DataType {
 
     public void setEncoding(String encoding) {
         this.encoding = encoding;
+    }
+
+    /**
+     * @param baseDir
+     *            the baseDir to set
+     */
+    protected void setBaseDir(File baseDir) {
+        this.baseDir = baseDir;
     }
 
 }

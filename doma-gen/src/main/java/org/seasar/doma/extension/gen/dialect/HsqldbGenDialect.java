@@ -15,23 +15,32 @@
  */
 package org.seasar.doma.extension.gen.dialect;
 
+import org.seasar.doma.extension.gen.ClassConstant;
+
 /**
- * H2 Database Engine用の方言です。
+ * HSQLDB用の方言です。
  * 
  * @author taedium
  * 
  */
-public class H2Dialect extends StandardDialect {
+public class HsqldbGenDialect extends StandardGenDialect {
 
     /**
      * インスタンスを構築します。
      */
-    public H2Dialect() {
+    public HsqldbGenDialect() {
+        classNameMap.put("int", Integer.class.getName());
+        classNameMap.put("varchar_ignorecase", String.class.getName());
     }
 
     @Override
     public String getName() {
-        return "h2";
+        return "hsqldb";
+    }
+
+    @Override
+    public ClassConstant getDialectClassConstant() {
+        return ClassConstant.HsqldbDialect;
     }
 
     @Override

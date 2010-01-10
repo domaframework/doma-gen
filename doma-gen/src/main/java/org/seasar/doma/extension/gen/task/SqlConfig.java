@@ -33,6 +33,8 @@ public class SqlConfig extends DataType {
     /** 同名のSQLファイルを上書きする場合 */
     protected boolean overwrite = true;
 
+    protected File baseDir = null;
+
     /** 生成されるSQLファイルの出力先ディレクトリ */
     protected File destDir = null;
 
@@ -54,13 +56,22 @@ public class SqlConfig extends DataType {
 
     public File getDestDir() {
         if (destDir == null) {
-            return new File(getProject().getBaseDir(), "src");
+            destDir = new File(baseDir != null ? baseDir : getProject()
+                    .getBaseDir(), "src");
         }
         return destDir;
     }
 
     public void setDestDir(File destDir) {
         this.destDir = destDir;
+    }
+
+    /**
+     * @param baseDir
+     *            the baseDir to set
+     */
+    protected void setBaseDir(File baseDir) {
+        this.baseDir = baseDir;
     }
 
 }

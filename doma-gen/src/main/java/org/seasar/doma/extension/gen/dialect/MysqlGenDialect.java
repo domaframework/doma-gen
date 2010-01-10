@@ -30,12 +30,12 @@ import org.seasar.doma.extension.gen.ColumnMeta;
  * @author taedium
  * 
  */
-public class MysqlDialect extends StandardDialect {
+public class MysqlGenDialect extends StandardGenDialect {
 
     /**
      * インスタンスを構築します。
      */
-    public MysqlDialect() {
+    public MysqlGenDialect() {
         classNameMap.put("bigint unsigned", BigInteger.class.getName());
         classNameMap.put("datetime", Timestamp.class.getName());
         classNameMap.put("int", Integer.class.getName());
@@ -58,6 +58,11 @@ public class MysqlDialect extends StandardDialect {
     @Override
     public String getName() {
         return "mysql";
+    }
+
+    @Override
+    public ClassConstant getDialectClassConstant() {
+        return ClassConstant.MysqlDialect;
     }
 
     @Override

@@ -29,6 +29,8 @@ public class Constants {
 
     public static final String DAO_TEMPLATE = "dao.ftl";
 
+    public static final String SQL_TEST_TEMPLATE = "sqlTest.ftl";
+
     public static final String SELECT_BY_ID_SQL_TEMPLATE = "selectById.sql.ftl";
 
     public static final String SELECT_BY_ID_AND_VERSION_SQL_TEMPLATE = "selectByIdAndVersion.sql.ftl";

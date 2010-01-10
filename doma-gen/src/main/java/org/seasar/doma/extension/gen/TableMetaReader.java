@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
-import org.seasar.doma.extension.gen.dialect.Dialect;
+import org.seasar.doma.extension.gen.dialect.GenDialect;
 import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
 
@@ -40,7 +40,7 @@ import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
 public class TableMetaReader {
 
     /** 方言 */
-    protected final Dialect dialect;
+    protected final GenDialect dialect;
 
     /** データソース */
     protected final DataSource dataSource;
@@ -68,7 +68,7 @@ public class TableMetaReader {
      * @param ignoredTableNamePattern
      *            読み取り非対象とするテーブル名のパターン
      */
-    public TableMetaReader(Dialect dialect, DataSource dataSource,
+    public TableMetaReader(GenDialect dialect, DataSource dataSource,
             String schemaName, String tableNamePattern,
             String ignoredTableNamePattern) {
         if (dialect == null) {

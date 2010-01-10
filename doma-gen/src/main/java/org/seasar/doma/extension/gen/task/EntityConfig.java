@@ -83,6 +83,8 @@ public class EntityConfig extends DataType {
     /** エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル */
     protected File entityPropertyClassNamesFile = null;
 
+    protected File baseDir = null;
+
     /** 生成されるJavaファイルの出力先ディレクトリ */
     protected File destDir = null;
 
@@ -236,7 +238,8 @@ public class EntityConfig extends DataType {
 
     public File getDestDir() {
         if (destDir == null) {
-            return new File(getProject().getBaseDir(), "src");
+            destDir = new File(baseDir != null ? baseDir : getProject()
+                    .getBaseDir(), "src");
         }
         return destDir;
     }
@@ -259,6 +262,14 @@ public class EntityConfig extends DataType {
 
     public void setOriginalStatesPropertyName(String originalStatesPropertyName) {
         this.originalStatesPropertyName = originalStatesPropertyName;
+    }
+
+    /**
+     * @param baseDir
+     *            the baseDir to set
+     */
+    protected void setBaseDir(File baseDir) {
+        this.baseDir = baseDir;
     }
 
 }

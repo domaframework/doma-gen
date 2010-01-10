@@ -23,8 +23,8 @@ import org.seasar.doma.extension.gen.SqlDesc;
 import org.seasar.doma.extension.gen.SqlDescFactory;
 import org.seasar.doma.extension.gen.TableMeta;
 import org.seasar.doma.extension.gen.TableMetaReader;
-import org.seasar.doma.extension.gen.dialect.Dialect;
-import org.seasar.doma.extension.gen.dialect.DialectRegistry;
+import org.seasar.doma.extension.gen.dialect.GenDialect;
+import org.seasar.doma.extension.gen.dialect.GenDialectRegistry;
 import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.AssertionUtil;
 import org.seasar.doma.extension.gen.internal.util.FileUtil;
@@ -40,8 +40,8 @@ public class Gen extends AbstractTask {
     /** 方言名 */
     protected DialectNameAttribute dialectName = null;
 
-    /** {@link Dialect} のサブタイプのクラス名 */
-    protected String dialectClassName = null;
+    /** {@link GenDialect} のサブタイプのクラス名 */
+    protected String genDialectClassName = null;
 
     /** {@link Driver} のサブタイプのクラス名 */
     protected String driverClassName = null;
@@ -74,7 +74,7 @@ public class Gen extends AbstractTask {
     protected File templatePrimaryDir = null;
 
     /** 方言 */
-    protected Dialect dialect;
+    protected GenDialect dialect;
 
     /** データソース */
     protected DataSource dataSource;
@@ -88,6 +88,7 @@ public class Gen extends AbstractTask {
     /** エンティティ記述のファクトリ */
     protected EntityDescFactory entityDescFactory;
 
+    /** エンティティリスナー記述のファクトリ */
     protected EntityListenerDescFactory entityListenerDescFactory;
 
     /** エンティティプロパティ記述のファクトリ */
@@ -162,13 +163,13 @@ public class Gen extends AbstractTask {
     }
 
     /**
-     * {@link Dialect} のサブタイプのクラス名を設定します。
+     * {@link GenDialect} のサブタイプのクラス名を設定します。
      * 
-     * @param dialectClassName
-     *            {@link Dialect} のサブタイプのクラス名
+     * @param genDialectClassName
+     *            {@link GenDialect} のサブタイプのクラス名
      */
-    public void setDialectClassName(String dialectClassName) {
-        this.dialectClassName = dialectClassName;
+    public void setGenDialectClassName(String genDialectClassName) {
+        this.genDialectClassName = genDialectClassName;
     }
 
     /**
@@ -263,7 +264,7 @@ public class Gen extends AbstractTask {
 
     @Override
     protected void doValidate() {
-        if (dialectName == null && dialectClassName == null) {
+        if (dialectName == null && genDialectClassName == null) {
             throw new GenException(Message.DOMAGEN0012, "dialectName",
                     "dialectClassName");
         }
@@ -279,26 +280,29 @@ public class Gen extends AbstractTask {
         if (password == null) {
             throw new GenException(Message.DOMAGEN0007, "password");
         }
-        if (entityConfig == null) {
-            entityConfig = new EntityConfig();
-            entityConfig.setGenerate(false);
-        }
-        if (daoConfig == null) {
-            daoConfig = new DaoConfig();
-            daoConfig.setGenerate(false);
-        }
-        if (sqlConfig == null) {
-            sqlConfig = new SqlConfig();
-            sqlConfig.setGenerate(false);
-        }
     }
 
     @Override
     protected void doPrepare() {
-        if (dialectClassName != null) {
-            dialect = newInstance(Dialect.class, dialectClassName, "dialectClassName");
+        if (entityConfig == null) {
+            entityConfig = new EntityConfig();
+            entityConfig.setBaseDir(getProject().getBaseDir());
+            entityConfig.setGenerate(false);
+        }
+        if (daoConfig == null) {
+            daoConfig = new DaoConfig();
+            daoConfig.setBaseDir(getProject().getBaseDir());
+            daoConfig.setGenerate(false);
+        }
+        if (sqlConfig == null) {
+            sqlConfig = new SqlConfig();
+            sqlConfig.setBaseDir(getProject().getBaseDir());
+            sqlConfig.setGenerate(false);
+        }
+        if (genDialectClassName != null) {
+            dialect = newInstance(GenDialect.class, genDialectClassName, "dialectClassName");
         } else {
-            dialect = DialectRegistry.lookup(dialectName.getValue());
+            dialect = GenDialectRegistry.lookup(dialectName.getValue());
             AssertionUtil.assertNotNull(dialect);
         }
         Logger.info(Message.DOMAGEN0017

@@ -16,11 +16,13 @@
 package org.seasar.doma.extension.gen;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.seasar.doma.extension.gen.dialect.Dialect;
-import org.seasar.doma.extension.gen.dialect.PostgresDialect;
+import org.seasar.doma.extension.gen.dialect.GenDialect;
+import org.seasar.doma.extension.gen.dialect.PostgresGenDialect;
 import org.seasar.doma.extension.gen.internal.util.ResourceUtil;
 
 /**
@@ -31,7 +33,7 @@ public class GeneratorTest extends TestCase {
 
     private GlobalFactory factory = new GlobalFactory();
 
-    private Dialect dialect = new PostgresDialect();
+    private GenDialect dialect = new PostgresGenDialect();
 
     private GeneratorStub generator = new GeneratorStub();
 
@@ -484,8 +486,28 @@ public class GeneratorTest extends TestCase {
         SqlDescFactory sqlDescFactory = factory.createSqlDescFactory();
         SqlDesc sqlDesc = sqlDescFactory
                 .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
-
         generator.generate(new SqlContext(sqlDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSimpleSqlTest() throws Exception {
+        Set<File> sqlFiles = new HashSet<File>();
+        sqlFiles.add(ResourceUtil.getResourceAsFile("META-INF/"
+                + getClass().getName().replace(".", "/") + "/select.sql"));
+        sqlFiles.add(ResourceUtil
+                .getResourceAsFile("META-INF/"
+                        + getClass().getName().replace(".", "/")
+                        + "/select-oracle.sql"));
+        sqlFiles.add(ResourceUtil.getResourceAsFile("META-INF/"
+                + getClass().getName().replace(".", "/") + "/insert.txt"));
+        sqlFiles.add(ResourceUtil.getResourceAsFile("META-INF/"
+                + getClass().getName().replace(".", "/") + "/update.sql"));
+        SqlTestDescFactory sqlFileTestDescFactory = factory
+                .createSqlTestDescFactory("example.dao.SqlTest", false, "org.seasar.doma.jdbc.dialect.StandardDialect", "org.hsqldb.jdbcDriver", "jdbc:hsqldb:mem:example", "sa", "", sqlFiles);
+        SqlTestDesc sqlTestDesc = sqlFileTestDescFactory
+                .createSqlFileTestDesc();
+        generator.generate(new SqlTestContext(sqlTestDesc));
 
         assertEquals(expect(), generator.getResult());
     }
@@ -599,6 +621,14 @@ public class GeneratorTest extends TestCase {
     private class DaoContext extends GenerationContext {
 
         public DaoContext(DaoDesc model) {
+            super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
+                    true);
+        }
+    }
+
+    private class SqlTestContext extends GenerationContext {
+
+        public SqlTestContext(SqlTestDesc model) {
             super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
                     true);
         }

@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
+import org.seasar.doma.extension.gen.ClassConstant;
 import org.seasar.doma.extension.gen.ColumnMeta;
 
 /**
@@ -27,7 +28,7 @@ import org.seasar.doma.extension.gen.ColumnMeta;
  * @author taedium
  * 
  */
-public interface Dialect {
+public interface GenDialect {
 
     /**
      * 名前を返します。
@@ -35,6 +36,8 @@ public interface Dialect {
      * @return 名前
      */
     String getName();
+
+    ClassConstant getDialectClassConstant();
 
     /**
      * デフォルトのスキーマ名を返します。

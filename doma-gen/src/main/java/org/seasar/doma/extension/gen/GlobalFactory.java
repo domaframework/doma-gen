@@ -17,10 +17,11 @@ package org.seasar.doma.extension.gen;
 
 import java.io.File;
 import java.sql.Driver;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
-import org.seasar.doma.extension.gen.dialect.Dialect;
+import org.seasar.doma.extension.gen.dialect.GenDialect;
 
 /**
  * グローバルなファクトリです。
@@ -46,6 +47,7 @@ public class GlobalFactory {
     public DataSource createDataSource(Driver driver, String user,
             String password, String url) {
         SimpleDataSource dataSource = new SimpleDataSource();
+        dataSource.setDriver(driver);
         dataSource.setUser(user);
         dataSource.setPassword(password);
         dataSource.setUrl(url);
@@ -67,7 +69,7 @@ public class GlobalFactory {
      *            読み取り非対象とするテーブル名のパターン
      * @return データソースメタデータのファクトリ
      */
-    public TableMetaReader createTableMetaReader(Dialect dialect,
+    public TableMetaReader createTableMetaReader(GenDialect dialect,
             DataSource dataSource, String schemaName, String tableNamePattern,
             String ignoredTableNamePattern) {
         return new TableMetaReader(dialect, dataSource, schemaName,
@@ -94,7 +96,7 @@ public class GlobalFactory {
      * @return エンティティプロパティ記述のファクトリ
      */
     public EntityPropertyDescFactory createEntityPropertyDescFactory(
-            Dialect dialect,
+            GenDialect dialect,
             EntityPropertyClassNameResolver propertyClassNameResolver,
             String versionColumnNamePattern, GenerationType generationType,
             Long initialValue, Long allocationSize, boolean showColumnName) {
@@ -170,6 +172,25 @@ public class GlobalFactory {
     public EntityPropertyClassNameResolver createEntityPropertyClassNameResolver(
             File propertyFile) {
         return new EntityPropertyClassNameResolver(propertyFile);
+    }
+
+    /**
+     * 
+     * @param sqlTestClassName
+     * @param dialectClassName
+     * @param driverClassName
+     * @param url
+     * @param user
+     * @param password
+     * @param sqlFiles
+     * @return
+     */
+    public SqlTestDescFactory createSqlTestDescFactory(String sqlTestClassName,
+            boolean abstrct, String dialectClassName, String driverClassName,
+            String url, String user, String password, Set<File> sqlFiles) {
+        return new SqlTestDescFactory(sqlTestClassName, abstrct,
+                dialectClassName, driverClassName, url, user, password,
+                sqlFiles);
     }
 
     /**

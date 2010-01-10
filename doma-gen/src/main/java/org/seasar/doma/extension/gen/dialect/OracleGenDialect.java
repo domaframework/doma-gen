@@ -35,12 +35,12 @@ import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
  * @author taedium
  * 
  */
-public class OracleDialect extends StandardDialect {
+public class OracleGenDialect extends StandardGenDialect {
 
     /**
      * インスタンスを構築します。
      */
-    public OracleDialect() {
+    public OracleGenDialect() {
         classNameMap.put("binary_double", Double.class.getName());
         classNameMap.put("binary_float", Float.class.getName());
         classNameMap.put("long", String.class.getName());
@@ -53,6 +53,11 @@ public class OracleDialect extends StandardDialect {
     @Override
     public String getName() {
         return "oracle";
+    }
+
+    @Override
+    public ClassConstant getDialectClassConstant() {
+        return ClassConstant.OracleDialect;
     }
 
     @Override

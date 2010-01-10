@@ -58,6 +58,19 @@ public enum ClassConstant {
     /** */
     EntityListener("org.seasar.doma.jdbc.entity", "EntityListener"),
     /** */
+    StandardDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    /** */
+    HsqldbDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    /** */
+    H2Dialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    /** */
+    MysqlDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    /** */
+    PostgresDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    /** */
+    OracleDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+
+    /** */
     bytes("", "byte[]"), ;
 
     private final String packageName;
