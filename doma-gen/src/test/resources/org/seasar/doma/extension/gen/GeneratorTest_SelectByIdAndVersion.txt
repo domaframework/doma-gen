@@ -1,10 +1,10 @@
 select
-	ID,
-	EMP_NAME,
-	VERSION
+  ID,
+  EMP_NAME,
+  VERSION
 from
-	HOGE
+  HOGE
 where
-	ID = /* id */1
-	and
-	VERSION = /* version */1
+  ID = /* id */1
+  and
+  VERSION = /* version */1
