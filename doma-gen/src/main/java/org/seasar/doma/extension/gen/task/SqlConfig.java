@@ -33,10 +33,11 @@ public class SqlConfig extends DataType {
     /** 同名のSQLファイルを上書きする場合 */
     protected boolean overwrite = true;
 
-    protected File baseDir = null;
-
     /** 生成されるSQLファイルの出力先ディレクトリ */
     protected File destDir = null;
+
+    /** ベースディレクトリ */
+    protected File baseDir = null;
 
     public boolean isGenerate() {
         return generate;

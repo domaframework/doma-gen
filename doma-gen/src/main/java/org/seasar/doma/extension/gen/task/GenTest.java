@@ -29,6 +29,14 @@ import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.FileUtil;
 
 /**
+ * テスト用のコードを生成します。
+ * <p>
+ * 次のコードを生成できます。
+ * </p>
+ * <ul>
+ * <li>SQLのテストクラス</li>
+ * </ul>
+ * 
  * @author taedium
  * 
  */
@@ -58,10 +66,13 @@ public class GenTest extends AbstractTask {
     /** テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null} */
     protected File templatePrimaryDir = null;
 
+    /** SQLテスト記述 */
     protected SqlTestConfig sqlTestConfig = null;
 
+    /** SQLテスト記述ファクトリ */
     protected SqlTestDescFactory sqlTestDescFactory = null;
 
+    /** ジェネレータ */
     protected Generator generator = null;
 
     /**
@@ -191,6 +202,11 @@ public class GenTest extends AbstractTask {
         generator = createGenerator();
     }
 
+    /**
+     * SQLテスト記述ファクトリを作成します。
+     * 
+     * @return SQLテスト記述ファクトリ
+     */
     protected SqlTestDescFactory createSqlTestDescFactory() {
         return globalFactory
                 .createSqlTestDescFactory(sqlTestConfig.getSqlTestClassName(), sqlTestConfig
@@ -216,12 +232,18 @@ public class GenTest extends AbstractTask {
         }
     }
 
-    protected void generateSqlTest(SqlTestDesc sqlFileTestDesc) {
+    /**
+     * SQLのテストコードを生成します。
+     * 
+     * @param sqlTestDesc
+     *            SQLテスト記述
+     */
+    protected void generateSqlTest(SqlTestDesc sqlTestDesc) {
         File javaFile = FileUtil
-                .createJavaFile(sqlTestConfig.getDestDir(), sqlFileTestDesc
+                .createJavaFile(sqlTestConfig.getDestDir(), sqlTestDesc
                         .getQualifiedName());
-        GenerationContext context = new GenerationContext(sqlFileTestDesc,
-                javaFile, sqlFileTestDesc.getTemplateName(), sqlTestConfig
+        GenerationContext context = new GenerationContext(sqlTestDesc,
+                javaFile, sqlTestDesc.getTemplateName(), sqlTestConfig
                         .getEncoding(), true);
         generator.generate(context);
     }

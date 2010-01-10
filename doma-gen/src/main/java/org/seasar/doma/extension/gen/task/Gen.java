@@ -30,7 +30,16 @@ import org.seasar.doma.extension.gen.internal.util.AssertionUtil;
 import org.seasar.doma.extension.gen.internal.util.FileUtil;
 
 /**
- * エンティティとDaoのJavaコードを生成します。
+ * コードを生成します。
+ * <p>
+ * 次のコードを生成できます。
+ * </p>
+ * <ul>
+ * <li>エンティティクラス</li>
+ * <li>エンティティリスナークラス</li>
+ * <li>Daoインタフェース</li>
+ * <li>SQL</li>
+ * </ul>
  * 
  * @author taedium
  * 
@@ -266,7 +275,7 @@ public class Gen extends AbstractTask {
     protected void doValidate() {
         if (dialectName == null && genDialectClassName == null) {
             throw new GenException(Message.DOMAGEN0012, "dialectName",
-                    "dialectClassName");
+                    "genDialectClassName");
         }
         if (driverClassName == null) {
             throw new GenException(Message.DOMAGEN0007, "driverClassName");
@@ -300,7 +309,7 @@ public class Gen extends AbstractTask {
             sqlConfig.setGenerate(false);
         }
         if (genDialectClassName != null) {
-            dialect = newInstance(GenDialect.class, genDialectClassName, "dialectClassName");
+            dialect = newInstance(GenDialect.class, genDialectClassName, "genDialectClassName");
         } else {
             dialect = GenDialectRegistry.lookup(dialectName.getValue());
             AssertionUtil.assertNotNull(dialect);

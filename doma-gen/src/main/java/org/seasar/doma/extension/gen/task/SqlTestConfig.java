@@ -24,24 +24,32 @@ import org.apache.tools.ant.types.DataType;
 import org.apache.tools.ant.types.FileSet;
 
 /**
+ * SQLテストの設定です。
+ * 
  * @author taedium
  * 
  */
 public class SqlTestConfig extends DataType {
 
+    /** 生成する場合{@code true} */
     protected boolean generate = true;
 
+    /** 抽象クラスとする場合{@code true} */
     protected boolean abstrct = false;
 
+    /** テストクラス名 */
+    protected String testClassName = "example.SqlTest";
+
+    /** ベースディレクトリ */
     protected File baseDir = null;
 
+    /** Javaコードの出力ディレクトリ */
     protected File destDir = null;
-
-    protected String testClassName = "example.SqlTest";
 
     /** Javaファイルのエンコーディング */
     protected String encoding = "UTF-8";
 
+    /** テストの対象のSQLファイル */
     protected final Set<File> sqlFiles = new HashSet<File>();
 
     /**
@@ -123,6 +131,10 @@ public class SqlTestConfig extends DataType {
         this.abstrct = abstrct;
     }
 
+    /**
+     * 
+     * @param fileSet
+     */
     public void addConfiguredFileSet(FileSet fileSet) {
         DirectoryScanner scanner = fileSet.getDirectoryScanner(getProject());
         File baseDir = fileSet.getDir();

@@ -16,6 +16,7 @@
 package org.seasar.doma.extension.gen;
 
 import java.io.File;
+import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,20 +33,28 @@ import org.seasar.doma.extension.gen.internal.util.FileUtil;
  */
 public class SqlTestDescFactory {
 
+    /** SQLのテストクラス名 */
     protected final String sqlTestClassName;
 
+    /** 抽象クラスの場合{@code true} */
     protected final boolean abstrct;
 
+    /** {@code org.seasar.doma.jdbc.dialect.Dialect}のサブクラスの名前 */
     protected final String dialectClassName;
 
+    /** {@link Driver} のサブクラスの名前 */
     protected final String driverClassName;
 
+    /** JDBC接続URL */
     protected final String url;
 
+    /** JDBC接続ユーザ */
     protected final String user;
 
+    /** JDBC接続パスワード */
     protected final String password;
 
+    /** テスト対象SQLファイルのセット */
     protected final Set<File> sqlFiles = new TreeSet<File>();
 
     /** クラス記述のサポートクラス */
@@ -55,12 +64,21 @@ public class SqlTestDescFactory {
      * インスタンスを構築します。
      * 
      * @param sqlTestClassName
+     *            SQLのテストクラス名
+     * @param abstrct
+     *            抽象クラスの場合{@code true}
      * @param dialectClassName
+     *            {@code org.seasar.doma.jdbc.dialect.Dialect}のサブクラスの名前
      * @param driverClassName
+     *            {@link Driver} のサブクラスの名前
      * @param url
+     *            JDBC接続URL
      * @param user
+     *            JDBC接続ユーザ
      * @param password
+     *            JDBC接続パスワード
      * @param sqlFiles
+     *            テスト対象のSQLファイルのセット
      */
     public SqlTestDescFactory(String sqlTestClassName, boolean abstrct,
             String dialectClassName, String driverClassName, String url,
@@ -116,7 +134,13 @@ public class SqlTestDescFactory {
         return sqlTestDesc;
     }
 
-    protected void handleSqlFilePath(SqlTestDesc sqlFileTestDesc) {
+    /**
+     * SQLファイルのパスを扱います。
+     * 
+     * @param sqlTestDesc
+     *            SQLテスト記述
+     */
+    protected void handleSqlFilePath(SqlTestDesc sqlTestDesc) {
         List<String> sqlFilePaths = new ArrayList<String>(sqlFiles.size());
         for (File file : sqlFiles) {
             if (file == null) {
@@ -140,6 +164,6 @@ public class SqlTestDescFactory {
             sqlFilePaths.add(path.substring(pos + 1));
         }
         Collections.sort(sqlFilePaths);
-        sqlFileTestDesc.setSqlFilePaths(sqlFilePaths);
+        sqlTestDesc.setSqlFilePaths(sqlFilePaths);
     }
 }

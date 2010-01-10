@@ -19,11 +19,14 @@ import java.sql.Driver;
 import java.util.List;
 
 /**
+ * SQLテスト記述です。
+ * 
  * @author taedium
  * 
  */
 public class SqlTestDesc extends ClassDesc {
 
+    /** テンプレート名 */
     protected String templateName;
 
     /** {@code org.seasar.doma.jdbc.dialect.Dialect} のサブタイプのクラス名 */
@@ -41,8 +44,10 @@ public class SqlTestDesc extends ClassDesc {
     /** JDBC接続URL */
     protected String url = null;
 
+    /** 抽象クラスの場合 {@code true} */
     protected boolean abstrct;
 
+    /** テスト対象SQLファイルのリソースパスのリスト */
     protected List<String> sqlFilePaths;
 
     /**
@@ -150,11 +155,19 @@ public class SqlTestDesc extends ClassDesc {
         this.dialectClassName = dialectClassName;
     }
 
+    /**
+     * @return the sqlFilePaths
+     */
+    public List<String> getSqlFilePaths() {
+        return sqlFilePaths;
+    }
+
+    /**
+     * @param sqlFilePaths
+     *            the sqlFilePaths to set
+     */
     public void setSqlFilePaths(List<String> sqlFilePaths) {
         this.sqlFilePaths = sqlFilePaths;
     }
 
-    public List<String> getSqlFilePaths() {
-        return sqlFilePaths;
-    }
 }

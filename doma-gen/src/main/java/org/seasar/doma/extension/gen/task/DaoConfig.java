@@ -33,6 +33,12 @@ public class DaoConfig extends DataType {
     /** 同名のDaoインタフェースのJavaファイルを上書きする場合{@code true}、しない場合{@code false} */
     protected boolean overwrite = false;
 
+    /** 生成されるJavaファイルの出力先ディレクトリ */
+    protected File destDir = null;
+
+    /** Javaファイルのエンコーディング */
+    protected String encoding = "UTF-8";
+
     /** Daoインタフェースのパッケージ名 */
     protected String packageName = "example.dao";
 
@@ -42,13 +48,8 @@ public class DaoConfig extends DataType {
     /** 設定クラス名 */
     protected String configClassName = "example.AppConfig";
 
+    /** ベースディレクトリ　 */
     protected File baseDir = null;
-
-    /** 生成されるJavaファイルの出力先ディレクトリ */
-    protected File destDir = null;
-
-    /** Javaファイルのエンコーディング */
-    protected String encoding = "UTF-8";
 
     public boolean isGenerate() {
         return generate;

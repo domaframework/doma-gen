@@ -83,13 +83,14 @@ public class EntityConfig extends DataType {
     /** エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル */
     protected File entityPropertyClassNamesFile = null;
 
-    protected File baseDir = null;
-
     /** 生成されるJavaファイルの出力先ディレクトリ */
     protected File destDir = null;
 
     /** Javaファイルのエンコーディング */
     protected String encoding = "UTF-8";
+
+    /** ベースディレクトリ */
+    protected File baseDir = null;
 
     public boolean isGenerate() {
         return generate;

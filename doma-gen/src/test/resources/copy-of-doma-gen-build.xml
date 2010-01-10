@@ -15,7 +15,7 @@
 	<property name="sqlFilePattern" value="META-INF/**/*.sql"/>
 	
 	<path id="classpath">
-		<fileset dir="lib"/>
+		<pathelement location="../../../bin"/>
 	</path>
 
 	<taskdef name="gen" classname="org.seasar.doma.extension.gen.task.Gen" classpathref="classpath" loaderref="loader"/>
