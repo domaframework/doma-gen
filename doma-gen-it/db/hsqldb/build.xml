@@ -41,6 +41,8 @@
 			<entityConfig
 				destDir="${src}"
 				namingtype="snake_upper_case"
+				superclassName="org.seasar.doma.extension.gen.it.Common"
+				listenerSuperclassName="org.seasar.doma.extension.gen.it.CommonListener"
 				entityPropertyClassNamesFile="entityPropertyClassNames.properties"
 			/>
 			<daoConfig
