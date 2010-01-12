@@ -63,7 +63,7 @@ public class ClassDescSupport {
      * @param importedClass
      *            インポートされるクラス
      */
-    public void addImportName(ClassDesc classDesc, ClassConstant importedClass) {
+    public void addImportName(ClassDesc classDesc, ClassConstants importedClass) {
         String packageName = importedClass.getPackageName();
         if (isImportTargetPackage(classDesc, packageName)) {
             classDesc.addImportName(importedClass.getQualifiedName());
@@ -78,8 +78,8 @@ public class ClassDescSupport {
      * @param importedClass
      *            インポートされるクラス
      */
-    public void addImportName(ClassDesc classDesc, EnumConstant importedClass) {
-        ClassConstant classConstant = importedClass.getClassConstant();
+    public void addImportName(ClassDesc classDesc, EnumConstants importedClass) {
+        ClassConstants classConstant = importedClass.getClassConstant();
         String packageName = classConstant.getPackageName();
         if (isImportTargetPackage(classDesc, packageName)) {
             classDesc.addImportName(importedClass.getImportName());

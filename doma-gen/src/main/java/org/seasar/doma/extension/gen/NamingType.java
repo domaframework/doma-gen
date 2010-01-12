@@ -26,7 +26,7 @@ import org.seasar.doma.extension.gen.internal.util.StringUtil;
 public enum NamingType {
 
     /** */
-    NONE(EnumConstant.NamingType_NONE) {
+    NONE(EnumConstants.NamingType_NONE) {
 
         @Override
         public String apply(String text) {
@@ -34,7 +34,7 @@ public enum NamingType {
         }
     },
     /** */
-    LOWER_CASE(EnumConstant.NamingType_LOWER_CASE) {
+    LOWER_CASE(EnumConstants.NamingType_LOWER_CASE) {
 
         @Override
         public String apply(String text) {
@@ -45,7 +45,7 @@ public enum NamingType {
         }
     },
     /** */
-    UPPER_CASE(EnumConstant.NamingType_UPPER_CASE) {
+    UPPER_CASE(EnumConstants.NamingType_UPPER_CASE) {
 
         @Override
         public String apply(String text) {
@@ -56,7 +56,7 @@ public enum NamingType {
         }
     },
     /** */
-    SNAKE_UPPER_CASE(EnumConstant.NamingType_SNAKE_UPPER_CASE) {
+    SNAKE_UPPER_CASE(EnumConstants.NamingType_SNAKE_UPPER_CASE) {
 
         @Override
         public String apply(String text) {
@@ -68,7 +68,7 @@ public enum NamingType {
         }
     },
     /** */
-    SNAKE_LOWER_CASE(EnumConstant.NamingType_SNAKE_LOWER_CASE) {
+    SNAKE_LOWER_CASE(EnumConstants.NamingType_SNAKE_LOWER_CASE) {
 
         @Override
         public String apply(String text) {
@@ -80,9 +80,9 @@ public enum NamingType {
         }
     };
 
-    private final EnumConstant enumConstant;
+    private final EnumConstants enumConstant;
 
-    private NamingType(EnumConstant enumConstant) {
+    private NamingType(EnumConstants enumConstant) {
         this.enumConstant = enumConstant;
     }
 
@@ -91,7 +91,7 @@ public enum NamingType {
      * 
      * @return 列挙定数
      */
-    public EnumConstant getEnumConstant() {
+    public EnumConstants getEnumConstant() {
         return enumConstant;
     }
 

@@ -23,15 +23,15 @@ package org.seasar.doma.extension.gen;
  */
 public enum GenerationType {
     /** */
-    IDENTITY(EnumConstant.GenerationType_IDENTITY),
+    IDENTITY(EnumConstants.GenerationType_IDENTITY),
     /** */
-    SEQUENCE(EnumConstant.GenerationType_SEQUENCE),
+    SEQUENCE(EnumConstants.GenerationType_SEQUENCE),
     /** */
-    TABLE(EnumConstant.GenerationType_TABLE);
+    TABLE(EnumConstants.GenerationType_TABLE);
 
-    private final EnumConstant enumConstant;
+    private final EnumConstants enumConstant;
 
-    private GenerationType(EnumConstant enumConstant) {
+    private GenerationType(EnumConstants enumConstant) {
         this.enumConstant = enumConstant;
     }
 
@@ -40,7 +40,7 @@ public enum GenerationType {
      * 
      * @return 列挙定数
      */
-    public EnumConstant getEnumConstant() {
+    public EnumConstants getEnumConstant() {
         return enumConstant;
     }
 

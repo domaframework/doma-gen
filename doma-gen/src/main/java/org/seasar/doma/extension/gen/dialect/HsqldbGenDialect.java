@@ -15,7 +15,7 @@
  */
 package org.seasar.doma.extension.gen.dialect;
 
-import org.seasar.doma.extension.gen.ClassConstant;
+import org.seasar.doma.extension.gen.ClassConstants;
 
 /**
  * HSQLDB用の方言です。
@@ -39,8 +39,8 @@ public class HsqldbGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstant getDialectClassConstant() {
-        return ClassConstant.HsqldbDialect;
+    public ClassConstants getDialectClassConstant() {
+        return ClassConstants.HsqldbDialect;
     }
 
     @Override

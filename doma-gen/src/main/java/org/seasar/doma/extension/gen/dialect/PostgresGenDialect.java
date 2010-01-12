@@ -19,7 +19,7 @@ import java.sql.Blob;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-import org.seasar.doma.extension.gen.ClassConstant;
+import org.seasar.doma.extension.gen.ClassConstants;
 
 /**
  * PostgreSQL用の方言です。
@@ -34,10 +34,10 @@ public class PostgresGenDialect extends StandardGenDialect {
      */
     public PostgresGenDialect() {
         classNameMap.put("bigserial", Long.class.getName());
-        classNameMap.put("bit", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("bit", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("bool", Boolean.class.getName());
         classNameMap.put("bpchar", String.class.getName());
-        classNameMap.put("bytea", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("bytea", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("float4", Float.class.getName());
         classNameMap.put("float8", Double.class.getName());
         classNameMap.put("int2", Short.class.getName());
@@ -49,7 +49,7 @@ public class PostgresGenDialect extends StandardGenDialect {
         classNameMap.put("text", String.class.getName());
         classNameMap.put("timestamptz", Timestamp.class.getName());
         classNameMap.put("timetz", Time.class.getName());
-        classNameMap.put("varbit", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("varbit", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("varchar", String.class.getName());
     }
 
@@ -59,8 +59,8 @@ public class PostgresGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstant getDialectClassConstant() {
-        return ClassConstant.PostgresDialect;
+    public ClassConstants getDialectClassConstant() {
+        return ClassConstants.PostgresDialect;
     }
 
     @Override

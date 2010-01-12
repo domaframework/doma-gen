@@ -19,7 +19,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
-import org.seasar.doma.extension.gen.ClassConstant;
+import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
 
 /**
@@ -37,7 +37,7 @@ public interface GenDialect {
      */
     String getName();
 
-    ClassConstant getDialectClassConstant();
+    ClassConstants getDialectClassConstant();
 
     /**
      * デフォルトのスキーマ名を返します。

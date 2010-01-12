@@ -87,20 +87,20 @@ public class DaoDescFactory {
      *            エンティティ記述
      */
     protected void handleImportName(DaoDesc daoDesc, EntityDesc entityDesc) {
-        classDescSupport.addImportName(daoDesc, ClassConstant.Dao);
-        classDescSupport.addImportName(daoDesc, ClassConstant.Insert);
-        classDescSupport.addImportName(daoDesc, ClassConstant.Update);
-        classDescSupport.addImportName(daoDesc, ClassConstant.Delete);
+        classDescSupport.addImportName(daoDesc, ClassConstants.Dao);
+        classDescSupport.addImportName(daoDesc, ClassConstants.Insert);
+        classDescSupport.addImportName(daoDesc, ClassConstants.Update);
+        classDescSupport.addImportName(daoDesc, ClassConstants.Delete);
         classDescSupport.addImportName(daoDesc, configClassName);
         classDescSupport.addImportName(daoDesc, entityDesc.getQualifiedName());
         for (EntityPropertyDesc propertyDesc : entityDesc
                 .getIdEntityPropertyDescs()) {
             classDescSupport.addImportName(daoDesc, propertyDesc
                     .getPropertyClassName());
-            classDescSupport.addImportName(daoDesc, ClassConstant.Select);
+            classDescSupport.addImportName(daoDesc, ClassConstants.Select);
         }
         if (entityDesc.getIdEntityPropertyDescs().size() > 0) {
-            classDescSupport.addImportName(daoDesc, ClassConstant.Select);
+            classDescSupport.addImportName(daoDesc, ClassConstants.Select);
             for (EntityPropertyDesc propertyDesc : entityDesc
                     .getIdEntityPropertyDescs()) {
                 classDescSupport.addImportName(daoDesc, propertyDesc

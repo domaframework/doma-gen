@@ -31,7 +31,7 @@ import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.seasar.doma.extension.gen.ClassConstant;
+import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
 import org.seasar.doma.extension.gen.GenNullPointerException;
 import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
@@ -56,7 +56,7 @@ public class StandardGenDialect implements GenDialect {
      */
     public StandardGenDialect() {
         classNameMap.put("bigint", Long.class.getName());
-        classNameMap.put("binary", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("binary", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("bit", Boolean.class.getName());
         classNameMap.put("blob", Blob.class.getName());
         classNameMap.put("boolean", Boolean.class.getName());
@@ -68,7 +68,7 @@ public class StandardGenDialect implements GenDialect {
         classNameMap.put("float", Float.class.getName());
         classNameMap.put("integer", Integer.class.getName());
         classNameMap.put("longnvarchar", String.class.getName());
-        classNameMap.put("longvarbinary", ClassConstant.bytes
+        classNameMap.put("longvarbinary", ClassConstants.bytes
                 .getQualifiedName());
         classNameMap.put("longvarchar", String.class.getName());
         classNameMap.put("nclob", NClob.class.getName());
@@ -80,7 +80,7 @@ public class StandardGenDialect implements GenDialect {
         classNameMap.put("time", Time.class.getName());
         classNameMap.put("timestamp", Timestamp.class.getName());
         classNameMap.put("tinyint", Short.class.getName());
-        classNameMap.put("varbinary", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("varbinary", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("varchar", String.class.getName());
 
         fallbackClassNameMap.put(Types.BIGINT, Long.class.getName());
@@ -96,7 +96,7 @@ public class StandardGenDialect implements GenDialect {
         fallbackClassNameMap.put(Types.FLOAT, Float.class.getName());
         fallbackClassNameMap.put(Types.INTEGER, Integer.class.getName());
         fallbackClassNameMap.put(Types.LONGNVARCHAR, String.class.getName());
-        fallbackClassNameMap.put(Types.LONGVARBINARY, ClassConstant.bytes
+        fallbackClassNameMap.put(Types.LONGVARBINARY, ClassConstants.bytes
                 .getQualifiedName());
         fallbackClassNameMap.put(Types.LONGVARCHAR, String.class.getName());
         fallbackClassNameMap.put(Types.NCHAR, String.class.getName());
@@ -107,7 +107,7 @@ public class StandardGenDialect implements GenDialect {
         fallbackClassNameMap.put(Types.TIME, Time.class.getName());
         fallbackClassNameMap.put(Types.TIMESTAMP, Timestamp.class.getName());
         fallbackClassNameMap.put(Types.TINYINT, Short.class.getName());
-        fallbackClassNameMap.put(Types.VARBINARY, ClassConstant.bytes
+        fallbackClassNameMap.put(Types.VARBINARY, ClassConstants.bytes
                 .getQualifiedName());
         fallbackClassNameMap.put(Types.VARCHAR, String.class.getName());
         fallbackClassNameMap.put(Types.NVARCHAR, String.class.getName());
@@ -118,8 +118,8 @@ public class StandardGenDialect implements GenDialect {
     }
 
     @Override
-    public ClassConstant getDialectClassConstant() {
-        return ClassConstant.StandardDialect;
+    public ClassConstants getDialectClassConstant() {
+        return ClassConstants.StandardDialect;
     }
 
     @Override

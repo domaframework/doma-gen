@@ -82,7 +82,7 @@ public class EntityListenerDescFactory {
                 .getQualifiedName());
         if (superclassName == null) {
             classDescSupport
-                    .addImportName(entityListenerDesc, ClassConstant.EntityListener);
+                    .addImportName(entityListenerDesc, ClassConstants.EntityListener);
         } else {
             classDescSupport.addImportName(entityListenerDesc, superclassName);
         }

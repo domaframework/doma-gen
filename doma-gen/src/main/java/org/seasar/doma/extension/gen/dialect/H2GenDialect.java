@@ -15,7 +15,7 @@
  */
 package org.seasar.doma.extension.gen.dialect;
 
-import org.seasar.doma.extension.gen.ClassConstant;
+import org.seasar.doma.extension.gen.ClassConstants;
 
 /**
  * H2 Database Engine用の方言です。
@@ -37,8 +37,8 @@ public class H2GenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstant getDialectClassConstant() {
-        return ClassConstant.H2Dialect;
+    public ClassConstants getDialectClassConstant() {
+        return ClassConstants.H2Dialect;
     }
 
     @Override

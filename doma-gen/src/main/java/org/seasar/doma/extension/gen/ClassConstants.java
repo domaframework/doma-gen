@@ -21,7 +21,7 @@ package org.seasar.doma.extension.gen;
  * @author taedium
  * 
  */
-public enum ClassConstant {
+public enum ClassConstants {
 
     /** */
     Dao("org.seasar.doma", "Dao"),
@@ -52,23 +52,23 @@ public enum ClassConstant {
     /** */
     Version("org.seasar.doma", "Version"),
     /** */
-    NamingType("org.seasar.doma", "NamingType"),
-    /** */
     OriginalStates("org.seasar.doma", "OriginalStates"),
+    /** */
+    NamingType("org.seasar.doma.jdbc.entity", "NamingType"),
     /** */
     EntityListener("org.seasar.doma.jdbc.entity", "EntityListener"),
     /** */
     StandardDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
     /** */
-    HsqldbDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    HsqldbDialect("org.seasar.doma.jdbc.dialect", "HsqldbDialect"),
     /** */
-    H2Dialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    H2Dialect("org.seasar.doma.jdbc.dialect", "H2Dialect"),
     /** */
-    MysqlDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    MysqlDialect("org.seasar.doma.jdbc.dialect", "MysqlDialect"),
     /** */
-    PostgresDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    PostgresDialect("org.seasar.doma.jdbc.dialect", "PostgresDialect"),
     /** */
-    OracleDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
+    OracleDialect("org.seasar.doma.jdbc.dialect", "OracleDialect"),
 
     /** */
     bytes("", "byte[]"), ;
@@ -77,7 +77,7 @@ public enum ClassConstant {
 
     private final String simpleName;
 
-    private ClassConstant(String packageName, String simpleName) {
+    private ClassConstants(String packageName, String simpleName) {
         this.packageName = packageName;
         this.simpleName = simpleName;
     }

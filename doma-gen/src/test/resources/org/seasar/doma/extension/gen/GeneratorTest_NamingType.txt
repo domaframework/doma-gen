@@ -3,8 +3,8 @@ package example.entity;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
-import org.seasar.doma.NamingType;
 import org.seasar.doma.Table;
+import org.seasar.doma.jdbc.entity.NamingType;
 
 /**
  * COMMENT for HOGE

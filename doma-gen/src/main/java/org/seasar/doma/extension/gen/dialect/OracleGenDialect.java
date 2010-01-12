@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.seasar.doma.extension.gen.ClassConstant;
+import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
 import org.seasar.doma.extension.gen.GenNullPointerException;
 import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
@@ -44,9 +44,9 @@ public class OracleGenDialect extends StandardGenDialect {
         classNameMap.put("binary_double", Double.class.getName());
         classNameMap.put("binary_float", Float.class.getName());
         classNameMap.put("long", String.class.getName());
-        classNameMap.put("long raw", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("long raw", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("nvarchar2", String.class.getName());
-        classNameMap.put("raw", ClassConstant.bytes.getQualifiedName());
+        classNameMap.put("raw", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("varchar2", String.class.getName());
     }
 
@@ -56,8 +56,8 @@ public class OracleGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstant getDialectClassConstant() {
-        return ClassConstant.OracleDialect;
+    public ClassConstants getDialectClassConstant() {
+        return ClassConstants.OracleDialect;
     }
 
     @Override

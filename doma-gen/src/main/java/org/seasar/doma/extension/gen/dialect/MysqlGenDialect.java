@@ -21,7 +21,7 @@ import java.sql.Clob;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.seasar.doma.extension.gen.ClassConstant;
+import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
 
 /**
@@ -61,15 +61,15 @@ public class MysqlGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstant getDialectClassConstant() {
-        return ClassConstant.MysqlDialect;
+    public ClassConstants getDialectClassConstant() {
+        return ClassConstants.MysqlDialect;
     }
 
     @Override
     public String getMappedClassName(ColumnMeta columnMeta) {
         if ("bit".equalsIgnoreCase(columnMeta.getTypeName())) {
             return columnMeta.getLength() == 1 ? Boolean.class.getName()
-                    : ClassConstant.bytes.getQualifiedName();
+                    : ClassConstants.bytes.getQualifiedName();
         }
         return super.getMappedClassName(columnMeta);
     }
