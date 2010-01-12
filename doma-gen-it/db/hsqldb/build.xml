@@ -36,9 +36,11 @@
 			url="${url}"
 			user="${user}"
 			password="${password}"
+			tableTypes="TABLE, VIEW"
 			templatePrimaryDir="template">
 			<entityConfig
 				destDir="${src}"
+				namingtype="snake_upper_case"
 				entityPropertyClassNamesFile="entityPropertyClassNames.properties"
 			/>
 			<daoConfig

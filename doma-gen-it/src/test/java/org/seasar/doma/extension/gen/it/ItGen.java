@@ -109,6 +109,9 @@ public class ItGen extends Gen {
                         .executeUpdate("create table varbinary_table (varbinary_column varbinary)");
                 statement
                         .executeUpdate("create table longvarbinary_table (longvarbinary_column longvarbinary)");
+                statement
+                        .executeUpdate("create view employeeview as select * from employee");
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } finally {

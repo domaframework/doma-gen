@@ -54,6 +54,8 @@ public class TableMetaReader {
     /** 読み取り非対象とするテーブル名のパターン */
     protected final Pattern ignoredTableNamePattern;
 
+    protected final List<String> tableTypes;
+
     /**
      * インスタンスを構築します。
      * 
@@ -67,10 +69,12 @@ public class TableMetaReader {
      *            読み取り対象とするテーブル名のパターン
      * @param ignoredTableNamePattern
      *            読み取り非対象とするテーブル名のパターン
+     * @param tableTypes
+     *            テーブルの型のリスト
      */
     public TableMetaReader(GenDialect dialect, DataSource dataSource,
             String schemaName, String tableNamePattern,
-            String ignoredTableNamePattern) {
+            String ignoredTableNamePattern, List<String> tableTypes) {
         if (dialect == null) {
             throw new GenNullPointerException("dialect");
         }
@@ -83,6 +87,9 @@ public class TableMetaReader {
         if (ignoredTableNamePattern == null) {
             throw new GenNullPointerException("ignoreTableNamePattern");
         }
+        if (tableTypes == null) {
+            throw new GenNullPointerException("tableTypes");
+        }
         this.dialect = dialect;
         this.dataSource = dataSource;
         this.schemaName = schemaName;
@@ -90,6 +97,7 @@ public class TableMetaReader {
                 .compile(tableNamePattern, Pattern.CASE_INSENSITIVE);
         this.ignoredTableNamePattern = Pattern
                 .compile(ignoredTableNamePattern, Pattern.CASE_INSENSITIVE);
+        this.tableTypes = tableTypes;
     }
 
     /**
@@ -143,7 +151,8 @@ public class TableMetaReader {
             String schemaName) throws SQLException {
         List<TableMeta> results = new ArrayList<TableMeta>();
         ResultSet rs = metaData
-                .getTables(null, schemaName, null, new String[] { "TABLE" });
+                .getTables(null, schemaName, null, this.tableTypes
+                        .toArray(new String[this.tableTypes.size()]));
         try {
             while (rs.next()) {
                 TableMeta dbTableMeta = new TableMeta();

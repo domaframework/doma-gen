@@ -17,6 +17,7 @@ package org.seasar.doma.extension.gen;
 
 import java.io.File;
 import java.sql.Driver;
+import java.util.List;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -67,13 +68,15 @@ public class GlobalFactory {
      *            読み取り対象とするテーブル名のパターン
      * @param ignoredTableNamePattern
      *            読み取り非対象とするテーブル名のパターン
+     * @param tableTypes
+     *            テーブルの型のリスト
      * @return データソースメタデータのファクトリ
      */
     public TableMetaReader createTableMetaReader(GenDialect dialect,
             DataSource dataSource, String schemaName, String tableNamePattern,
-            String ignoredTableNamePattern) {
+            String ignoredTableNamePattern, List<String> tableTypes) {
         return new TableMetaReader(dialect, dataSource, schemaName,
-                tableNamePattern, ignoredTableNamePattern);
+                tableNamePattern, ignoredTableNamePattern, tableTypes);
     }
 
     /**

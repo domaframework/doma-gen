@@ -2,7 +2,10 @@ package org.seasar.doma.extension.gen.task;
 
 import java.io.File;
 import java.sql.Driver;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
 
@@ -72,6 +75,9 @@ public class Gen extends AbstractTask {
 
     /** 対象としないテーブル名の正規表現 */
     protected String ignoredTableNamePattern = ".*\\$.*";
+
+    /** 対象とするテーブルの型のリスト */
+    protected List<String> tableTypes = Arrays.asList("TABLE");
 
     /** バージョンカラム名のパターン。このパターンに合致した場合は {@code org.seasar.doma.Versino} が注釈されます。 */
     protected String versionColumnNamePattern = "VERSION([_]?NO)?";
@@ -212,6 +218,24 @@ public class Gen extends AbstractTask {
     }
 
     /**
+     * カンマまたは空白で区切られたテーブルの型のリストを設定します
+     * 
+     * @param tableTypes
+     *            カンマまたは空白で区切られたテーブルの型のリスト
+     */
+    public void setTableTypes(String tableTypes) {
+        if (tableTypes != null && tableTypes.length() > 0) {
+            StringTokenizer tokenizer = new StringTokenizer(tableTypes,
+                    ", \t\n\r\f", false);
+            this.tableTypes = new ArrayList<String>();
+            while (tokenizer.hasMoreTokens()) {
+                String tableType = tokenizer.nextToken();
+                this.tableTypes.add(tableType.toUpperCase());
+            }
+        }
+    }
+
+    /**
      * バージョンカラム名のパターンを設定します。
      * 
      * @param versionColumnNamePattern
@@ -345,7 +369,7 @@ public class Gen extends AbstractTask {
      */
     protected TableMetaReader createTableMetaReader() {
         return globalFactory
-                .createTableMetaReader(dialect, dataSource, schemaName, tableNamePattern, ignoredTableNamePattern);
+                .createTableMetaReader(dialect, dataSource, schemaName, tableNamePattern, ignoredTableNamePattern, tableTypes);
     }
 
     /**
