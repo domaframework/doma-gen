@@ -196,6 +196,74 @@ public class GeneratorTest extends TestCase {
         assertEquals(expect(), generator.getResult());
     }
 
+    public void testShowTableName_false() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for EMP_NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varchar");
+        empName.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, false, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testShowColumnName_false() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for EMP_NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varchar");
+        empName.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, false);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
     public void testGenerationType_IDENTITY() throws Exception {
         ColumnMeta id = new ColumnMeta();
         id.setComment("COMMENT for ID");

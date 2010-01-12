@@ -44,7 +44,9 @@ public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpl
   <#if property.version>
     @Version
   </#if>
-    @Column(<#if property.showColumnName && property.columnName??>name = "${property.columnName}"</#if>)
+  <#if property.showColumnName && property.columnName??>
+    @Column(name = "${property.columnName}")
+  </#if>
     <#if !useAccessor>public </#if>${property.propertyClassSimpleName} ${property.name};
 </#list>
 <#if originalStatesPropertyName??>

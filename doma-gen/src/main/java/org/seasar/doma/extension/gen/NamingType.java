@@ -24,20 +24,23 @@ package org.seasar.doma.extension.gen;
 public enum NamingType {
 
     /** */
-    NONE(EnumConstant.NamingType_NONE),
+    NONE(EnumConstant.NamingType_NONE, false),
     /** */
-    LOWER_CASE(EnumConstant.NamingType_LOWER_CASE),
+    LOWER_CASE(EnumConstant.NamingType_LOWER_CASE, false),
     /** */
-    UPPER_CASE(EnumConstant.NamingType_UPPER_CASE),
+    UPPER_CASE(EnumConstant.NamingType_UPPER_CASE, false),
     /** */
-    SNAKE_UPPER_CASE(EnumConstant.NamingType_SNAKE_UPPER_CASE),
+    SNAKE_UPPER_CASE(EnumConstant.NamingType_SNAKE_UPPER_CASE, true),
     /** */
-    SNAKE_LOWER_CASE(EnumConstant.NamingType_SNAKE_LOWER_CASE);
+    SNAKE_LOWER_CASE(EnumConstant.NamingType_SNAKE_LOWER_CASE, true);
 
     private final EnumConstant enumConstant;
 
-    private NamingType(EnumConstant enumConstant) {
+    private final boolean snakeCase;
+
+    private NamingType(EnumConstant enumConstant, boolean snakeCase) {
         this.enumConstant = enumConstant;
+        this.snakeCase = snakeCase;
     }
 
     /**
@@ -56,6 +59,15 @@ public enum NamingType {
      */
     public String getReferenceName() {
         return enumConstant.getReferenceName();
+    }
+
+    /**
+     * スネークケースの場合{@code true} を返します。
+     * 
+     * @return スネークケースの場合{@code true}
+     */
+    public boolean isSnakeCase() {
+        return snakeCase;
     }
 
 }

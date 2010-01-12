@@ -233,7 +233,7 @@ public class EntityPropertyDescFactory {
     protected void handleShowColumnName(EntityDesc entityDesc,
             EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
         if (showColumnName
-                || isNameDifferentBetweenPropertyAndColumn(propertyDesc)) {
+                || (!entityDesc.getNamingType().isSnakeCase() && isNameDifferentBetweenPropertyAndColumn(propertyDesc))) {
             propertyDesc.setShowColumnName(true);
         }
     }

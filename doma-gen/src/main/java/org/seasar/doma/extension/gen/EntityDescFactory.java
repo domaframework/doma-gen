@@ -169,7 +169,8 @@ public class EntityDescFactory {
      */
     protected void handleShowTableName(EntityDesc entityDesc,
             TableMeta tableMeta) {
-        if (showTableName || isNameDifferentBetweenEntityAndTable(entityDesc)) {
+        if (showTableName || !namingType.isSnakeCase()
+                && isNameDifferentBetweenEntityAndTable(entityDesc)) {
             entityDesc.setShowTableName(true);
         }
     }
