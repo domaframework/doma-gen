@@ -477,7 +477,7 @@ public class GeneratorTest extends TestCase {
                 .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         EntityListenerDescFactory entityListenerDescFactory = factory
-                .createEntityListenerDescFactory("example.entity", "aaa.HogeListener");
+                .createEntityListenerDescFactory("example.entity", "aaa.FooListener");
         EntityListenerDesc entityListenerDesc = entityListenerDescFactory
                 .createEntityListenerDesc(entityDesc);
         generator.generate(new EntityListenerContext(entityListenerDesc));

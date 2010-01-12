@@ -16,7 +16,7 @@ import ${importName};
  * @author ${lib.author}
 </#if>
  */
-public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpleName}<#else> implements EntityListener<${entityClassSimpleName}></#if> {
+public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpleName}<${entityClassSimpleName}><#else> implements EntityListener<${entityClassSimpleName}></#if> {
 <#if !superclassSimpleName??>
 
     @Override

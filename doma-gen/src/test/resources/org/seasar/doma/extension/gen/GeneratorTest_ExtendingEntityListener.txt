@@ -1,9 +1,9 @@
 package example.entity;
 
-import aaa.HogeListener;
+import aaa.FooListener;
 
 /**
  * 
  */
-public class HogeListener extends HogeListener {
+public class HogeListener extends FooListener<Hoge> {
 }
