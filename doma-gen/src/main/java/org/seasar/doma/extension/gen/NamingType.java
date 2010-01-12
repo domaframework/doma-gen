@@ -15,6 +15,8 @@
  */
 package org.seasar.doma.extension.gen;
 
+import org.seasar.doma.extension.gen.internal.util.StringUtil;
+
 /**
  * ネーミング規約を表します。
  * 
@@ -24,23 +26,64 @@ package org.seasar.doma.extension.gen;
 public enum NamingType {
 
     /** */
-    NONE(EnumConstant.NamingType_NONE, false),
+    NONE(EnumConstant.NamingType_NONE) {
+
+        @Override
+        public String apply(String text) {
+            return text;
+        }
+    },
     /** */
-    LOWER_CASE(EnumConstant.NamingType_LOWER_CASE, false),
+    LOWER_CASE(EnumConstant.NamingType_LOWER_CASE) {
+
+        @Override
+        public String apply(String text) {
+            if (text == null) {
+                throw new GenNullPointerException("text");
+            }
+            return text.toLowerCase();
+        }
+    },
     /** */
-    UPPER_CASE(EnumConstant.NamingType_UPPER_CASE, false),
+    UPPER_CASE(EnumConstant.NamingType_UPPER_CASE) {
+
+        @Override
+        public String apply(String text) {
+            if (text == null) {
+                throw new GenNullPointerException("text");
+            }
+            return text.toUpperCase();
+        }
+    },
     /** */
-    SNAKE_UPPER_CASE(EnumConstant.NamingType_SNAKE_UPPER_CASE, true),
+    SNAKE_UPPER_CASE(EnumConstant.NamingType_SNAKE_UPPER_CASE) {
+
+        @Override
+        public String apply(String text) {
+            if (text == null) {
+                throw new GenNullPointerException("text");
+            }
+            String s = StringUtil.fromCamelCaseToSnakeCase(text);
+            return s.toUpperCase();
+        }
+    },
     /** */
-    SNAKE_LOWER_CASE(EnumConstant.NamingType_SNAKE_LOWER_CASE, true);
+    SNAKE_LOWER_CASE(EnumConstant.NamingType_SNAKE_LOWER_CASE) {
+
+        @Override
+        public String apply(String text) {
+            if (text == null) {
+                throw new GenNullPointerException("text");
+            }
+            String s = StringUtil.fromCamelCaseToSnakeCase(text);
+            return s.toLowerCase();
+        }
+    };
 
     private final EnumConstant enumConstant;
 
-    private final boolean snakeCase;
-
-    private NamingType(EnumConstant enumConstant, boolean snakeCase) {
+    private NamingType(EnumConstant enumConstant) {
         this.enumConstant = enumConstant;
-        this.snakeCase = snakeCase;
     }
 
     /**
@@ -62,12 +105,12 @@ public enum NamingType {
     }
 
     /**
-     * スネークケースの場合{@code true} を返します。
+     * ネーミング規約を適用します。
      * 
-     * @return スネークケースの場合{@code true}
+     * @param text
+     *            規約が適用される文字列
+     * @return 規約が適用された文字列
      */
-    public boolean isSnakeCase() {
-        return snakeCase;
-    }
+    public abstract String apply(String text);
 
 }

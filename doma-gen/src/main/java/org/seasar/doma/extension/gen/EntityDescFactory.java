@@ -169,8 +169,7 @@ public class EntityDescFactory {
      */
     protected void handleShowTableName(EntityDesc entityDesc,
             TableMeta tableMeta) {
-        if (showTableName || !namingType.isSnakeCase()
-                && isNameDifferentBetweenEntityAndTable(entityDesc)) {
+        if (showTableName || isNameDifferentBetweenEntityAndTable(entityDesc)) {
             entityDesc.setShowTableName(true);
         }
     }
@@ -183,8 +182,9 @@ public class EntityDescFactory {
      * @return エンティティ名とテーブル名が異なる場合 {@code true}
      */
     protected boolean isNameDifferentBetweenEntityAndTable(EntityDesc entityDesc) {
-        return !entityDesc.getSimpleName().equalsIgnoreCase(entityDesc
-                .getTableName());
+        String entityName = entityDesc.getSimpleName();
+        String tableName = entityDesc.getTableName();
+        return !tableName.equalsIgnoreCase(namingType.apply(entityName));
     }
 
     /**

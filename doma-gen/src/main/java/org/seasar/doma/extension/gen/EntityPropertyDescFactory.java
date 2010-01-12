@@ -233,7 +233,7 @@ public class EntityPropertyDescFactory {
     protected void handleShowColumnName(EntityDesc entityDesc,
             EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
         if (showColumnName
-                || (!entityDesc.getNamingType().isSnakeCase() && isNameDifferentBetweenPropertyAndColumn(propertyDesc))) {
+                || isNameDifferentBetweenPropertyAndColumn(entityDesc, propertyDesc)) {
             propertyDesc.setShowColumnName(true);
         }
     }
@@ -241,14 +241,18 @@ public class EntityPropertyDescFactory {
     /**
      * プロパティ名とカラム名が異なる場合 {@code true}を返します。
      * 
+     * @param entityDesc
+     *            エンティティ記述
      * @param propertyDesc
      *            エンティティプロパティ記述
      * @return プロパティ名とカラム名が異なる場合 {@code true}
      */
     protected boolean isNameDifferentBetweenPropertyAndColumn(
-            EntityPropertyDesc propertyDesc) {
-        return !propertyDesc.getName().equalsIgnoreCase(propertyDesc
-                .getColumnName());
+            EntityDesc entityDesc, EntityPropertyDesc propertyDesc) {
+        String propertyName = propertyDesc.getName();
+        String columnName = propertyDesc.getColumnName();
+        NamingType namingType = entityDesc.getNamingType();
+        return !columnName.equalsIgnoreCase(namingType.apply(propertyName));
     }
 
     /**
