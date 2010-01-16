@@ -109,16 +109,16 @@ public class TableMetaReader {
         Connection con = JdbcUtil.getConnection(dataSource);
         try {
             DatabaseMetaData metaData = con.getMetaData();
-            List<TableMeta> dbTableMetas = getDbTableMetas(metaData, schemaName != null ? schemaName
+            List<TableMeta> tableMetas = getTableMetas(metaData, schemaName != null ? schemaName
                     : getDefaultSchemaName(metaData));
-            for (TableMeta tableMeta : dbTableMetas) {
+            for (TableMeta tableMeta : tableMetas) {
                 Set<String> primaryKeySet = getPrimaryKeys(metaData, tableMeta);
-                doDbColumnMeta(metaData, tableMeta, primaryKeySet);
+                handleColumnMeta(metaData, tableMeta, primaryKeySet);
             }
-            if (dialect.isJdbcCommentAvailable()) {
-                readCommentFromDictinary(con, dbTableMetas);
+            if (dialect.isJdbcCommentUnavailable()) {
+                readCommentFromDictinary(con, tableMetas);
             }
-            return dbTableMetas;
+            return tableMetas;
         } catch (SQLException e) {
             throw new GenException(Message.DOMAGEN9001, e, e);
         } finally {
@@ -126,7 +126,7 @@ public class TableMetaReader {
         }
     }
 
-    protected void doDbColumnMeta(DatabaseMetaData metaData,
+    protected void handleColumnMeta(DatabaseMetaData metaData,
             TableMeta tableMeta, Set<String> primaryKeySet) throws SQLException {
         for (ColumnMeta columnMeta : getDbColumnMetas(metaData, tableMeta)) {
             if (primaryKeySet.contains(columnMeta.getName())) {
@@ -147,7 +147,7 @@ public class TableMetaReader {
         return dialect.getDefaultSchemaName(userName);
     }
 
-    protected List<TableMeta> getDbTableMetas(DatabaseMetaData metaData,
+    protected List<TableMeta> getTableMetas(DatabaseMetaData metaData,
             String schemaName) throws SQLException {
         List<TableMeta> results = new ArrayList<TableMeta>();
         ResultSet rs = metaData
@@ -155,13 +155,13 @@ public class TableMetaReader {
                         .toArray(new String[this.tableTypes.size()]));
         try {
             while (rs.next()) {
-                TableMeta dbTableMeta = new TableMeta();
-                dbTableMeta.setCatalogName(rs.getString("TABLE_CAT"));
-                dbTableMeta.setSchemaName(rs.getString("TABLE_SCHEM"));
-                dbTableMeta.setName(rs.getString("TABLE_NAME"));
-                dbTableMeta.setComment(rs.getString("REMARKS"));
-                if (isTargetTable(dbTableMeta)) {
-                    results.add(dbTableMeta);
+                TableMeta tableMeta = new TableMeta();
+                tableMeta.setCatalogName(rs.getString("TABLE_CAT"));
+                tableMeta.setSchemaName(rs.getString("TABLE_SCHEM"));
+                tableMeta.setName(rs.getString("TABLE_NAME"));
+                tableMeta.setComment(rs.getString("REMARKS"));
+                if (isTargetTable(tableMeta)) {
+                    results.add(tableMeta);
                 }
             }
             return results;
@@ -189,16 +189,16 @@ public class TableMetaReader {
                         .getSchemaName(), tableMeta.getName(), null);
         try {
             while (rs.next()) {
-                ColumnMeta columnDesc = new ColumnMeta();
-                columnDesc.setName(rs.getString("COLUMN_NAME"));
-                columnDesc.setSqlType(rs.getInt("DATA_TYPE"));
-                columnDesc.setTypeName(rs.getString("TYPE_NAME"));
-                columnDesc.setLength(rs.getInt("COLUMN_SIZE"));
-                columnDesc.setScale(rs.getInt("DECIMAL_DIGITS"));
-                columnDesc.setNullable(rs.getBoolean("NULLABLE"));
-                columnDesc.setDefaultValue(rs.getString("COLUMN_DEF"));
-                columnDesc.setComment(rs.getString("REMARKS"));
-                results.add(columnDesc);
+                ColumnMeta columnMeta = new ColumnMeta();
+                columnMeta.setName(rs.getString("COLUMN_NAME"));
+                columnMeta.setSqlType(rs.getInt("DATA_TYPE"));
+                columnMeta.setTypeName(rs.getString("TYPE_NAME"));
+                columnMeta.setLength(rs.getInt("COLUMN_SIZE"));
+                columnMeta.setScale(rs.getInt("DECIMAL_DIGITS"));
+                columnMeta.setNullable(rs.getBoolean("NULLABLE"));
+                columnMeta.setDefaultValue(rs.getString("COLUMN_DEF"));
+                columnMeta.setComment(rs.getString("REMARKS"));
+                results.add(columnMeta);
             }
             return results;
         } finally {

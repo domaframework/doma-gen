@@ -19,7 +19,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
-import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
 
 /**
@@ -37,7 +36,7 @@ public interface GenDialect {
      */
     String getName();
 
-    ClassConstants getDialectClassConstant();
+    String getDialectClassName();
 
     /**
      * デフォルトのスキーマ名を返します。
@@ -93,11 +92,11 @@ public interface GenDialect {
             throws SQLException;
 
     /**
-     * JDBCによりコメントの取得が可能な場合 {@code true} を返します。
+     * JDBCによりコメントの取得が不可能な場合 {@code true} を返します。
      * 
-     * @return JDBCによりコメントの取得が可能な場合 {@code true}
+     * @return JDBCによりコメントの取得が不可能な場合 {@code true}
      */
-    boolean isJdbcCommentAvailable();
+    boolean isJdbcCommentUnavailable();
 
     /**
      * テーブルのコメントを取得します。

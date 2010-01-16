@@ -56,13 +56,13 @@ public class OracleGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstants getDialectClassConstant() {
-        return ClassConstants.OracleDialect;
+    public String getDialectClassName() {
+        return ClassConstants.OracleDialect.getQualifiedName();
     }
 
     @Override
-    public boolean isJdbcCommentAvailable() {
-        return false;
+    public boolean isJdbcCommentUnavailable() {
+        return true;
     }
 
     @Override

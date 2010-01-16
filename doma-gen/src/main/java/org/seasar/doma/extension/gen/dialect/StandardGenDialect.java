@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,13 +119,13 @@ public class StandardGenDialect implements GenDialect {
     }
 
     @Override
-    public ClassConstants getDialectClassConstant() {
-        return ClassConstants.StandardDialect;
+    public String getDialectClassName() {
+        return ClassConstants.StandardDialect.getQualifiedName();
     }
 
     @Override
-    public boolean isJdbcCommentAvailable() {
-        return true;
+    public boolean isJdbcCommentUnavailable() {
+        return false;
     }
 
     public String getDefaultSchemaName(String userName) {
@@ -165,14 +166,14 @@ public class StandardGenDialect implements GenDialect {
     @Override
     public String getTableComment(Connection connection, String catalogName,
             String schemaName, String tableName) throws SQLException {
-        throw new UnsupportedOperationException("getTableComment");
+        return "";
     }
 
     @Override
     public Map<String, String> getColumnCommentMap(Connection connection,
             String catalogName, String schemaName, String tableName)
             throws SQLException {
-        throw new UnsupportedOperationException("getColumnCommentMap");
+        return Collections.emptyMap();
     }
 
     @Override

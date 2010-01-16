@@ -37,8 +37,8 @@ public class H2GenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstants getDialectClassConstant() {
-        return ClassConstants.H2Dialect;
+    public String getDialectClassName() {
+        return ClassConstants.H2Dialect.getQualifiedName();
     }
 
     @Override
@@ -47,8 +47,8 @@ public class H2GenDialect extends StandardGenDialect {
     }
 
     @Override
-    public boolean isJdbcCommentAvailable() {
-        return false;
+    public boolean isJdbcCommentUnavailable() {
+        return true;
     }
 
     @Override

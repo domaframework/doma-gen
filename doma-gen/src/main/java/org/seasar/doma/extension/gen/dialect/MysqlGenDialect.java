@@ -61,8 +61,8 @@ public class MysqlGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstants getDialectClassConstant() {
-        return ClassConstants.MysqlDialect;
+    public String getDialectClassName() {
+        return ClassConstants.MysqlDialect.getQualifiedName();
     }
 
     @Override

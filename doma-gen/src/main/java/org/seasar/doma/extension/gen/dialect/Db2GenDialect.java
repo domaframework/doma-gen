@@ -53,8 +53,8 @@ public class Db2GenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstants getDialectClassConstant() {
-        return ClassConstants.Db2Dialect;
+    public String getDialectClassName() {
+        return ClassConstants.Db2Dialect.getQualifiedName();
     }
 
     @Override

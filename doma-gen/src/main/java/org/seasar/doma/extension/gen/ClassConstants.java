@@ -70,6 +70,8 @@ public enum ClassConstants {
     /** */
     Db2Dialect("org.seasar.doma.jdbc.dialect", "Db2Dialect"),
     /** */
+    Mssql2008("org.seasar.doma.jdbc.dialect", "Mssql2008Dialect"),
+    /** */
     OracleDialect("org.seasar.doma.jdbc.dialect", "OracleDialect"),
 
     /** */

@@ -39,8 +39,8 @@ public class HsqldbGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstants getDialectClassConstant() {
-        return ClassConstants.HsqldbDialect;
+    public String getDialectClassName() {
+        return ClassConstants.HsqldbDialect.getQualifiedName();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class HsqldbGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public boolean isJdbcCommentAvailable() {
-        return false;
+    public boolean isJdbcCommentUnavailable() {
+        return true;
     }
 
     @Override

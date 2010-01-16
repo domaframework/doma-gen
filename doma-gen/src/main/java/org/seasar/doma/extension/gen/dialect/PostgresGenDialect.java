@@ -59,8 +59,8 @@ public class PostgresGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public ClassConstants getDialectClassConstant() {
-        return ClassConstants.PostgresDialect;
+    public String getDialectClassName() {
+        return ClassConstants.PostgresDialect.getQualifiedName();
     }
 
     @Override

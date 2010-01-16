@@ -41,6 +41,8 @@ public class GenDialectRegistry {
         register(new MysqlGenDialect());
         register(new PostgresGenDialect());
         register(new OracleGenDialect());
+        register(new Db2GenDialect());
+        register(new Mssql2008GenDialect());
     }
 
     /**

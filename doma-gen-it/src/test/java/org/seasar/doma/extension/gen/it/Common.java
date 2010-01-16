@@ -22,6 +22,5 @@ import org.seasar.doma.Entity;
  * 
  */
 @Entity
-public class Common {
-
+public abstract class Common {
 }

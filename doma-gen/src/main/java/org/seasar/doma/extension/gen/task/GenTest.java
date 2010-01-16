@@ -195,8 +195,7 @@ public class GenTest extends AbstractTask {
         if (dialectClassName == null) {
             GenDialect dialect = GenDialectRegistry.lookup(dialectName
                     .getValue());
-            dialectClassName = dialect.getDialectClassConstant()
-                    .getQualifiedName();
+            dialectClassName = dialect.getDialectClassName();
         }
         sqlTestDescFactory = createSqlTestDescFactory();
         generator = createGenerator();
