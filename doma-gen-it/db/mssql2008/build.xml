@@ -36,8 +36,7 @@
 	url="${url}"
 	user="${user}"
 	password="${password}"
-	tableTypes="TABLE, VIEW"
-	templatePrimaryDir="template">
+	tableTypes="TABLE, VIEW">
 	<entityConfig
 		destDir="${src}"
 		namingtype="snake_upper_case"
