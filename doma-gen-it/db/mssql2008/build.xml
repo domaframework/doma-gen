@@ -30,28 +30,28 @@
 	<typedef name="sqlTestConfig" classname="org.seasar.doma.extension.gen.task.SqlTestConfig" loaderref="genLoaderref" />
 
 	<target name="gen" depends="clean">
-<gen
-	dialectName="${dialectName}"
-	driverClassName="${driverClassName}"
-	url="${url}"
-	user="${user}"
-	password="${password}"
-	tableTypes="TABLE, VIEW">
-	<entityConfig
-		destDir="${src}"
-		namingtype="snake_upper_case"
-		superclassName="org.seasar.doma.extension.gen.it.Common"
-		listenerSuperclassName="org.seasar.doma.extension.gen.it.CommonListener"
-		entityPropertyClassNamesFile="entityPropertyClassNames.properties"
-	/>
-	<daoConfig
-		destDir="${src}"
-		configClassname="org.seasar.doma.jdbc.ConfigProxy"
-	/>
-	<sqlConfig
-		destDir="${src}"
-	/>
-</gen>
+		<gen
+			dialectName="${dialectName}"
+			driverClassName="${driverClassName}"
+			url="${url}"
+			user="${user}"
+			password="${password}"
+			tableTypes="TABLE, VIEW">
+			<entityConfig
+				destDir="${src}"
+				namingtype="snake_upper_case"
+				superclassName="org.seasar.doma.extension.gen.it.Common"
+				listenerSuperclassName="org.seasar.doma.extension.gen.it.CommonListener"
+				entityPropertyClassNamesFile="entityPropertyClassNames.properties"
+			/>
+			<daoConfig
+				destDir="${src}"
+				configClassname="org.seasar.doma.jdbc.ConfigProxy"
+			/>
+			<sqlConfig
+				destDir="${src}"
+			/>
+		</gen>
 		<copy todir="${build}">
 			<fileset dir="${src}">
 				<include name="META-INF/**" />
