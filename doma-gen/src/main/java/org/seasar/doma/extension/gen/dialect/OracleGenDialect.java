@@ -27,6 +27,7 @@ import java.util.Map;
 import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
 import org.seasar.doma.extension.gen.GenNullPointerException;
+import org.seasar.doma.extension.gen.Logger;
 import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
 
 /**
@@ -71,14 +72,19 @@ public class OracleGenDialect extends StandardGenDialect {
         if (connection == null) {
             throw new GenNullPointerException("connection");
         }
+        if (schemaName == null) {
+            throw new GenNullPointerException("schemaName");
+        }
         if (tableName == null) {
             throw new GenNullPointerException("tableName");
         }
-        String sql = "select comments from all_tab_comments where owner = "
-                + schemaName + " and table_name = " + tableName
-                + " and table_type = 'TABLE'";
+        String sql = "select comments from all_tab_comments where owner = ? and table_name = ? and table_type in ('TABLE', 'VIEW')";
+        Logger.info(String
+                .format(sql.replace("?", "'%s'"), schemaName, tableName));
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         try {
+            preparedStatement.setString(1, schemaName);
+            preparedStatement.setString(2, tableName);
             ResultSet resultSet = preparedStatement.executeQuery();
             try {
                 if (resultSet.next()) {
@@ -100,13 +106,20 @@ public class OracleGenDialect extends StandardGenDialect {
         if (connection == null) {
             throw new GenNullPointerException("connection");
         }
+        if (schemaName == null) {
+            throw new GenNullPointerException("schemaName");
+        }
         if (tableName == null) {
             throw new GenNullPointerException("tableName");
         }
-        String sql = "select column_name, comments from all_col_comments where owner = "
-                + schemaName + " and table_name = " + tableName;
+
+        String sql = "select column_name, comments from all_col_comments where owner = ? and table_name = ?";
+        Logger.info(String
+                .format(sql.replace("?", "'%s'"), schemaName, tableName));
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         try {
+            preparedStatement.setString(1, schemaName);
+            preparedStatement.setString(2, tableName);
             ResultSet resultSet = preparedStatement.executeQuery();
             try {
                 Map<String, String> commentMap = new HashMap<String, String>();
