@@ -5,13 +5,13 @@
 
 	<!-- The Basics -->
 	<groupId>org.seasar.doma</groupId>
-	<artifactId>doma-gen</artifactId>
+	<artifactId>doma-gen-it</artifactId>
 	<version>1.0.0-RC2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<!-- More Project Information -->
-	<name>Doma-Gen</name>
-	<description>Doma Generator</description>
+	<name>Doma-Gen IT</name>
+	<description>Doma Generator Integration Test</description>
 	<url>http://doma.sandbox.seasar.org/</url>
 	<inceptionYear>2009</inceptionYear>
 	<licenses>
