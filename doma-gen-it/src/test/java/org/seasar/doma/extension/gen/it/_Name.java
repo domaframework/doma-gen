@@ -46,7 +46,7 @@ public final class _Name
     /**
      * @return the singleton
      */
-    public static _Name get() {
+    public static _Name getSingletonInternal() {
         return singleton;
     }
 

@@ -47,7 +47,7 @@
 			/>
 			<daoConfig
 				destDir="${src}"
-				configClassname="org.seasar.doma.jdbc.ConfigProxy"
+				configClassname="org.seasar.doma.jdbc.Config"
 			/>
 			<sqlConfig
 				destDir="${src}"
