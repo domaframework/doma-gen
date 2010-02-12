@@ -30,7 +30,7 @@ public interface ${simpleName} {
     /**
      * @return the ${entityDesc.simpleName} entity
      */
-    @Select
+    @Select(ensureResult = true)
     ${entityDesc.simpleName} selectByIdAndVersion(<#list entityDesc.idEntityPropertyDescs as property>${property.propertyClassSimpleName} ${property.name}, </#list>${entityDesc.versionEntityPropertyDesc.propertyClassSimpleName} ${entityDesc.versionEntityPropertyDesc.name});
 
 </#if>

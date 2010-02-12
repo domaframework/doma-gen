@@ -22,7 +22,7 @@ public interface HogeDao {
     /**
      * @return the Hoge entity
      */
-    @Select
+    @Select(ensureResult = true)
     Hoge selectByIdAndVersion(Integer id, Integer version);
 
     /**
