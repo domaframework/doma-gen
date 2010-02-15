@@ -46,7 +46,7 @@ public class DaoConfig extends DataType {
     protected String suffix = "Dao";
 
     /** 設定クラス名 */
-    protected String configClassName = "example.AppConfig";
+    protected String configClassName = null;
 
     /** ベースディレクトリ　 */
     protected File baseDir = null;

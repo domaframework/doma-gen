@@ -15,7 +15,7 @@ import ${importName};
  * @author ${lib.author}
 </#if>
  */
-@Dao(config = ${configClassSimpleName}.class)
+@Dao<#if configClassSimpleName??>(config = ${configClassSimpleName}.class)</#if>
 public interface ${simpleName} {
 
 <#if entityDesc.idEntityPropertyDescs?size gt 0>

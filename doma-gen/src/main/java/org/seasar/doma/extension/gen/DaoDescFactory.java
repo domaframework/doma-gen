@@ -44,15 +44,12 @@ public class DaoDescFactory {
      * @param suffix
      *            サフィックス
      * @param configClassName
-     *            設定クラス名
+     *            設定クラス名、指定しない場合 {@code null}
      */
     public DaoDescFactory(String packageName, String suffix,
             String configClassName) {
         if (suffix == null) {
             throw new GenNullPointerException("suffix");
-        }
-        if (configClassName == null) {
-            throw new GenNullPointerException("configClassName");
         }
         this.packageName = packageName;
         this.suffix = suffix;
@@ -70,8 +67,10 @@ public class DaoDescFactory {
         DaoDesc daoDesc = new DaoDesc();
         daoDesc.setPackageName(packageName);
         daoDesc.setSimpleName(entityDesc.getSimpleName() + suffix);
-        daoDesc.setConfigClassSimpleName(ClassUtil
-                .getSimpleName(configClassName));
+        if (configClassName != null) {
+            daoDesc.setConfigClassSimpleName(ClassUtil
+                    .getSimpleName(configClassName));
+        }
         daoDesc.setEntityDesc(entityDesc);
         daoDesc.setTemplateName(Constants.DAO_TEMPLATE);
         handleImportName(daoDesc, entityDesc);
@@ -91,7 +90,9 @@ public class DaoDescFactory {
         classDescSupport.addImportName(daoDesc, ClassConstants.Insert);
         classDescSupport.addImportName(daoDesc, ClassConstants.Update);
         classDescSupport.addImportName(daoDesc, ClassConstants.Delete);
-        classDescSupport.addImportName(daoDesc, configClassName);
+        if (configClassName != null) {
+            classDescSupport.addImportName(daoDesc, configClassName);
+        }
         classDescSupport.addImportName(daoDesc, entityDesc.getQualifiedName());
         for (EntityPropertyDesc propertyDesc : entityDesc
                 .getIdEntityPropertyDescs()) {
