@@ -13,18 +13,25 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.doma.extension.gen.it;
+package example.hoge;
 
 import org.seasar.doma.Entity;
-import org.seasar.doma.Version;
+import org.seasar.doma.Transient;
 
 /**
  * @author taedium
  * 
  */
 @Entity
-public abstract class Common {
+public class CommonEntity {
 
-    @Version
-    Integer version;
+    String name;
+
+    @Transient
+    String transientString;
+
+    static String staticString;
+
+    @SuppressWarnings("unused")
+    private String privateString;
 }

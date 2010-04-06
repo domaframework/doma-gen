@@ -15,6 +15,14 @@
  */
 package org.seasar.doma.extension.gen;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.seasar.doma.Column;
+import org.seasar.doma.Entity;
+import org.seasar.doma.Transient;
 import org.seasar.doma.extension.gen.internal.util.ClassUtil;
 import org.seasar.doma.extension.gen.internal.util.StringUtil;
 
@@ -55,8 +63,8 @@ public class EntityDescFactory {
     /** エンティティリスナーを使用する場合 {@code true} */
     protected final boolean useListener;
 
-    /** スーパークラス名 */
-    protected final String superclassName;
+    /** スーパークラス */
+    protected final Class<?> superclass;
 
     /** クラス記述のサポートクラス */
     protected final ClassDescSupport classDescSupport = new ClassDescSupport();
@@ -66,8 +74,8 @@ public class EntityDescFactory {
      * 
      * @param packageName
      *            パッケージ名
-     * @param superclassName
-     *            スーパークラス名
+     * @param superclass
+     *            スーパークラス
      * @param entityPropertyDescFactory
      *            エンティティプロパティ記述のファクトリ
      * @param namingType
@@ -83,7 +91,7 @@ public class EntityDescFactory {
      * @param useListener
      *            エンティティリスナーを使用する場合 {@code true}
      */
-    public EntityDescFactory(String packageName, String superclassName,
+    public EntityDescFactory(String packageName, Class<?> superclass,
             EntityPropertyDescFactory entityPropertyDescFactory,
             NamingType namingType, String originalStatesPropertyName,
             boolean showCatalogName, boolean showSchemaName,
@@ -96,7 +104,7 @@ public class EntityDescFactory {
             throw new GenNullPointerException("namingType");
         }
         this.packageName = packageName;
-        this.superclassName = superclassName;
+        this.superclass = superclass;
         this.entityPropertyDescFactory = entityPropertyDescFactory;
         this.namingType = namingType;
         this.originalStatesPropertyName = originalStatesPropertyName;
@@ -125,9 +133,8 @@ public class EntityDescFactory {
         entityDesc.setQualifiedTableName(tableMeta.getQualifiedTableName());
         entityDesc.setPackageName(packageName);
         handleSimpleName(entityDesc, tableMeta);
-        if (superclassName != null) {
-            entityDesc.setSuperclassSimpleName(ClassUtil
-                    .getSimpleName(superclassName));
+        if (superclass != null) {
+            entityDesc.setSuperclassSimpleName(superclass.getSimpleName());
         }
         entityDesc.setListenerClassSimpleName(ClassUtil
                 .getSimpleName(entityDesc.getSimpleName()
@@ -197,11 +204,57 @@ public class EntityDescFactory {
      */
     protected void handleEntityPropertyDesc(EntityDesc entityDesc,
             TableMeta tableMeta) {
+        Set<String> superclassColumnNames = getSuperclassColumnNames();
         for (ColumnMeta columnMeta : tableMeta.getColumnMetas()) {
+            String columnName = columnMeta.getName().toLowerCase();
+            if (superclassColumnNames.contains(columnName)) {
+                continue;
+            }
             EntityPropertyDesc propertyDesc = entityPropertyDescFactory
                     .createEntityPropertyDesc(entityDesc, columnMeta);
             entityDesc.addEntityPropertyDesc(propertyDesc);
         }
+    }
+
+    /**
+     * スーパークラスに定義されたプロパティのカラム名のセットを返します。
+     * <p>
+     * カラム名はすべて小文字です。
+     * 
+     * @return スーパークラスに定義されたプロパティのカラム名のセット
+     */
+    protected Set<String> getSuperclassColumnNames() {
+        Set<String> results = new HashSet<String>();
+        if (superclass == null) {
+            return results;
+        }
+        for (Class<?> clazz = superclass; clazz != Object.class; clazz = superclass
+                .getSuperclass()) {
+            Entity entity = clazz.getAnnotation(Entity.class);
+            if (entity == null) {
+                continue;
+            }
+            org.seasar.doma.jdbc.entity.NamingType namingType = entity.naming();
+            for (Field field : clazz.getDeclaredFields()) {
+                int m = field.getModifiers();
+                if (Modifier.isPrivate(m) || Modifier.isStatic(m)) {
+                    continue;
+                }
+                if (field.isAnnotationPresent(Transient.class)) {
+                    continue;
+                }
+                Column column = field.getAnnotation(Column.class);
+                String columnName = null;
+                if (column == null || column.name().isEmpty()) {
+                    columnName = namingType.apply(field.getName())
+                            .toLowerCase();
+                } else {
+                    columnName = column.name().toLowerCase();
+                }
+                results.add(columnName);
+            }
+        }
+        return results;
     }
 
     /**
@@ -219,8 +272,8 @@ public class EntityDescFactory {
                 || entityDesc.getTableName() != null) {
             classDescSupport.addImportName(entityDesc, ClassConstants.Table);
         }
-        if (superclassName != null) {
-            classDescSupport.addImportName(entityDesc, superclassName);
+        if (superclass != null) {
+            classDescSupport.addImportName(entityDesc, superclass.getName());
         }
         if (namingType != NamingType.NONE) {
             classDescSupport.addImportName(entityDesc, namingType

@@ -25,6 +25,8 @@ import org.seasar.doma.extension.gen.dialect.GenDialect;
 import org.seasar.doma.extension.gen.dialect.PostgresGenDialect;
 import org.seasar.doma.extension.gen.internal.util.ResourceUtil;
 
+import example.hoge.CommonEntity;
+
 /**
  * @author taedium
  * 
@@ -150,19 +152,27 @@ public class GeneratorTest extends TestCase {
         id.setPrimaryKey(true);
         id.setNullable(false);
 
+        ColumnMeta name = new ColumnMeta();
+        name.setComment("COMMENT for NAME");
+        name.setName("NAME");
+        name.setTypeName("varchar");
+        name.setPrimaryKey(false);
+        name.setNullable(false);
+
         TableMeta tableMeta = new TableMeta();
         tableMeta.setCatalogName("CATALOG");
         tableMeta.setSchemaName("SCHEMA");
         tableMeta.setName("HOGE");
         tableMeta.setComment("COMMENT for HOGE");
         tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(name);
 
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
                 .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
         EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", "example.hoge.CommonEntity", entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityDescFactory("example.entity", CommonEntity.class, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 

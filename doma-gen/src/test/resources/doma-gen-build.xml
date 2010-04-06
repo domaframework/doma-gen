@@ -14,6 +14,7 @@
 	<property name="sqlTestClassName" value="example.SqlTest"/>
 	<property name="sqlFilePattern" value="META-INF/**/*.sql"/>
 	
+	<!-- doma-x.y.z.jar と  doma-gen-x.y.z.jar の両方をクラスパスに通してください。 -->
 	<path id="classpath">
 		<fileset dir="lib"/>
 	</path>

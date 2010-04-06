@@ -113,8 +113,8 @@ public class GlobalFactory {
      * 
      * @param packageName
      *            パッケージ名
-     * @param superclassName
-     *            スーパークラス名
+     * @param superclass
+     *            スーパークラス
      * @param entityPropertyDescFactory
      *            エンティティプロパティ記述のファクトリ
      * @param namingType
@@ -132,13 +132,13 @@ public class GlobalFactory {
      * @return エンティティ記述のファクトリ
      */
     public EntityDescFactory createEntityDescFactory(String packageName,
-            String superclassName,
+            Class<?> superclass,
             EntityPropertyDescFactory entityPropertyDescFactory,
             NamingType namingType, String originalStatesPropertyName,
             boolean showCatalogName, boolean showSchemaName,
             boolean showTableName, boolean showDbComment, boolean useAccessor,
             boolean useListener) {
-        return new EntityDescFactory(packageName, superclassName,
+        return new EntityDescFactory(packageName, superclass,
                 entityPropertyDescFactory, namingType,
                 originalStatesPropertyName, showCatalogName, showSchemaName,
                 showTableName, showDbComment, useAccessor, useListener);

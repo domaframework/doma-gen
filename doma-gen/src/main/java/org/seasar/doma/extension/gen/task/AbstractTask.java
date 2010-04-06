@@ -94,13 +94,7 @@ public abstract class AbstractTask extends Task {
     protected <T> T newInstance(Class<T> supertype, String className,
             String propertyName) {
         AssertionUtil.assertNotNull(supertype, className, propertyName);
-        Class<?> clazz = null;
-        try {
-            clazz = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            throw new GenException(Message.DOMAGEN0013, propertyName,
-                    className, e);
-        }
+        Class<?> clazz = forName(className, propertyName);
         if (!supertype.isAssignableFrom(clazz)) {
             throw new GenException(Message.DOMAGEN0014, propertyName,
                     className, supertype.getName());
@@ -116,12 +110,13 @@ public abstract class AbstractTask extends Task {
         }
     }
 
-    protected Class<?> forName(String className) {
-        AssertionUtil.assertNotNull(className);
+    protected Class<?> forName(String className, String propertyName) {
+        AssertionUtil.assertNotNull(className, propertyName);
         try {
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
-            throw new GenException(Message.DOMAGEN9001, e, e);
+            throw new GenException(Message.DOMAGEN0013, propertyName,
+                    className, e);
         }
     }
 

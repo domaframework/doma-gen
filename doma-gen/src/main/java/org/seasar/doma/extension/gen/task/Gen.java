@@ -360,6 +360,7 @@ public class Gen extends AbstractTask {
         tableMetaReader = createTableMetaReader();
         entityPropertyClassNameResolver = createEntityPropertyClassNameResolver();
         entityPropertyDescFactory = createEntityPropertyDescFactory();
+
         entityDescFactory = createEntityDescFactory();
         entityListenerDescFactory = createEntityListenerDescFactory();
         daoDescFactory = createDaoDescFactory();
@@ -417,9 +418,12 @@ public class Gen extends AbstractTask {
      * @return エンティティ記述ファクトリ
      */
     protected EntityDescFactory createEntityDescFactory() {
+        Class<?> superclass = null;
+        if (entityConfig.getSuperclassName() != null) {
+            superclass = forName(entityConfig.getSuperclassName(), "superclassName");
+        }
         return globalFactory
-                .createEntityDescFactory(entityConfig.getPackageName(), entityConfig
-                        .getSuperclassName(), entityPropertyDescFactory, entityConfig
+                .createEntityDescFactory(entityConfig.getPackageName(), superclass, entityPropertyDescFactory, entityConfig
                         .getNamingType() == null ? NamingType.NONE
                         : entityConfig.getNamingType().convertToEnum(), entityConfig
                         .getOriginalStatesPropertyName(), entityConfig
