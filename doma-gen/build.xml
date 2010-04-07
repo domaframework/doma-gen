@@ -2,7 +2,7 @@
 	<tstamp>
 		<format property="releaseDate" pattern="yyyy-MM-dd" locale="ja,JP"/>
 	</tstamp>
-	<property name="zipDir" value="target/site/download/${releaseDate}"/>
+	<property name="zipDir" value="../doma/target/site/download/${releaseDate}"/>
 
 	<target name="dist">
 		<mkdir dir="${zipDir}"/>

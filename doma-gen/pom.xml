@@ -122,6 +122,33 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<includes>
+									<include>org.seasar.doma:doma</include>
+								</includes>
+							</artifactSet>
+							<filters>
+								<filter>
+									<artifact>org.seasar.doma:doma</artifact>
+									<includes>
+										<include>org/seasar/doma/*</include>
+									</includes>
+								</filter>
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
