@@ -15,8 +15,12 @@
  */
 package org.seasar.doma.extension.gen;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * SQL記述のファクトリです。
@@ -27,16 +31,21 @@ import java.util.List;
 public class SqlDescFactory {
 
     /** 識別子による検索メソッドの名前 */
-    public final String selectByIdFileName;
+    private final String selectByIdFileName;
 
     /** 識別子とバージョンによる検索メソッドの名前 */
-    public final String selectByIdAndVersionFileName;
+    private final String selectByIdAndVersionFileName;
+
+    /** テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null} */
+    private File templatePrimaryDir;
 
     /**
      * インスタンスを構築します。
+     * 
+     * @since 1.7.0
      */
-    public SqlDescFactory() {
-        this("selectById.sql", "selectByIdAndVersion.sql");
+    public SqlDescFactory(File templatePrimaryDir) {
+        this("selectById.sql", "selectByIdAndVersion.sql", templatePrimaryDir);
     }
 
     /**
@@ -46,9 +55,12 @@ public class SqlDescFactory {
      *            識別子による検索メソッドの名前
      * @param selectByIdAndVersionFileName
      *            識別子とバージョンによる検索メソッドの名前
+     * @param templatePrimaryDir
+     *            テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null}
+     * @since 1.7.0
      */
     public SqlDescFactory(String selectByIdFileName,
-            String selectByIdAndVersionFileName) {
+            String selectByIdAndVersionFileName, File templatePrimaryDir) {
         if (selectByIdFileName == null) {
             throw new GenNullPointerException("selectByIdFileName");
         }
@@ -57,6 +69,7 @@ public class SqlDescFactory {
         }
         this.selectByIdFileName = selectByIdFileName;
         this.selectByIdAndVersionFileName = selectByIdAndVersionFileName;
+        this.templatePrimaryDir = templatePrimaryDir;
     }
 
     /**
@@ -75,6 +88,10 @@ public class SqlDescFactory {
                 results
                         .add(createSqlDesc(entityDesc, selectByIdAndVersionFileName, Constants.SELECT_BY_ID_AND_VERSION_SQL_TEMPLATE));
             }
+        }
+        for (String templateName : findTemplateNames()) {
+            String fileName = removeTemplateExtension(templateName);
+            results.add(createSqlDesc(entityDesc, fileName, templateName));
         }
         return results;
     }
@@ -97,6 +114,50 @@ public class SqlDescFactory {
         sqlFileDesc.setTemplateName(templateName);
         sqlFileDesc.setEntityDesc(entityDesc);
         return sqlFileDesc;
+    }
+
+    /**
+     * テンプレートのファイル名を探します。
+     * 
+     * @return テンプレートのファイル名のセット
+     * @since 1.7.0
+     */
+    protected Set<String> findTemplateNames() {
+        final Set<String> results = new HashSet<String>();
+        if (templatePrimaryDir == null) {
+            return results;
+        }
+        templatePrimaryDir.listFiles(new FileFilter() {
+
+            @Override
+            public boolean accept(File file) {
+                if (file.isFile()) {
+                    String name = file.getName();
+                    if (!name.equals(Constants.SELECT_BY_ID_SQL_TEMPLATE)
+                            && !name
+                                    .equals(Constants.SELECT_BY_ID_AND_VERSION_SQL_TEMPLATE)) {
+                        if (name.endsWith(Constants.SQL_TEMPLATE_EXTENSION)) {
+                            results.add(name);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+        return results;
+    }
+
+    /**
+     * テンプレートファイルの拡張子を削除します。
+     * 
+     * @param templateName
+     *            テンプレートファイル名
+     * @return テンプレートファイルの拡張子を削除した文字列
+     * @since 1.7.0
+     */
+    protected String removeTemplateExtension(String templateName) {
+        return templateName.substring(0, templateName.length()
+                - Constants.TEMPLATE_EXTENSION.length());
     }
 
 }

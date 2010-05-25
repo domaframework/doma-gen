@@ -209,10 +209,13 @@ public class GlobalFactory {
     /**
      * SQL記述ファクトリを作成します。
      * 
+     * @param templatePrimaryDir
+     *            テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null}
      * @return SQL記述ファクトリ
+     * @since 1.7.0
      */
-    public SqlDescFactory createSqlDescFactory() {
-        return new SqlDescFactory();
+    public SqlDescFactory createSqlDescFactory(File templatePrimaryDir) {
+        return new SqlDescFactory(templatePrimaryDir);
     }
 
     /**

@@ -78,6 +78,7 @@ public class EntityConfig extends DataType {
     /** エンティティリスナーを使用する場合 {@code true} */
     protected boolean useListener = true;
 
+    /** {@code org.seasar.doma.OriginalStates} を注釈する対象のプロパティ名 */
     protected String originalStatesPropertyName = null;
 
     /** エンティティプロパティ名の正規表現をキー、クラス名を値とするプロパティファイル */

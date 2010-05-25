@@ -598,7 +598,7 @@ public class GeneratorTest extends TestCase {
                 .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory();
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null);
         SqlDesc sqlDesc = sqlDescFactory
                 .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
         generator.generate(new SqlContext(sqlDesc));
@@ -656,7 +656,7 @@ public class GeneratorTest extends TestCase {
                 .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory();
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null);
         SqlDesc sqlDesc = sqlDescFactory
                 .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
 
@@ -700,7 +700,7 @@ public class GeneratorTest extends TestCase {
                 .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory();
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null);
         SqlDesc sqlDesc = sqlDescFactory
                 .createSqlDesc(entityDesc, "dummy", "selectByIdAndVersion.sql.ftl");
 
