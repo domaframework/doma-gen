@@ -26,6 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.seasar.doma.extension.gen.internal.message.Message;
+import org.seasar.doma.extension.gen.internal.util.IOUtil;
 
 /**
  * エンティティプロパティのクラス名リゾルバです。
@@ -61,8 +62,9 @@ public class EntityPropertyClassNameResolver {
      */
     protected LinkedHashMap<Pattern, String> load(File propertyFile) {
         LinkedHashMap<Pattern, String> result = new LinkedHashMap<Pattern, String>();
+        BufferedReader reader = null;
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
+            reader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(propertyFile), "UTF-8"));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -79,10 +81,19 @@ public class EntityPropertyClassNameResolver {
                 }
                 String key = line.substring(0, pos);
                 String value = line.substring(pos + 1, line.length());
+                int pos2 = line.indexOf('@');
+                if (pos2 == 0) {
+                    key = key.substring(1);
+                } else if (pos2 > 0) {
+                    key = Pattern.quote(key.substring(0, pos2))
+                            + key.substring(pos2);
+                }
                 result.put(Pattern.compile(key), value);
             }
         } catch (IOException e) {
             throw new GenException(Message.DOMAGEN9001, e, e);
+        } finally {
+            IOUtil.close(reader);
         }
         return result;
     }
@@ -100,11 +111,13 @@ public class EntityPropertyClassNameResolver {
      */
     public String resolve(EntityDesc entityDesc, String propertyName,
             String defaultPropertyClassName) {
-        String qualifiedPropertyName = entityDesc.getSimpleName() + "@"
+        String qualifiedPropertyName = entityDesc.getQualifiedName() + "@"
                 + propertyName;
         for (Map.Entry<Pattern, String> entry : patternMap.entrySet()) {
             Pattern pattern = entry.getKey();
-            Matcher matcher = pattern.matcher(qualifiedPropertyName);
+            String input = pattern.pattern().contains("@") ? qualifiedPropertyName
+                    : propertyName;
+            Matcher matcher = pattern.matcher(input);
             if (!matcher.matches()) {
                 continue;
             }
