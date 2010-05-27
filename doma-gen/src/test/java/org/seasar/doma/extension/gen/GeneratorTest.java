@@ -569,6 +569,48 @@ public class GeneratorTest extends TestCase {
         assertEquals(expect(), generator.getResult());
     }
 
+    public void testDaoDelegate() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta version = new ColumnMeta();
+        version.setComment("COMMENT for VERSION");
+        version.setName("VERSION");
+        version.setTypeName("integer");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(version);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        DaoDescFactory daoDescFactory = factory
+                .createDaoDescFactory("example.dao", "Dao", null);
+        DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
+        DaoDelegateDescFactory daoDelegateDescFactory = factory
+                .createDaoDelegateDescFactory();
+        DaoDelegateDesc daoDelegateDesc = daoDelegateDescFactory
+                .createDaoDelegateDesc(daoDesc);
+
+        generator.generate(new DaoDelegateContext(daoDelegateDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
     public void testSelectById() throws Exception {
         ColumnMeta id = new ColumnMeta();
         id.setComment("COMMENT for ID");
@@ -736,6 +778,14 @@ public class GeneratorTest extends TestCase {
     private class DaoContext extends GenerationContext {
 
         public DaoContext(DaoDesc model) {
+            super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
+                    true);
+        }
+    }
+
+    private class DaoDelegateContext extends GenerationContext {
+
+        public DaoDelegateContext(DaoDelegateDesc model) {
             super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
                     true);
         }

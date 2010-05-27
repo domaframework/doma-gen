@@ -159,10 +159,20 @@ public class GlobalFactory {
      * @param configClassName
      *            設定クラス名
      * @return Dao記述のファクトリ
+     * @since 1.7.0
      */
     public DaoDescFactory createDaoDescFactory(String packageName,
             String suffix, String configClassName) {
         return new DaoDescFactory(packageName, suffix, configClassName);
+    }
+
+    /**
+     * Daoデリゲート記述のファクトリを作成します。
+     * 
+     * @return Daoデリゲート記述のファクトリ
+     */
+    public DaoDelegateDescFactory createDaoDelegateDescFactory() {
+        return new DaoDelegateDescFactory();
     }
 
     /**

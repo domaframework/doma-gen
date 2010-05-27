@@ -24,6 +24,8 @@ import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
 
+import org.seasar.doma.extension.gen.DaoDelegateDesc;
+import org.seasar.doma.extension.gen.DaoDelegateDescFactory;
 import org.seasar.doma.extension.gen.DaoDesc;
 import org.seasar.doma.extension.gen.DaoDescFactory;
 import org.seasar.doma.extension.gen.EntityDesc;
@@ -126,6 +128,9 @@ public class Gen extends AbstractTask {
 
     /** Dao記述のファクトリ */
     protected DaoDescFactory daoDescFactory;
+
+    /** Daoデリゲート記述のファクトリ */
+    protected DaoDelegateDescFactory daoDelegateDescFactory;
 
     /** SQL記述ファクトリ */
     protected SqlDescFactory sqlDescFactory;
@@ -364,6 +369,7 @@ public class Gen extends AbstractTask {
         entityDescFactory = createEntityDescFactory();
         entityListenerDescFactory = createEntityListenerDescFactory();
         daoDescFactory = createDaoDescFactory();
+        daoDelegateDescFactory = createDaoDelegateDescFactory();
         sqlDescFactory = createSqlDescFactory();
         generator = createGenerator();
     }
@@ -454,6 +460,16 @@ public class Gen extends AbstractTask {
     }
 
     /**
+     * Daoデリゲート記述ファクトリを作成します。
+     * 
+     * @return Daoデリゲート記述ファクトリ
+     * @since 1.7.0
+     */
+    protected DaoDelegateDescFactory createDaoDelegateDescFactory() {
+        return globalFactory.createDaoDelegateDescFactory();
+    }
+
+    /**
      * SQL記述ファクトリを作成します。
      * 
      * @return SQL記述ファクトリ
@@ -492,6 +508,11 @@ public class Gen extends AbstractTask {
             DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
             if (daoConfig.isGenerate()) {
                 generateDao(daoDesc);
+                if (daoConfig.isUseDelegate()) {
+                    DaoDelegateDesc daoDelegateDesc = daoDelegateDescFactory
+                            .createDaoDelegateDesc(daoDesc);
+                    generateDaoDelegate(daoDelegateDesc);
+                }
             }
             if (sqlConfig.isGenerate()) {
                 for (SqlDesc sqlDesc : sqlDescFactory
@@ -540,6 +561,23 @@ public class Gen extends AbstractTask {
         GenerationContext context = new GenerationContext(daoDesc, javaFile,
                 daoDesc.getTemplateName(), daoConfig.getEncoding(), daoConfig
                         .isOverwrite());
+        generator.generate(context);
+    }
+
+    /**
+     * DaoデリゲートのJavaコードを生成します。
+     * 
+     * @param daoDelegateDesc
+     *            Daoデリゲート記述
+     * @since 1.7.0
+     */
+    protected void generateDaoDelegate(DaoDelegateDesc daoDelegateDesc) {
+        File javaFile = FileUtil
+                .createJavaFile(daoConfig.getDestDir(), daoDelegateDesc
+                        .getQualifiedName());
+        GenerationContext context = new GenerationContext(daoDelegateDesc,
+                javaFile, daoDelegateDesc.getTemplateName(), daoConfig
+                        .getEncoding(), daoConfig.isOverwrite());
         generator.generate(context);
     }
 

@@ -57,11 +57,11 @@ public class DaoDescFactory {
     }
 
     /**
-     * エンティティ記述を作成します。
+     * Dao記述を作成します。
      * 
      * @param entityDesc
      *            エンティティ記述
-     * @return エンティティ記述
+     * @return Dao記述
      */
     public DaoDesc createDaoDesc(EntityDesc entityDesc) {
         DaoDesc daoDesc = new DaoDesc();

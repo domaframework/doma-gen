@@ -1,0 +1,49 @@
+package example.dao;
+
+import example.entity.Hoge;
+import org.seasar.doma.jdbc.Config;
+
+/**
+ */
+public class HogeDaoDelegate {
+
+    private final Config config;
+
+    private final HogeDao dao;
+
+    /**
+     * @param config the config
+     * @param dao the Dao
+     */
+    public HogeDaoDelegate(Config config, HogeDao dao) {
+        if (config == null) {
+            throw new NullPointerException("config");
+        }
+        if (dao == null) {
+            throw new NullPointerException("dao");
+        }
+        this.config = config;
+        this.dao = dao;
+    }
+
+    /**
+     * @return affected rows
+     */
+    public int insert(Hoge entity) {
+        return -1;
+    }
+
+    /**
+     * @return affected rows
+     */
+    public int update(Hoge entity) {
+        return -1;
+    }
+
+    /**
+     * @return affected rows
+     */
+    public int delete(Hoge entity) {
+        return -1;
+    }
+}

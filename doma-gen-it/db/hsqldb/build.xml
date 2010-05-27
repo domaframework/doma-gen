@@ -47,6 +47,7 @@
 			/>
 			<daoConfig
 				destDir="${src}"
+				useDelegate="true"
 			/>
 			<sqlConfig
 				destDir="${src}"

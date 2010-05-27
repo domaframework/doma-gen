@@ -48,8 +48,15 @@ public class DaoConfig extends DataType {
     /** 設定クラス名 */
     protected String configClassName = null;
 
-    /** ベースディレクトリ　 */
+    /** ベースディレクトリ */
     protected File baseDir = null;
+
+    /**
+     * デリゲートを使用する場合 {@code false}
+     * 
+     * @since 1.7.0
+     */
+    protected boolean useDelegate = false;
 
     public boolean isGenerate() {
         return generate;
@@ -109,6 +116,24 @@ public class DaoConfig extends DataType {
 
     public void setEncoding(String encoding) {
         this.encoding = encoding;
+    }
+
+    /**
+     * 
+     * @return
+     * @since 1.7.0
+     */
+    public boolean isUseDelegate() {
+        return useDelegate;
+    }
+
+    /**
+     * 
+     * @param useDelegate
+     * @since 1.7.0
+     */
+    public void setUseDelegate(boolean useDelegate) {
+        this.useDelegate = useDelegate;
     }
 
     /**

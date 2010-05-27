@@ -1,3 +1,5 @@
+package org.seasar.doma.extension.gen;
+
 /*
  * Copyright 2004-2010 the Seasar Foundation and the Others.
  *
@@ -13,60 +15,38 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.doma.extension.gen;
 
 /**
- * Dao記述です。
+ * Daoデリゲート記述です。
  * 
  * @author taedium
+ * @since 1.7.0
  */
-public class DaoDesc extends ClassDesc {
+public class DaoDelegateDesc extends ClassDesc {
 
-    /** 設定クラスの単純名 */
-    protected String configClassSimpleName;
-
-    /** エンティティ記述 */
-    protected EntityDesc entityDesc;
+    /** Dao記述 */
+    protected DaoDesc daoDesc;
 
     /** テンプレート名 */
     protected String templateName;
 
     /**
-     * 設定クラスの単純名を返します。
+     * Dao記述を返します。
      * 
-     * @return 設定クラスの単純名
+     * @return Dao記述
      */
-    public String getConfigClassSimpleName() {
-        return configClassSimpleName;
+    public DaoDesc getDaoDesc() {
+        return daoDesc;
     }
 
     /**
-     * 設定クラスの単純名を設定します。
+     * Dao記述を設定します。
      * 
-     * @param configClassSimpleName
-     *            設定クラスの単純名
+     * @param daoDesc
+     *            Dao記述
      */
-    public void setConfigClassSimpleName(String configClassSimpleName) {
-        this.configClassSimpleName = configClassSimpleName;
-    }
-
-    /**
-     * エンティティ記述を返します。
-     * 
-     * @return エンティティ記述
-     */
-    public EntityDesc getEntityDesc() {
-        return entityDesc;
-    }
-
-    /**
-     * エンティティ記述を設定します。
-     * 
-     * @param entityDesc
-     *            エンティティ記述
-     */
-    public void setEntityDesc(EntityDesc entityDesc) {
-        this.entityDesc = entityDesc;
+    public void setDaoDesc(DaoDesc daoDesc) {
+        this.daoDesc = daoDesc;
     }
 
     /**
