@@ -56,59 +56,59 @@ public class ItGen extends Gen {
                 statement
                         .executeUpdate("alter table comp_key_employee add constraint comp_key_employee_uk1 unique(address_id1, address_id2)");
                 statement
-                        .executeUpdate("create table category(id integer not null primary key, name varchar(20))");
+                        .executeUpdate("create table category(id integer not null primary key, name varchar(20), version integer)");
                 statement
-                        .executeUpdate("create table product(id integer not null primary key, primary_category_id integer not null, secondary_category_id integer not null, constraint product_fk1 foreign key(primary_category_id) references category(id), constraint product_fk2 foreign key(secondary_category_id) references category(id))");
+                        .executeUpdate("create table product(id integer not null primary key, primary_category_id integer not null, secondary_category_id integer not null ,version integer, constraint product_fk1 foreign key(primary_category_id) references category(id), constraint product_fk2 foreign key(secondary_category_id) references category(id))");
                 statement
-                        .executeUpdate("create table product2(id integer not null primary key, category integer not null, constraint product2_fk1 foreign key(category) references category(id))");
+                        .executeUpdate("create table product2(id integer not null primary key, category integer not null, version integer, constraint product2_fk1 foreign key(category) references category(id))");
                 statement
-                        .executeUpdate("create table integer_table (integer_column integer)");
+                        .executeUpdate("create table integer_table (integer_column integer, version integer)");
                 statement
-                        .executeUpdate("create table int_table (int_column int)");
+                        .executeUpdate("create table int_table (int_column int, version integer)");
                 statement
-                        .executeUpdate("create table double_table (double_column double)");
+                        .executeUpdate("create table double_table (double_column double, version integer)");
                 statement
-                        .executeUpdate("create table double_precision_table (double_precision_column double precision)");
+                        .executeUpdate("create table double_precision_table (double_precision_column double precision, version integer)");
                 statement
-                        .executeUpdate("create table float_table (float_column float)");
+                        .executeUpdate("create table float_table (float_column float, version integer)");
                 statement
-                        .executeUpdate("create table varchar_table (varchar_column varchar)");
+                        .executeUpdate("create table varchar_table (varchar_column varchar, version integer)");
                 statement
-                        .executeUpdate("create table varchar_ignorecase_table (varchar_ignorecase_column varchar_ignorecase)");
+                        .executeUpdate("create table varchar_ignorecase_table (varchar_ignorecase_column varchar_ignorecase, version integer)");
                 statement
-                        .executeUpdate("create table char_table (char_column char)");
+                        .executeUpdate("create table char_table (char_column char, version integer)");
                 statement
-                        .executeUpdate("create table character_table (character_column character)");
+                        .executeUpdate("create table character_table (character_column character, version integer)");
                 statement
-                        .executeUpdate("create table longvarchar_table (longvarchar_column longvarchar)");
+                        .executeUpdate("create table longvarchar_table (longvarchar_column longvarchar, version integer)");
                 statement
-                        .executeUpdate("create table date_table (date_column date)");
+                        .executeUpdate("create table date_table (date_column date, version integer)");
                 statement
-                        .executeUpdate("create table time_table (time_column time)");
+                        .executeUpdate("create table time_table (time_column time, version integer)");
                 statement
-                        .executeUpdate("create table timestamp_table (timestamp_column timestamp)");
+                        .executeUpdate("create table timestamp_table (timestamp_column timestamp, version integer)");
                 statement
-                        .executeUpdate("create table datetime_table (datetime_column datetime)");
+                        .executeUpdate("create table datetime_table (datetime_column datetime, version integer)");
                 statement
-                        .executeUpdate("create table decimal_table (decimal_column decimal)");
+                        .executeUpdate("create table decimal_table (decimal_column decimal, version integer)");
                 statement
-                        .executeUpdate("create table numeric_table (numeric_column numeric)");
+                        .executeUpdate("create table numeric_table (numeric_column numeric, version integer)");
                 statement
-                        .executeUpdate("create table boolean_table (boolean_column boolean)");
+                        .executeUpdate("create table boolean_table (boolean_column boolean, version integer)");
                 statement
-                        .executeUpdate("create table bit_table (bit_column bit)");
+                        .executeUpdate("create table bit_table (bit_column bit, version integer)");
                 statement
-                        .executeUpdate("create table tinyint_table (tinyint_column tinyint)");
+                        .executeUpdate("create table tinyint_table (tinyint_column tinyint, version integer)");
                 statement
-                        .executeUpdate("create table smallint_table (smallint_column smallint)");
+                        .executeUpdate("create table smallint_table (smallint_column smallint, version integer)");
                 statement
-                        .executeUpdate("create table bigint_table (bigint_column bigint)");
+                        .executeUpdate("create table bigint_table (bigint_column bigint, version integer)");
                 statement
-                        .executeUpdate("create table real_table (real_column real)");
+                        .executeUpdate("create table real_table (real_column real, version integer)");
                 statement
-                        .executeUpdate("create table varbinary_table (varbinary_column varbinary)");
+                        .executeUpdate("create table varbinary_table (varbinary_column varbinary, version integer)");
                 statement
-                        .executeUpdate("create table longvarbinary_table (longvarbinary_column longvarbinary)");
+                        .executeUpdate("create table longvarbinary_table (longvarbinary_column longvarbinary, version integer)");
                 statement
                         .executeUpdate("create view employeeview as select * from employee");
 

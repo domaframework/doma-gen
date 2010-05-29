@@ -577,7 +577,7 @@ public class Gen extends AbstractTask {
                         .getQualifiedName());
         GenerationContext context = new GenerationContext(daoDelegateDesc,
                 javaFile, daoDelegateDesc.getTemplateName(), daoConfig
-                        .getEncoding(), daoConfig.isOverwrite());
+                        .getEncoding(), daoConfig.isOverwriteDelegate());
         generator.generate(context);
     }
 

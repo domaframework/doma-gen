@@ -33,6 +33,9 @@ public class DaoConfig extends DataType {
     /** 同名のDaoインタフェースのJavaファイルを上書きする場合{@code true}、しない場合{@code false} */
     protected boolean overwrite = false;
 
+    /** 同名のDaoデリゲートのJavaファイルを上書きする場合{@code true}、しない場合{@code false} */
+    protected boolean overwriteDelegate = false;
+
     /** 生成されるJavaファイルの出力先ディレクトリ */
     protected File destDir = null;
 
@@ -72,6 +75,14 @@ public class DaoConfig extends DataType {
 
     public void setOverwrite(boolean overwrite) {
         this.overwrite = overwrite;
+    }
+
+    public boolean isOverwriteDelegate() {
+        return overwriteDelegate;
+    }
+
+    public void setOverwriteDelegate(boolean overwriteDelegate) {
+        this.overwriteDelegate = overwriteDelegate;
     }
 
     public String getPackageName() {

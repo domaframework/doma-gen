@@ -57,6 +57,9 @@ public class EntityPropertyDesc {
     /** 数値を表す場合 {@code true} */
     protected boolean number;
 
+    /** エンティティのクラス名 */
+    protected String entityClassName;
+
     /**
      * 名前を設定します。
      * 
@@ -273,6 +276,25 @@ public class EntityPropertyDesc {
      */
     public void setNumber(boolean number) {
         this.number = number;
+    }
+
+    /**
+     * エンティティのクラス名を返します。
+     * 
+     * @return エンティティのクラス名
+     */
+    public String getEntityClassName() {
+        return entityClassName;
+    }
+
+    /**
+     * エンティティのクラス名を設定します。
+     * 
+     * @param entityClassName
+     *            エンティティのクラス名
+     */
+    public void setEntityClassName(String entityClassName) {
+        this.entityClassName = entityClassName;
     }
 
 }

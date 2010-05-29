@@ -73,8 +73,21 @@ public class EntityDesc extends ClassDesc {
     /** テンプレート名 */
     protected String templateName;
 
-    /** エンティティプロパティ記述のリスト */
+    /**
+     * エンティティプロパティ記述のリスト
+     * <p>
+     * 親エンティティがある場合に、親エンティティのプロパティも対象になります。
+     */
     protected final List<EntityPropertyDesc> entityPropertyDescs = new ArrayList<EntityPropertyDesc>();
+
+    /**
+     * このエンティティ記述が表すエンティティが所有するエンティティプロパティ記述のリスト
+     * <p>
+     * 親エンティティがある場合に、親エンティティのプロパティは対象外となります。
+     * 
+     * @since 1.7.0
+     */
+    protected final List<EntityPropertyDesc> ownEntityPropertyDescs = new ArrayList<EntityPropertyDesc>();
 
     /** 識別子のエンティティプロパティ記述のリスト */
     protected final List<EntityPropertyDesc> idEntityPropertyDescs = new ArrayList<EntityPropertyDesc>();
@@ -375,6 +388,9 @@ public class EntityDesc extends ClassDesc {
      */
     public void addEntityPropertyDesc(EntityPropertyDesc entityPropertyDesc) {
         entityPropertyDescs.add(entityPropertyDesc);
+        if (getQualifiedName().equals(entityPropertyDesc.getEntityClassName())) {
+            ownEntityPropertyDescs.add(entityPropertyDesc);
+        }
         if (entityPropertyDesc.isId()) {
             idEntityPropertyDescs.add(entityPropertyDesc);
         }
@@ -390,6 +406,16 @@ public class EntityDesc extends ClassDesc {
      */
     public List<EntityPropertyDesc> getEntityPropertyDescs() {
         return entityPropertyDescs;
+    }
+
+    /**
+     * 所有するエンティティプロパティ記述のリストを返します。
+     * 
+     * @return 所有するエンティティプロパティ記述のリスト
+     * @since 1.7.0
+     */
+    public List<EntityPropertyDesc> getOwnEntityPropertyDescs() {
+        return ownEntityPropertyDescs;
     }
 
     /**

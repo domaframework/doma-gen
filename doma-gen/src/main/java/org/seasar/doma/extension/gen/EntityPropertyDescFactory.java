@@ -146,6 +146,7 @@ public class EntityPropertyDescFactory {
         handleNumber(entityDesc, propertyDesc, columnMeta);
         handleShowColumnName(entityDesc, propertyDesc, columnMeta);
         handleVersion(entityDesc, propertyDesc, columnMeta);
+        propertyDesc.setEntityClassName(entityDesc.getQualifiedName());
         return propertyDesc;
     }
 

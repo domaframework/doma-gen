@@ -18,11 +18,19 @@ package org.seasar.doma.extension.gen;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.GeneratedValue;
+import org.seasar.doma.Id;
+import org.seasar.doma.SequenceGenerator;
+import org.seasar.doma.TableGenerator;
 import org.seasar.doma.Transient;
+import org.seasar.doma.Version;
+import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.ClassUtil;
 import org.seasar.doma.extension.gen.internal.util.StringUtil;
 
@@ -204,27 +212,93 @@ public class EntityDescFactory {
      */
     protected void handleEntityPropertyDesc(EntityDesc entityDesc,
             TableMeta tableMeta) {
-        Set<String> superclassColumnNames = getSuperclassColumnNames();
+        Map<String, EntityPropertyDesc> propertyDescMap = new LinkedHashMap<String, EntityPropertyDesc>();
         for (ColumnMeta columnMeta : tableMeta.getColumnMetas()) {
-            String columnName = columnMeta.getName().toLowerCase();
-            if (superclassColumnNames.contains(columnName)) {
-                continue;
-            }
             EntityPropertyDesc propertyDesc = entityPropertyDescFactory
                     .createEntityPropertyDesc(entityDesc, columnMeta);
+            propertyDescMap
+                    .put(propertyDesc.getColumnName().toLowerCase(), propertyDesc);
+        }
+        for (EntityPropertyInfo propertyInfo : getSuperclassEntityPropertyInfo()) {
+            EntityPropertyDesc propertyDesc = propertyDescMap
+                    .get(propertyInfo.columnName.toLowerCase());
+            if (propertyDesc == null) {
+                throw new GenException(Message.DOMAGEN0021, superclass
+                        .getName(), propertyInfo.propertyField.getName(),
+                        propertyInfo.columnName, entityDesc
+                                .getQualifiedTableName());
+            }
+            mergeEntityProperty(propertyDesc, propertyInfo);
+        }
+        for (EntityPropertyDesc propertyDesc : propertyDescMap.values()) {
             entityDesc.addEntityPropertyDesc(propertyDesc);
         }
     }
 
     /**
-     * スーパークラスに定義されたプロパティのカラム名のセットを返します。
-     * <p>
-     * カラム名はすべて小文字です。
+     * エンティティプロパティ記述にエンティティプロパティ情報をマージします。
      * 
-     * @return スーパークラスに定義されたプロパティのカラム名のセット
+     * @param dest
+     *            エンティティプロパティ記述
+     * @param src
+     *            エンティティプロパティ情報
+     * @since 1.7.0
      */
-    protected Set<String> getSuperclassColumnNames() {
-        Set<String> results = new HashSet<String>();
+    protected void mergeEntityProperty(EntityPropertyDesc dest,
+            EntityPropertyInfo src) {
+        dest.setEntityClassName(src.entityClass.getName());
+        dest.setPropertyClassName(src.propertyField.getType().getName());
+        Class<?> maybeNumberClass = ClassUtil
+                .toBoxedPrimitiveTypeIfPossible(src.propertyField.getType());
+        if (Number.class.isAssignableFrom(maybeNumberClass)) {
+            dest.setNumber(true);
+        }
+        if (src.version != null) {
+            dest.setVersion(true);
+        }
+        if (src.id != null) {
+            dest.setId(true);
+            if (src.generatedValue != null) {
+                switch (src.generatedValue.strategy()) {
+                case IDENTITY:
+                    dest.setGenerationType(GenerationType.IDENTITY);
+                    break;
+                case SEQUENCE:
+                    dest.setGenerationType(GenerationType.SEQUENCE);
+                    if (src.sequenceGenerator != null) {
+                        dest.setInitialValue(src.sequenceGenerator
+                                .initialValue());
+                        dest.setAllocationSize(src.sequenceGenerator
+                                .allocationSize());
+                        dest.setAllocationSize(src.sequenceGenerator
+                                .allocationSize());
+                    }
+                    break;
+                case TABLE:
+                    dest.setGenerationType(GenerationType.TABLE);
+                    if (src.tableGenerator != null) {
+                        dest.setInitialValue(src.tableGenerator.initialValue());
+                        dest.setAllocationSize(src.tableGenerator
+                                .allocationSize());
+                        dest.setAllocationSize(src.tableGenerator
+                                .allocationSize());
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * スーパークラスに定義されたエンティティプロパティの情報のセットを返します。
+     * 
+     * @return スーパークラスに定義されたエンティティプロパティの情報のセット
+     * @since 1.7.0
+     */
+    protected Set<EntityPropertyInfo> getSuperclassEntityPropertyInfo() {
+        Set<EntityPropertyInfo> results = new HashSet<EntityPropertyInfo>();
         if (superclass == null) {
             return results;
         }
@@ -243,15 +317,26 @@ public class EntityDescFactory {
                 if (field.isAnnotationPresent(Transient.class)) {
                     continue;
                 }
+                EntityPropertyInfo propertyInfo = new EntityPropertyInfo();
+                propertyInfo.entityClass = clazz;
+                propertyInfo.propertyField = field;
                 Column column = field.getAnnotation(Column.class);
-                String columnName = null;
+                propertyInfo.column = column;
                 if (column == null || column.name().isEmpty()) {
-                    columnName = namingType.apply(field.getName())
+                    propertyInfo.columnName = namingType.apply(field.getName())
                             .toLowerCase();
                 } else {
-                    columnName = column.name().toLowerCase();
+                    propertyInfo.columnName = column.name();
                 }
-                results.add(columnName);
+                propertyInfo.id = field.getAnnotation(Id.class);
+                propertyInfo.generatedValue = field
+                        .getAnnotation(GeneratedValue.class);
+                propertyInfo.sequenceGenerator = field
+                        .getAnnotation(SequenceGenerator.class);
+                propertyInfo.tableGenerator = field
+                        .getAnnotation(TableGenerator.class);
+                propertyInfo.version = field.getAnnotation(Version.class);
+                results.add(propertyInfo);
             }
         }
         return results;
@@ -308,4 +393,30 @@ public class EntityDescFactory {
         }
     }
 
+    /**
+     * 
+     * @author taedium
+     * @since 1.7.0
+     */
+    protected static class EntityPropertyInfo {
+
+        protected String columnName;
+
+        protected Class<?> entityClass;
+
+        protected Field propertyField;
+
+        protected Column column;
+
+        protected Id id;
+
+        protected GeneratedValue generatedValue;
+
+        protected SequenceGenerator sequenceGenerator;
+
+        protected TableGenerator tableGenerator;
+
+        protected Version version;
+
+    }
 }

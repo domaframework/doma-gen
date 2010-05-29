@@ -23,9 +23,11 @@ import junit.framework.TestCase;
 
 import org.seasar.doma.extension.gen.dialect.GenDialect;
 import org.seasar.doma.extension.gen.dialect.PostgresGenDialect;
+import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.ResourceUtil;
 
 import example.hoge.CommonEntity;
+import example.hoge.ParentEntity;
 
 /**
  * @author taedium
@@ -646,6 +648,81 @@ public class GeneratorTest extends TestCase {
         generator.generate(new SqlContext(sqlDesc));
 
         assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSelectById_entitySuperclass() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varcar");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", ParentEntity.class, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null);
+        SqlDesc sqlDesc = sqlDescFactory
+                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+        generator.generate(new SqlContext(sqlDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSelectById_entitySuperclass_columnNotFound()
+            throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("NAME");
+        empName.setTypeName("varcar");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", ParentEntity.class, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+
+        try {
+            entityDescFactory.createEntityDesc(tableMeta);
+            fail();
+        } catch (GenException e) {
+            System.out.println(e.getMessage());
+            assertEquals(Message.DOMAGEN0021, e.getMessageResource());
+        }
     }
 
     public void testSimpleSqlTest() throws Exception {

@@ -23,7 +23,7 @@ import ${importName};
 @Table(<#if showCatalogName && catalogName??>catalog = "${catalogName}"</#if><#if showSchemaName && schemaName??><#if showCatalogName && catalogName??>, </#if>schema = "${schemaName}"</#if><#if showTableName><#if showCatalogName && catalogName?? || showSchemaName && schemaName??>, </#if>name = "${tableName}"</#if>)
 </#if>
 public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpleName}</#if> {
-<#list entityPropertyDescs as property>
+<#list ownEntityPropertyDescs as property>
 
   <#if showDbComment && property.comment??>
     /** ${property.comment} */
@@ -56,7 +56,7 @@ public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpl
     ${simpleName} ${originalStatesPropertyName};
 </#if>
 <#if useAccessor>
-  <#list entityPropertyDescs as property>
+  <#list ownEntityPropertyDescs as property>
 
     /** 
      * Returns the ${property.name}.
