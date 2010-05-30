@@ -1,3 +1,4 @@
+<#-- このテンプレートに対応するデータモデルのクラスは org.seasar.doma.extension.gen.DaoDelegateDesc です -->
 <#import "/lib.ftl" as lib>
 <#if lib.copyright??>
 ${lib.copyright}
