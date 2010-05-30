@@ -45,8 +45,8 @@ public class ClassDescSupport {
      * 
      * @param classDesc
      *            クラス記述
-     * @param importedClass
-     *            インポートされるクラス
+     * @param importedClassName
+     *            インポートされるクラスの名前
      */
     public void addImportName(ClassDesc classDesc, String importedClassName) {
         String packageName = ClassUtil.getPackageName(importedClassName);
@@ -93,7 +93,7 @@ public class ClassDescSupport {
      *            クラス記述
      * @param importPackageName
      *            インポートするパッケージ名
-     * @return
+     * @return インポート対象のパッケージの場合 {@code true}
      */
     protected boolean isImportTargetPackage(ClassDesc classDesc,
             String importPackageName) {

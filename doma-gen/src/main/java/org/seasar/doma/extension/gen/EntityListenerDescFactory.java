@@ -49,9 +49,9 @@ public class EntityListenerDescFactory {
     /**
      * エンティティ記述を作成します。
      * 
-     * @param tableMeta
-     *            テーブルメタデータ
-     * @return エンティティ記述
+     * @param entityDesc
+     *            エンティティ記述
+     * @return エンティティリスナー記述
      */
     public EntityListenerDesc createEntityListenerDesc(EntityDesc entityDesc) {
         EntityListenerDesc entityListenerDesc = new EntityListenerDesc();
@@ -71,10 +71,10 @@ public class EntityListenerDescFactory {
     /**
      * /** インポート名を処理します。
      * 
+     * @param entityListenerDesc
+     *            エンティティリスナー記述
      * @param entityDesc
      *            エンティティ記述
-     * @param tableMeta
-     *            テーブルメタデータ
      */
     protected void handleImportName(EntityListenerDesc entityListenerDesc,
             EntityDesc entityDesc) {

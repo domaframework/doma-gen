@@ -105,7 +105,7 @@ public class EntityPropertyClassNameResolver {
      *            エンティティ記述
      * @param propertyName
      *            エンティティプロパティ名
-     * @param propertyClassName
+     * @param defaultPropertyClassName
      *            エンティティプロパティのデフォルトのクラス名
      * @return エンティティプロパティのクラス名
      */

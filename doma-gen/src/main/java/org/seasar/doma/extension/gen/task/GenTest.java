@@ -128,7 +128,7 @@ public class GenTest extends AbstractTask {
     /**
      * {@code org.seasar.doma.jdbc.dialect.Dialect} のサブタイプのクラス名を設定します。
      * 
-     * @param genDialectClassName
+     * @param dialectClassName
      *            {@code org.seasar.doma.jdbc.dialect.Dialect} のサブタイプのクラス名
      */
     public void setDialectClassName(String dialectClassName) {

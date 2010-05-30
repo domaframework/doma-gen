@@ -131,7 +131,7 @@ public class DaoConfig extends DataType {
 
     /**
      * 
-     * @return
+     * @return Daoデリゲートクラスを使用する場合 {@code true}
      * @since 1.7.0
      */
     public boolean isUseDelegate() {

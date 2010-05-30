@@ -394,6 +394,9 @@ public class EntityDescFactory {
     }
 
     /**
+     * エンティティプロパティ情報です。
+     * <p>
+     * データベースではなくエンティティクラスから得られた情報です。
      * 
      * @author taedium
      * @since 1.7.0

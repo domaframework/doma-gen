@@ -63,7 +63,7 @@ public class SqlDesc {
     /**
      * テンプレート名を設定します。
      * 
-     * @param fileName
+     * @param templateName
      *            テンプレート名
      */
     public void setTemplateName(String templateName) {
@@ -82,7 +82,7 @@ public class SqlDesc {
     /**
      * エンティティ記述を設定します。
      * 
-     * @param fileName
+     * @param entityDesc
      *            エンティティ記述
      */
     public void setEntityDesc(EntityDesc entityDesc) {

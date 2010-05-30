@@ -16,6 +16,8 @@
 package org.seasar.doma.extension.gen;
 
 /**
+ * 定数です。
+ * 
  * @author taedium
  * 
  */

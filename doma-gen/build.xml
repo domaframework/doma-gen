@@ -3,6 +3,7 @@
 		<format property="releaseDate" pattern="yyyy-MM-dd" locale="ja,JP"/>
 	</tstamp>
 	<property name="zipDir" value="../doma/target/site/download/${releaseDate}"/>
+	<property name="apidocsDir" value="../doma/target/site/extension/doma-gen"/>
 
 	<target name="dist">
 		<mkdir dir="${zipDir}"/>
@@ -25,5 +26,6 @@
 				<include name="doma-gen-build.xml"/>
 			</zipfileset>
 		</zip>
+		<move file="target/site/apidocs" todir="${apidocsDir}" failonerror="false"/>
 	</target>
 </project>

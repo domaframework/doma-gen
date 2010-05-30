@@ -166,7 +166,6 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<!--
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
@@ -175,8 +174,8 @@
 					<charset>UTF-8</charset>
 					<links>
 						<link>http://java.sun.com/javase/ja/6/docs/ja/api/</link>
-						<link>http://www.junit.org/junit/javadoc/3.8.1/</link>
 					</links>
+					<excludePackageNames>*.internal</excludePackageNames>
 				</configuration>
 				<executions>
 					<execution>
@@ -187,7 +186,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>

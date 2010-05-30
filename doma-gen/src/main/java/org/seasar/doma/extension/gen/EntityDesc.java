@@ -316,7 +316,7 @@ public class EntityDesc extends ClassDesc {
     /**
      * テーブル名を表示する場合 {@code true} を設定します。
      * 
-     * @param showSchemaName
+     * @param showTableName
      *            テーブル名を表示する場合 {@code true}
      */
     public void setShowTableName(boolean showTableName) {
