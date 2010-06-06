@@ -19,7 +19,7 @@ package org.seasar.doma.extension.gen.it;
 @javax.annotation.Generated(value = { "Doma", "0.9.11-SNAPSHOT" }, date = "2010-01-02 02:26:03")
 public final class _Name
         implements
-        org.seasar.doma.internal.domain.DomainType<java.lang.String, org.seasar.doma.extension.gen.it.Name> {
+        org.seasar.doma.jdbc.domain.DomainType<java.lang.String, org.seasar.doma.extension.gen.it.Name> {
 
     private static final _Name singleton = new _Name();
 
@@ -38,7 +38,7 @@ public final class _Name
     }
 
     @Override
-    public org.seasar.doma.internal.domain.DomainWrapper<java.lang.String, org.seasar.doma.extension.gen.it.Name> getWrapper(
+    public org.seasar.doma.jdbc.domain.DomainWrapper<java.lang.String, org.seasar.doma.extension.gen.it.Name> getWrapper(
             org.seasar.doma.extension.gen.it.Name domain) {
         return new Wrapper(domain);
     }
@@ -52,7 +52,7 @@ public final class _Name
 
     private static class Wrapper extends org.seasar.doma.wrapper.StringWrapper
             implements
-            org.seasar.doma.internal.domain.DomainWrapper<java.lang.String, org.seasar.doma.extension.gen.it.Name> {
+            org.seasar.doma.jdbc.domain.DomainWrapper<java.lang.String, org.seasar.doma.extension.gen.it.Name> {
 
         private org.seasar.doma.extension.gen.it.Name domain;
 
