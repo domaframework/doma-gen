@@ -38,6 +38,7 @@ public class ${simpleName} {
     }
 
     /**
+     * @param entity
      * @return affected rows
      */
     public int insert(${daoDesc.entityDesc.simpleName} entity) {
@@ -45,6 +46,7 @@ public class ${simpleName} {
     }
 
     /**
+     * @param entity
      * @return affected rows
      */
     public int update(${daoDesc.entityDesc.simpleName} entity) {
@@ -52,6 +54,7 @@ public class ${simpleName} {
     }
 
     /**
+     * @param entity
      * @return affected rows
      */
     public int delete(${daoDesc.entityDesc.simpleName} entity) {

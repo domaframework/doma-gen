@@ -13,30 +13,36 @@ import org.seasar.doma.Update;
 public interface HogeDao {
 
     /**
+     * @param id
      * @return the Hoge entity
      */
     @Select
     Hoge selectById(Integer id);
 
     /**
+     * @param id
+     * @param version
      * @return the Hoge entity
      */
     @Select(ensureResult = true)
     Hoge selectByIdAndVersion(Integer id, Integer version);
 
     /**
+     * @param entity
      * @return affected rows
      */
     @Insert
     int insert(Hoge entity);
 
     /**
+     * @param entity
      * @return affected rows
      */
     @Update
     int update(Hoge entity);
 
     /**
+     * @param entity
      * @return affected rows
      */
     @Delete

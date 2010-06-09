@@ -27,6 +27,7 @@ public class HogeDaoDelegate {
     }
 
     /**
+     * @param entity
      * @return affected rows
      */
     public int insert(Hoge entity) {
@@ -34,6 +35,7 @@ public class HogeDaoDelegate {
     }
 
     /**
+     * @param entity
      * @return affected rows
      */
     public int update(Hoge entity) {
@@ -41,6 +43,7 @@ public class HogeDaoDelegate {
     }
 
     /**
+     * @param entity
      * @return affected rows
      */
     public int delete(Hoge entity) {

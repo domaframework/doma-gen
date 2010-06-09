@@ -21,6 +21,9 @@ public interface ${simpleName} {
 
 <#if entityDesc.idEntityPropertyDescs?size gt 0>
     /**
+<#list entityDesc.idEntityPropertyDescs as property>
+     * @param ${property.name}
+</#list>
      * @return the ${entityDesc.simpleName} entity
      */
     @Select
@@ -29,6 +32,10 @@ public interface ${simpleName} {
 </#if>
 <#if entityDesc.idEntityPropertyDescs?size gt 0 && entityDesc.versionEntityPropertyDesc??>
     /**
+<#list entityDesc.idEntityPropertyDescs as property>
+     * @param ${property.name}
+</#list>
+     * @param ${entityDesc.versionEntityPropertyDesc.name}
      * @return the ${entityDesc.simpleName} entity
      */
     @Select(ensureResult = true)
@@ -36,18 +43,21 @@ public interface ${simpleName} {
 
 </#if>
     /**
+     * @param entity
      * @return affected rows
      */
     @Insert
     int insert(${entityDesc.simpleName} entity);
 
     /**
+     * @param entity
      * @return affected rows
      */
     @Update
     int update(${entityDesc.simpleName} entity);
 
     /**
+     * @param entity
      * @return affected rows
      */
     @Delete
