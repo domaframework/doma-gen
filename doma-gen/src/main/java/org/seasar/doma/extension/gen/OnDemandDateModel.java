@@ -27,10 +27,12 @@ import freemarker.template.TemplateModelException;
  */
 public class OnDemandDateModel implements TemplateDateModel {
 
+    @Override
     public Date getAsDate() throws TemplateModelException {
         return new Date();
     }
 
+    @Override
     public int getDateType() {
         return UNKNOWN;
     }

@@ -114,6 +114,7 @@ public class StandardGenDialect implements GenDialect {
         fallbackClassNameMap.put(Types.NVARCHAR, String.class.getName());
     }
 
+    @Override
     public String getName() {
         return "standard";
     }
@@ -128,6 +129,7 @@ public class StandardGenDialect implements GenDialect {
         return false;
     }
 
+    @Override
     public String getDefaultSchemaName(String userName) {
         return userName;
     }
