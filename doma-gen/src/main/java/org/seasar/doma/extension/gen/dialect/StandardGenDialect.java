@@ -189,7 +189,7 @@ public class StandardGenDialect implements GenDialect {
     }
 
     @Override
-    public String getMappedClassName(ColumnMeta columnMeta) {
+    public String getMappedPropertyClassName(ColumnMeta columnMeta) {
         String mappedClassName = classNameMap.get(columnMeta.getTypeName());
         if (mappedClassName != null) {
             return mappedClassName;
@@ -199,6 +199,27 @@ public class StandardGenDialect implements GenDialect {
             return mappedClassName;
         }
         return null;
+    }
+
+    @Override
+    public void replacePropertyClassName(String oldClassName,
+            String newClassName) {
+        if (oldClassName == null) {
+            throw new GenNullPointerException("oldClassName");
+        }
+        if (newClassName == null) {
+            throw new GenNullPointerException("newClassName");
+        }
+        for (Map.Entry<String, String> entry : classNameMap.entrySet()) {
+            if (oldClassName.equals(entry.getValue())) {
+                entry.setValue(newClassName);
+            }
+        }
+        for (Map.Entry<Integer, String> entry : fallbackClassNameMap.entrySet()) {
+            if (oldClassName.equals(entry.getValue())) {
+                entry.setValue(newClassName);
+            }
+        }
     }
 
 }

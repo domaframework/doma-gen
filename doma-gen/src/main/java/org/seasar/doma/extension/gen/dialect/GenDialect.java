@@ -36,6 +36,11 @@ public interface GenDialect {
      */
     String getName();
 
+    /**
+     * 方言クラス名を返します。
+     * 
+     * @return 方言クラス名
+     */
     String getDialectClassName();
 
     /**
@@ -48,13 +53,24 @@ public interface GenDialect {
     String getDefaultSchemaName(String userName);
 
     /**
-     * カラムにマップされたクラス名を返します。
+     * カラムにマップされたプロパティのクラス名を返します。
      * 
      * @param columnMeta
      *            カラムメタデータ
      * @return カラムにマップされたクラス名
      */
-    String getMappedClassName(ColumnMeta columnMeta);
+    String getMappedPropertyClassName(ColumnMeta columnMeta);
+
+    /**
+     * プロパティのクラス名を置き換えます。
+     * 
+     * @param oldClassName
+     *            古いクラス名
+     * @param newClassName
+     *            新しいクラス名
+     * @since 1.9.0
+     */
+    void replacePropertyClassName(String oldClassName, String newClassName);
 
     /**
      * アイデンティティをサポートする場合 {@code true} を返します。

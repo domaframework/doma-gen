@@ -66,12 +66,12 @@ public class MysqlGenDialect extends StandardGenDialect {
     }
 
     @Override
-    public String getMappedClassName(ColumnMeta columnMeta) {
+    public String getMappedPropertyClassName(ColumnMeta columnMeta) {
         if ("bit".equalsIgnoreCase(columnMeta.getTypeName())) {
             return columnMeta.getLength() == 1 ? Boolean.class.getName()
                     : ClassConstants.bytes.getQualifiedName();
         }
-        return super.getMappedClassName(columnMeta);
+        return super.getMappedPropertyClassName(columnMeta);
     }
 
     @Override

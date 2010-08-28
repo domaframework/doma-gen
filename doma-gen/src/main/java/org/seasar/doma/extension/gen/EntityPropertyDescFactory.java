@@ -178,7 +178,7 @@ public class EntityPropertyDescFactory {
      */
     protected void handlePropertyClassName(EntityDesc entityDesc,
             EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
-        String defaultClassName = dialect.getMappedClassName(columnMeta);
+        String defaultClassName = dialect.getMappedPropertyClassName(columnMeta);
         String className = propertyClassNameResolver
                 .resolve(entityDesc, propertyDesc.getName(), defaultClassName);
         if (className == null) {
@@ -202,7 +202,7 @@ public class EntityPropertyDescFactory {
      */
     protected void handleNumber(EntityDesc entityDesc,
             EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
-        String defaultClassName = dialect.getMappedClassName(columnMeta);
+        String defaultClassName = dialect.getMappedPropertyClassName(columnMeta);
         if (Byte.class.getName().equals(defaultClassName)
                 || Short.class.getName().equals(defaultClassName)
                 || Integer.class.getName().equals(defaultClassName)

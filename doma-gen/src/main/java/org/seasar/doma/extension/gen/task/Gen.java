@@ -357,6 +357,10 @@ public class Gen extends AbstractTask {
         } else {
             dialect = GenDialectRegistry.lookup(dialectName.getValue());
             AssertionUtil.assertNotNull(dialect);
+            if (entityConfig.isUseUtilDate()) {
+                dialect.replacePropertyClassName(java.sql.Date.class.getName(), java.util.Date.class
+                        .getName());
+            }
         }
         Logger.info(Message.DOMAGEN0017
                 .getMessage(dialect.getClass().getName()));
@@ -544,8 +548,8 @@ public class Gen extends AbstractTask {
                 .createJavaFile(entityConfig.getDestDir(), entityListenerDesc
                         .getQualifiedName());
         GenerationContext context = new GenerationContext(entityListenerDesc,
-                javaFile, entityListenerDesc.getTemplateName(), entityConfig
-                        .getEncoding(), entityConfig.isOverwriteListener());
+                javaFile, entityListenerDesc.getTemplateName(),
+                entityConfig.getEncoding(), entityConfig.isOverwriteListener());
         generator.generate(context);
     }
 
@@ -559,8 +563,8 @@ public class Gen extends AbstractTask {
         File javaFile = FileUtil.createJavaFile(daoConfig.getDestDir(), daoDesc
                 .getQualifiedName());
         GenerationContext context = new GenerationContext(daoDesc, javaFile,
-                daoDesc.getTemplateName(), daoConfig.getEncoding(), daoConfig
-                        .isOverwrite());
+                daoDesc.getTemplateName(), daoConfig.getEncoding(),
+                daoConfig.isOverwrite());
         generator.generate(context);
     }
 
@@ -576,8 +580,8 @@ public class Gen extends AbstractTask {
                 .createJavaFile(daoConfig.getDestDir(), daoDelegateDesc
                         .getQualifiedName());
         GenerationContext context = new GenerationContext(daoDelegateDesc,
-                javaFile, daoDelegateDesc.getTemplateName(), daoConfig
-                        .getEncoding(), daoConfig.isOverwriteDelegate());
+                javaFile, daoDelegateDesc.getTemplateName(),
+                daoConfig.getEncoding(), daoConfig.isOverwriteDelegate());
         generator.generate(context);
     }
 
