@@ -358,8 +358,11 @@ public class Gen extends AbstractTask {
             dialect = GenDialectRegistry.lookup(dialectName.getValue());
             AssertionUtil.assertNotNull(dialect);
             if (entityConfig.isUseUtilDate()) {
-                dialect.replacePropertyClassName(java.sql.Date.class.getName(), java.util.Date.class
-                        .getName());
+                String newClassName = java.util.Date.class.getName();
+                dialect.replacePropertyClassName(java.sql.Date.class.getName(), newClassName);
+                dialect.replacePropertyClassName(java.sql.Time.class.getName(), newClassName);
+                dialect.replacePropertyClassName(java.sql.Timestamp.class
+                        .getName(), newClassName);
             }
         }
         Logger.info(Message.DOMAGEN0017
