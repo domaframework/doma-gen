@@ -79,8 +79,7 @@ public class OracleGenDialect extends StandardGenDialect {
             throw new GenNullPointerException("tableName");
         }
         String sql = "select comments from all_tab_comments where owner = ? and table_name = ? and table_type in ('TABLE', 'VIEW')";
-        Logger.info(String
-                .format(sql.replace("?", "'%s'"), schemaName, tableName));
+        Logger.info(String.format(sql.replace("?", "'%s'"), schemaName, tableName));
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         try {
             preparedStatement.setString(1, schemaName);
@@ -114,8 +113,7 @@ public class OracleGenDialect extends StandardGenDialect {
         }
 
         String sql = "select column_name, comments from all_col_comments where owner = ? and table_name = ?";
-        Logger.info(String
-                .format(sql.replace("?", "'%s'"), schemaName, tableName));
+        Logger.info(String.format(sql.replace("?", "'%s'"), schemaName, tableName));
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         try {
             preparedStatement.setString(1, schemaName);
@@ -123,7 +121,7 @@ public class OracleGenDialect extends StandardGenDialect {
             ResultSet resultSet = preparedStatement.executeQuery();
             try {
                 Map<String, String> commentMap = new HashMap<String, String>();
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     commentMap.put(resultSet.getString(1), resultSet
                             .getString(2));
                 }
