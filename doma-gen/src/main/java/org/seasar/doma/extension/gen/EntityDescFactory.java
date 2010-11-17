@@ -223,10 +223,11 @@ public class EntityDescFactory {
             EntityPropertyDesc propertyDesc = propertyDescMap
                     .get(propertyInfo.columnName.toLowerCase());
             if (propertyDesc == null) {
-                throw new GenException(Message.DOMAGEN0021, superclass
-                        .getName(), propertyInfo.propertyField.getName(),
-                        propertyInfo.columnName, entityDesc
-                                .getQualifiedTableName());
+                throw new GenException(Message.DOMAGEN0021,
+                        superclass.getName(),
+                        propertyInfo.propertyField.getName(),
+                        propertyInfo.columnName,
+                        entityDesc.getQualifiedTableName());
             }
             mergeEntityProperty(propertyDesc, propertyInfo);
         }
@@ -377,9 +378,19 @@ public class EntityDescFactory {
                             .addImportName(entityDesc, ClassConstants.GeneratedValue);
                     classDescSupport
                             .addImportName(entityDesc, ClassConstants.GenerationType);
-                    if (propertyDesc.getGenerationType() != null) {
-                        classDescSupport.addImportName(entityDesc, propertyDesc
-                                .getGenerationType().getEnumConstant());
+                    GenerationType generationType = propertyDesc
+                            .getGenerationType();
+                    if (generationType != null) {
+                        classDescSupport
+                                .addImportName(entityDesc, generationType
+                                        .getEnumConstant());
+                        if (generationType == GenerationType.SEQUENCE) {
+                            classDescSupport
+                                    .addImportName(entityDesc, ClassConstants.SequenceGenerator);
+                        } else if (generationType == GenerationType.TABLE) {
+                            classDescSupport
+                                    .addImportName(entityDesc, ClassConstants.TableGenerator);
+                        }
                     }
                 }
             }
