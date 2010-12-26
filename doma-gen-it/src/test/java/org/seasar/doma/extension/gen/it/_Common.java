@@ -15,6 +15,13 @@
  */
 package org.seasar.doma.extension.gen.it;
 
+import org.seasar.doma.jdbc.entity.PostDeleteContext;
+import org.seasar.doma.jdbc.entity.PostInsertContext;
+import org.seasar.doma.jdbc.entity.PostUpdateContext;
+import org.seasar.doma.jdbc.entity.PreDeleteContext;
+import org.seasar.doma.jdbc.entity.PreInsertContext;
+import org.seasar.doma.jdbc.entity.PreUpdateContext;
+
 @javax.annotation.Generated(value = { "Doma", "1.3.2-SNAPSHOT" }, date = "2010-04-06 22:06:50")
 public final class _Common extends
         org.seasar.doma.jdbc.entity.AbstractEntityType<Common> {
@@ -131,18 +138,33 @@ public final class _Common extends
     }
 
     @Override
-    public void preInsert(Common entity) {
-        __listener.preInsert(entity);
+    public void preInsert(Common entity, PreInsertContext context) {
+        __listener.preInsert(entity, context);
     }
 
     @Override
-    public void preUpdate(Common entity) {
-        __listener.preUpdate(entity);
+    public void preUpdate(Common entity, PreUpdateContext context) {
+        __listener.preUpdate(entity, context);
     }
 
     @Override
-    public void preDelete(Common entity) {
-        __listener.preDelete(entity);
+    public void preDelete(Common entity, PreDeleteContext context) {
+        __listener.preDelete(entity, context);
+    }
+
+    @Override
+    public void postInsert(Common entity, PostInsertContext context) {
+        __listener.postInsert(entity, context);
+    }
+
+    @Override
+    public void postUpdate(Common entity, PostUpdateContext context) {
+        __listener.postUpdate(entity, context);
+    }
+
+    @Override
+    public void postDelete(Common entity, PostDeleteContext context) {
+        __listener.postDelete(entity, context);
     }
 
     @Override
