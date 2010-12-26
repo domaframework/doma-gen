@@ -83,6 +83,18 @@ public class EntityListenerDescFactory {
         if (superclassName == null) {
             classDescSupport
                     .addImportName(entityListenerDesc, ClassConstants.EntityListener);
+            classDescSupport
+                    .addImportName(entityListenerDesc, ClassConstants.PreInsertContext);
+            classDescSupport
+                    .addImportName(entityListenerDesc, ClassConstants.PreUpdateContext);
+            classDescSupport
+                    .addImportName(entityListenerDesc, ClassConstants.PreDeleteContext);
+            classDescSupport
+                    .addImportName(entityListenerDesc, ClassConstants.PostInsertContext);
+            classDescSupport
+                    .addImportName(entityListenerDesc, ClassConstants.PostUpdateContext);
+            classDescSupport
+                    .addImportName(entityListenerDesc, ClassConstants.PostDeleteContext);
         } else {
             classDescSupport.addImportName(entityListenerDesc, superclassName);
         }

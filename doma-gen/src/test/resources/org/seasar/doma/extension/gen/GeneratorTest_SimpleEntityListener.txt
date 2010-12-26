@@ -1,6 +1,12 @@
 package example.entity;
 
 import org.seasar.doma.jdbc.entity.EntityListener;
+import org.seasar.doma.jdbc.entity.PostDeleteContext;
+import org.seasar.doma.jdbc.entity.PostInsertContext;
+import org.seasar.doma.jdbc.entity.PostUpdateContext;
+import org.seasar.doma.jdbc.entity.PreDeleteContext;
+import org.seasar.doma.jdbc.entity.PreInsertContext;
+import org.seasar.doma.jdbc.entity.PreUpdateContext;
 
 /**
  * 
@@ -8,14 +14,26 @@ import org.seasar.doma.jdbc.entity.EntityListener;
 public class HogeListener implements EntityListener<Hoge> {
 
     @Override
-    public void preInsert(Hoge entity) {
+    public void preInsert(Hoge entity, PreInsertContext context) {
     }
 
     @Override
-    public void preUpdate(Hoge entity) {
+    public void preUpdate(Hoge entity, PreUpdateContext context) {
     }
 
     @Override
-    public void preDelete(Hoge entity) {
+    public void preDelete(Hoge entity, PreDeleteContext context) {
+    }
+
+    @Override
+    public void postInsert(Hoge entity, PostInsertContext context) {
+    }
+
+    @Override
+    public void postUpdate(Hoge entity, PostUpdateContext context) {
+    }
+
+    @Override
+    public void postDelete(Hoge entity, PostDeleteContext context) {
     }
 }

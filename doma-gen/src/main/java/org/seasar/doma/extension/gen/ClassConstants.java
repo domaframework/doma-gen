@@ -58,6 +58,18 @@ public enum ClassConstants {
     /** */
     EntityListener("org.seasar.doma.jdbc.entity", "EntityListener"),
     /** */
+    PreInsertContext("org.seasar.doma.jdbc.entity", "PreInsertContext"),
+    /** */
+    PreUpdateContext("org.seasar.doma.jdbc.entity", "PreUpdateContext"),
+    /** */
+    PreDeleteContext("org.seasar.doma.jdbc.entity", "PreDeleteContext"),
+    /** */
+    PostInsertContext("org.seasar.doma.jdbc.entity", "PostInsertContext"),
+    /** */
+    PostUpdateContext("org.seasar.doma.jdbc.entity", "PostUpdateContext"),
+    /** */
+    PostDeleteContext("org.seasar.doma.jdbc.entity", "PostDeleteContext"),
+    /** */
     StandardDialect("org.seasar.doma.jdbc.dialect", "StandardDialect"),
     /** */
     HsqldbDialect("org.seasar.doma.jdbc.dialect", "HsqldbDialect"),
