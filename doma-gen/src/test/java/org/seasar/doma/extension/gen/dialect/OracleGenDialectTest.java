@@ -15,36 +15,21 @@
  */
 package org.seasar.doma.extension.gen.dialect;
 
-import java.sql.Types;
-
 import junit.framework.TestCase;
 
 /**
  * @author taedium
  * 
  */
-public class StandardGenDialectTest extends TestCase {
-
-    /**
-     * 
-     * @throws Exception
-     */
-    public void testReplacePropertyClassName() throws Exception {
-        StandardGenDialect dialect = new StandardGenDialect();
-        String sqlDateClassName = java.sql.Date.class.getName();
-        String utilDateClassName = java.util.Date.class.getName();
-        dialect.replacePropertyClassName(sqlDateClassName, utilDateClassName);
-        assertEquals(utilDateClassName, dialect.classNameMap.get("date"));
-        assertEquals(utilDateClassName, dialect.fallbackClassNameMap.get(Types.DATE));
-    }
+public class OracleGenDialectTest extends TestCase {
 
     /**
      * 
      * @throws Exception
      */
     public void testConvertToTimeLiteral() throws Exception {
-        StandardGenDialect dialect = new StandardGenDialect();
-        assertEquals("'a'", dialect.convertToTimeLiteral("a"));
+        OracleGenDialect dialect = new OracleGenDialect();
+        assertEquals("time'a'", dialect.convertToTimeLiteral("a"));
     }
 
     /**
@@ -52,8 +37,8 @@ public class StandardGenDialectTest extends TestCase {
      * @throws Exception
      */
     public void testConvertToDateLiteral() throws Exception {
-        StandardGenDialect dialect = new StandardGenDialect();
-        assertEquals("'a'", dialect.convertToDateLiteral("a"));
+        OracleGenDialect dialect = new OracleGenDialect();
+        assertEquals("date'a'", dialect.convertToDateLiteral("a"));
     }
 
     /**
@@ -61,7 +46,7 @@ public class StandardGenDialectTest extends TestCase {
      * @throws Exception
      */
     public void testConvertToTimestampLiteral() throws Exception {
-        StandardGenDialect dialect = new StandardGenDialect();
-        assertEquals("'a'", dialect.convertToTimestampLiteral("a"));
+        OracleGenDialect dialect = new OracleGenDialect();
+        assertEquals("timestamp'a'", dialect.convertToTimestampLiteral("a"));
     }
 }

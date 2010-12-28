@@ -1,0 +1,7 @@
+select
+  ID,
+  EMP_NAME
+from
+  HOGE
+where
+  ID = /* id */'2010-01-23 12:34:56'

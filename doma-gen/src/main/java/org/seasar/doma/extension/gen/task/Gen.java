@@ -482,7 +482,7 @@ public class Gen extends AbstractTask {
      * @return SQL記述ファクトリ
      */
     protected SqlDescFactory createSqlDescFactory() {
-        return globalFactory.createSqlDescFactory(templatePrimaryDir);
+        return globalFactory.createSqlDescFactory(templatePrimaryDir, dialect);
     }
 
     /**

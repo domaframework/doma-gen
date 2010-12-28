@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.seasar.doma.extension.gen.dialect.GenDialect;
+
 /**
  * SQL記述のファクトリです。
  * 
@@ -39,13 +41,21 @@ public class SqlDescFactory {
     /** テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null} */
     private File templatePrimaryDir;
 
+    /** 方言 */
+    private GenDialect dialect;
+
     /**
      * インスタンスを構築します。
      * 
-     * @since 1.7.0
+     * @param templatePrimaryDir
+     *            テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null}
+     * @param dialect
+     *            方言
+     * @since 1.11.0
      */
-    public SqlDescFactory(File templatePrimaryDir) {
-        this("selectById.sql", "selectByIdAndVersion.sql", templatePrimaryDir);
+    public SqlDescFactory(File templatePrimaryDir, GenDialect dialect) {
+        this("selectById.sql", "selectByIdAndVersion.sql", templatePrimaryDir,
+                dialect);
     }
 
     /**
@@ -57,19 +67,26 @@ public class SqlDescFactory {
      *            識別子とバージョンによる検索メソッドの名前
      * @param templatePrimaryDir
      *            テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null}
-     * @since 1.7.0
+     * @param dialect
+     *            方言
+     * @since 1.11.0
      */
     public SqlDescFactory(String selectByIdFileName,
-            String selectByIdAndVersionFileName, File templatePrimaryDir) {
+            String selectByIdAndVersionFileName, File templatePrimaryDir,
+            GenDialect dialect) {
         if (selectByIdFileName == null) {
             throw new GenNullPointerException("selectByIdFileName");
         }
         if (selectByIdAndVersionFileName == null) {
             throw new GenNullPointerException("selectByIdAndVersionFileName");
         }
+        if (dialect == null) {
+            throw new GenNullPointerException("dialect");
+        }
         this.selectByIdFileName = selectByIdFileName;
         this.selectByIdAndVersionFileName = selectByIdAndVersionFileName;
         this.templatePrimaryDir = templatePrimaryDir;
+        this.dialect = dialect;
     }
 
     /**
@@ -82,11 +99,9 @@ public class SqlDescFactory {
     public List<SqlDesc> createSqlDescs(EntityDesc entityDesc) {
         List<SqlDesc> results = new ArrayList<SqlDesc>();
         if (entityDesc.getIdEntityPropertyDescs().size() > 0) {
-            results
-                    .add(createSqlDesc(entityDesc, selectByIdFileName, Constants.SELECT_BY_ID_SQL_TEMPLATE));
+            results.add(createSqlDesc(entityDesc, selectByIdFileName, Constants.SELECT_BY_ID_SQL_TEMPLATE));
             if (entityDesc.getVersionEntityPropertyDesc() != null) {
-                results
-                        .add(createSqlDesc(entityDesc, selectByIdAndVersionFileName, Constants.SELECT_BY_ID_AND_VERSION_SQL_TEMPLATE));
+                results.add(createSqlDesc(entityDesc, selectByIdAndVersionFileName, Constants.SELECT_BY_ID_AND_VERSION_SQL_TEMPLATE));
             }
         }
         for (String templateName : findTemplateNames()) {
@@ -113,6 +128,7 @@ public class SqlDescFactory {
         sqlFileDesc.setFileName(fileName);
         sqlFileDesc.setTemplateName(templateName);
         sqlFileDesc.setEntityDesc(entityDesc);
+        sqlFileDesc.setDialect(dialect);
         return sqlFileDesc;
     }
 
@@ -134,8 +150,7 @@ public class SqlDescFactory {
                 if (file.isFile()) {
                     String name = file.getName();
                     if (!name.equals(Constants.SELECT_BY_ID_SQL_TEMPLATE)
-                            && !name
-                                    .equals(Constants.SELECT_BY_ID_AND_VERSION_SQL_TEMPLATE)) {
+                            && !name.equals(Constants.SELECT_BY_ID_AND_VERSION_SQL_TEMPLATE)) {
                         if (name.endsWith(Constants.SQL_TEMPLATE_EXTENSION)) {
                             results.add(name);
                         }

@@ -57,6 +57,27 @@ public class EntityPropertyDesc {
     /** 数値を表す場合 {@code true} */
     protected boolean number;
 
+    /**
+     * 時刻を表す場合 {@code true}
+     * 
+     * @since 1.11.0
+     */
+    protected boolean time;
+
+    /**
+     * 日付を表す場合 {@code true}
+     * 
+     * @since 1.11.0
+     */
+    protected boolean date;
+
+    /**
+     * タイムスタンプを表す場合 {@code true}
+     * 
+     * @since 1.11.0
+     */
+    protected boolean timestamp;
+
     /** エンティティのクラス名 */
     protected String entityClassName;
 
@@ -276,6 +297,69 @@ public class EntityPropertyDesc {
      */
     public void setNumber(boolean number) {
         this.number = number;
+    }
+
+    /**
+     * 時刻を表す場合 {@code true}を返します。
+     * 
+     * @return 時刻を表す場合 {@code true}
+     * @since 1.11.0
+     */
+    public boolean isTime() {
+        return time;
+    }
+
+    /**
+     * 時刻を表す場合 {@code true}を設定します。
+     * 
+     * @param time
+     *            時刻を表す場合 {@code true}
+     * @since 1.11.0
+     */
+    public void setTime(boolean time) {
+        this.time = time;
+    }
+
+    /**
+     * 日付を表す場合 {@code true}を返します。
+     * 
+     * @return 日付を表す場合 {@code true}
+     * @since 1.11.0
+     */
+    public boolean isDate() {
+        return date;
+    }
+
+    /**
+     * 日付を表す場合 {@code true}を設定します。
+     * 
+     * @param date
+     *            日付を表す場合 {@code true}
+     * @since 1.11.0
+     */
+    public void setDate(boolean date) {
+        this.date = date;
+    }
+
+    /**
+     * タイムスタンプを表す場合 {@code true}を返します。
+     * 
+     * @return タイムスタンプを表す場合 {@code true}
+     * @since 1.11.0
+     */
+    public boolean isTimestamp() {
+        return timestamp;
+    }
+
+    /**
+     * タイムスタンプを表す場合 {@code true}を設定します。
+     * 
+     * @param timestamp
+     *            タイムスタンプを表す場合 {@code true}
+     * @since 1.11.0
+     */
+    public void setTimestamp(boolean timestamp) {
+        this.timestamp = timestamp;
     }
 
     /**

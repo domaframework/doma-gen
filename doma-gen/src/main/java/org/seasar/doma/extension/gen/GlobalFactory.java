@@ -221,11 +221,14 @@ public class GlobalFactory {
      * 
      * @param templatePrimaryDir
      *            テンプレートを格納するプライマリディレクトリ、使用しない場合 {@code null}
+     * @param dialect
+     *            方言
      * @return SQL記述ファクトリ
-     * @since 1.7.0
+     * @since 1.11.0
      */
-    public SqlDescFactory createSqlDescFactory(File templatePrimaryDir) {
-        return new SqlDescFactory(templatePrimaryDir);
+    public SqlDescFactory createSqlDescFactory(File templatePrimaryDir,
+            GenDialect dialect) {
+        return new SqlDescFactory(templatePrimaryDir, dialect);
     }
 
     /**

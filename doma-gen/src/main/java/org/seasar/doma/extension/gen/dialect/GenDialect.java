@@ -150,4 +150,35 @@ public interface GenDialect {
     Map<String, String> getColumnCommentMap(Connection connection,
             String catalogName, String schemaName, String tableName)
             throws SQLException;
+
+    /**
+     * 時刻を表すリテラルを返します。
+     * 
+     * @param value
+     *            値
+     * @return リテラル
+     * @since 1.11.0
+     */
+    String convertToTimeLiteral(String value);
+
+    /**
+     * 日付を表すリテラルを返します。
+     * 
+     * @param value
+     *            値
+     * @return リテラル
+     * @since 1.11.0
+     */
+    String convertToDateLiteral(String value);
+
+    /**
+     * タイムスタンプを表すリテラルを返します。
+     * 
+     * @param value
+     *            値
+     * @return リテラル
+     * @since 1.11.0
+     */
+    String convertToTimestampLiteral(String value);
+
 }

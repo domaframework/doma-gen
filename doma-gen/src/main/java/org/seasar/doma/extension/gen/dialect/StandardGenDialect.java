@@ -222,4 +222,28 @@ public class StandardGenDialect implements GenDialect {
         }
     }
 
+    @Override
+    public String convertToTimeLiteral(String value) {
+        if (value == null) {
+            throw new GenNullPointerException("value");
+        }
+        return "'" + value + "'";
+    }
+
+    @Override
+    public String convertToDateLiteral(String value) {
+        if (value == null) {
+            throw new GenNullPointerException("value");
+        }
+        return "'" + value + "'";
+    }
+
+    @Override
+    public String convertToTimestampLiteral(String value) {
+        if (value == null) {
+            throw new GenNullPointerException("value");
+        }
+        return "'" + value + "'";
+    }
+
 }

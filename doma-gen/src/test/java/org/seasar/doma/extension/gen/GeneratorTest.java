@@ -642,7 +642,8 @@ public class GeneratorTest extends TestCase {
                 .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null);
+        SqlDescFactory sqlDescFactory = factory
+                .createSqlDescFactory(null, dialect);
         SqlDesc sqlDesc = sqlDescFactory
                 .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
         generator.generate(new SqlContext(sqlDesc));
@@ -679,7 +680,8 @@ public class GeneratorTest extends TestCase {
                 .createEntityDescFactory("example.entity", ParentEntity.class, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null);
+        SqlDescFactory sqlDescFactory = factory
+                .createSqlDescFactory(null, dialect);
         SqlDesc sqlDesc = sqlDescFactory
                 .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
         generator.generate(new SqlContext(sqlDesc));
@@ -746,6 +748,45 @@ public class GeneratorTest extends TestCase {
         assertEquals(expect(), generator.getResult());
     }
 
+    public void testSelectById_number() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("int4");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varchar");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        SqlDescFactory sqlDescFactory = factory
+                .createSqlDescFactory(null, dialect);
+        SqlDesc sqlDesc = sqlDescFactory
+                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+
+        generator.generate(new SqlContext(sqlDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
     public void testSelectById_varchar() throws Exception {
         ColumnMeta id = new ColumnMeta();
         id.setComment("COMMENT for ID");
@@ -775,7 +816,125 @@ public class GeneratorTest extends TestCase {
                 .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null);
+        SqlDescFactory sqlDescFactory = factory
+                .createSqlDescFactory(null, dialect);
+        SqlDesc sqlDesc = sqlDescFactory
+                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+
+        generator.generate(new SqlContext(sqlDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSelectById_time() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("time");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varchar");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        SqlDescFactory sqlDescFactory = factory
+                .createSqlDescFactory(null, dialect);
+        SqlDesc sqlDesc = sqlDescFactory
+                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+
+        generator.generate(new SqlContext(sqlDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSelectById_date() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("date");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varchar");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        SqlDescFactory sqlDescFactory = factory
+                .createSqlDescFactory(null, dialect);
+        SqlDesc sqlDesc = sqlDescFactory
+                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+
+        generator.generate(new SqlContext(sqlDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSelectById_timestamp() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("timestamp");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varchar");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory
+                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        SqlDescFactory sqlDescFactory = factory
+                .createSqlDescFactory(null, dialect);
         SqlDesc sqlDesc = sqlDescFactory
                 .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
 
@@ -819,7 +978,8 @@ public class GeneratorTest extends TestCase {
                 .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null);
+        SqlDescFactory sqlDescFactory = factory
+                .createSqlDescFactory(null, dialect);
         SqlDesc sqlDesc = sqlDescFactory
                 .createSqlDesc(entityDesc, "dummy", "selectByIdAndVersion.sql.ftl");
 

@@ -15,6 +15,8 @@
  */
 package org.seasar.doma.extension.gen;
 
+import org.seasar.doma.extension.gen.dialect.GenDialect;
+
 /**
  * SQL記述です。
  * 
@@ -33,7 +35,14 @@ public class SqlDesc {
     protected EntityDesc entityDesc;
 
     /**
-     *ファイル名 を返します。
+     * 方言
+     * 
+     * @since 1.11.0
+     */
+    protected GenDialect dialect;
+
+    /**
+     * ファイル名 を返します。
      * 
      * @return ファイル名
      */
@@ -89,4 +98,50 @@ public class SqlDesc {
         this.entityDesc = entityDesc;
     }
 
+    /**
+     * 方言を設定します。
+     * 
+     * @param dialect
+     *            方言
+     * @since 1.11.0
+     */
+    public void setDialect(GenDialect dialect) {
+        this.dialect = dialect;
+    }
+
+    /**
+     * 時刻のリテラルに変換します。
+     * 
+     * @param value
+     *            値
+     * @return 時刻のリテラル
+     * @since 1.11.0
+     */
+    public String toTime(String value) {
+        return dialect.convertToTimeLiteral(value);
+    }
+
+    /**
+     * 日付のリテラルに変換します。
+     * 
+     * @param value
+     *            値
+     * @return 日付のリテラル
+     * @since 1.11.0
+     */
+    public String toDate(String value) {
+        return dialect.convertToDateLiteral(value);
+    }
+
+    /**
+     * タイムスタンプのリテラルに変換します。
+     * 
+     * @param value
+     *            値
+     * @return タイムスタンプのリテラル
+     * @since 1.11.0
+     */
+    public String toTimestamp(String value) {
+        return dialect.convertToTimestampLiteral(value);
+    }
 }

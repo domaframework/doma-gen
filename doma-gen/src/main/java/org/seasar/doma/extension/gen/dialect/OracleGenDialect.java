@@ -159,4 +159,19 @@ public class OracleGenDialect extends StandardGenDialect {
         return true;
     }
 
+    @Override
+    public String convertToTimeLiteral(String value) {
+        return "time" + super.convertToTimeLiteral(value);
+    }
+
+    @Override
+    public String convertToDateLiteral(String value) {
+        return "date" + super.convertToDateLiteral(value);
+    }
+
+    @Override
+    public String convertToTimestampLiteral(String value) {
+        return "timestamp" + super.convertToTimestampLiteral(value);
+    }
+
 }

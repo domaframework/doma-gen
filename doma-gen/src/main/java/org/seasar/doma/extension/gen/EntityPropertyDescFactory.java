@@ -17,6 +17,9 @@ package org.seasar.doma.extension.gen;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.regex.Pattern;
 
 import org.seasar.doma.extension.gen.dialect.GenDialect;
@@ -143,7 +146,7 @@ public class EntityPropertyDescFactory {
         }
         propertyDesc.setComment(columnMeta.getComment());
         handlePropertyClassName(entityDesc, propertyDesc, columnMeta);
-        handleNumber(entityDesc, propertyDesc, columnMeta);
+        descriminateType(entityDesc, propertyDesc, columnMeta);
         handleShowColumnName(entityDesc, propertyDesc, columnMeta);
         handleVersion(entityDesc, propertyDesc, columnMeta);
         propertyDesc.setEntityClassName(entityDesc.getQualifiedName());
@@ -178,7 +181,8 @@ public class EntityPropertyDescFactory {
      */
     protected void handlePropertyClassName(EntityDesc entityDesc,
             EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
-        String defaultClassName = dialect.getMappedPropertyClassName(columnMeta);
+        String defaultClassName = dialect
+                .getMappedPropertyClassName(columnMeta);
         String className = propertyClassNameResolver
                 .resolve(entityDesc, propertyDesc.getName(), defaultClassName);
         if (className == null) {
@@ -199,10 +203,12 @@ public class EntityPropertyDescFactory {
      *            エンティティプロパティ記述
      * @param columnMeta
      *            カラムメタデータ
+     * @since 1.11.0
      */
-    protected void handleNumber(EntityDesc entityDesc,
+    protected void descriminateType(EntityDesc entityDesc,
             EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
-        String defaultClassName = dialect.getMappedPropertyClassName(columnMeta);
+        String defaultClassName = dialect
+                .getMappedPropertyClassName(columnMeta);
         if (Byte.class.getName().equals(defaultClassName)
                 || Short.class.getName().equals(defaultClassName)
                 || Integer.class.getName().equals(defaultClassName)
@@ -218,6 +224,13 @@ public class EntityPropertyDescFactory {
                 || float.class.getName().equals(defaultClassName)
                 || double.class.getName().equals(defaultClassName)) {
             propertyDesc.setNumber(true);
+        } else if (Time.class.getName().equals(defaultClassName)) {
+            propertyDesc.setTime(true);
+        } else if (Date.class.getName().equals(defaultClassName)) {
+            propertyDesc.setDate(true);
+        } else if (Timestamp.class.getName().equals(defaultClassName)
+                || java.util.Date.class.getName().equals(defaultClassName)) {
+            propertyDesc.setTimestamp(true);
         }
     }
 
