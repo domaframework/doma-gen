@@ -85,7 +85,8 @@ public class StandardGenDialect implements GenDialect {
         classNameMap.put("varchar", String.class.getName());
 
         fallbackClassNameMap.put(Types.BIGINT, Long.class.getName());
-        fallbackClassNameMap.put(Types.BINARY, byte[].class.getName());
+        fallbackClassNameMap.put(Types.BINARY, ClassConstants.bytes
+                .getQualifiedName());
         fallbackClassNameMap.put(Types.BIT, Boolean.class.getName());
         fallbackClassNameMap.put(Types.BLOB, Blob.class.getName());
         fallbackClassNameMap.put(Types.BOOLEAN, Boolean.class.getName());
