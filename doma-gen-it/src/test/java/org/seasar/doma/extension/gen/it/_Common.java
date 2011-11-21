@@ -21,6 +21,7 @@ import org.seasar.doma.jdbc.entity.PostUpdateContext;
 import org.seasar.doma.jdbc.entity.PreDeleteContext;
 import org.seasar.doma.jdbc.entity.PreInsertContext;
 import org.seasar.doma.jdbc.entity.PreUpdateContext;
+import org.seasar.doma.wrapper.IntegerWrapper;
 
 @javax.annotation.Generated(value = { "Doma", "1.3.2-SNAPSHOT" }, date = "2010-04-06 22:06:50")
 public final class _Common extends
@@ -33,39 +34,9 @@ public final class _Common extends
     private static final _Common __singleton = new _Common();
 
     /** the version */
-    public final org.seasar.doma.jdbc.entity.VersionPropertyType<Common, java.lang.Integer> version = new org.seasar.doma.jdbc.entity.VersionPropertyType<Common, java.lang.Integer>(
-            java.lang.Integer.class, "version", "version") {
-
-        @Override
-        public org.seasar.doma.wrapper.IntegerWrapper getWrapper(Common entity) {
-            return new Wrapper(entity);
-        }
-
-        class Wrapper extends org.seasar.doma.wrapper.IntegerWrapper {
-
-            private final Common entity;
-
-            private Wrapper(Common entity) {
-                this.entity = entity;
-            }
-
-            @Override
-            protected java.lang.Integer doGet() {
-                if (entity == null) {
-                    return null;
-                }
-                return entity.version;
-            }
-
-            @Override
-            protected void doSet(java.lang.Integer value) {
-                if (entity == null) {
-                    return;
-                }
-                entity.version = value;
-            }
-        }
-    };
+    public final org.seasar.doma.jdbc.entity.VersionPropertyType<Object, Common, java.lang.Integer, Object> version = new org.seasar.doma.jdbc.entity.VersionPropertyType<Object, Common, java.lang.Integer, Object>(
+            Common.class, java.lang.Integer.class, IntegerWrapper.class, null,
+            null, "version", "version");
 
     private final org.seasar.doma.jdbc.entity.NullEntityListener __listener;
 
@@ -184,12 +155,12 @@ public final class _Common extends
     }
 
     @Override
-    public org.seasar.doma.jdbc.entity.GeneratedIdPropertyType<Common, ?> getGeneratedIdPropertyType() {
+    public org.seasar.doma.jdbc.entity.GeneratedIdPropertyType<Object, Common, ?, ?> getGeneratedIdPropertyType() {
         return null;
     }
 
     @Override
-    public org.seasar.doma.jdbc.entity.VersionPropertyType<Common, ?> getVersionPropertyType() {
+    public org.seasar.doma.jdbc.entity.VersionPropertyType<Object, Common, ?, ?> getVersionPropertyType() {
         return version;
     }
 
