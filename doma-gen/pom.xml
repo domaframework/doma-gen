@@ -173,7 +173,7 @@
 					<docencoding>UTF-8</docencoding>
 					<charset>UTF-8</charset>
 					<links>
-						<link>http://java.sun.com/javase/ja/6/docs/ja/api/</link>
+						<link>http://docs.oracle.com/javase/6/docs/api/</link>
 					</links>
 					<excludePackageNames>*.internal</excludePackageNames>
 				</configuration>
