@@ -124,6 +124,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.7</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -150,6 +151,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
 				<executions>
 					<execution>
 						<id>source-jar</id>
@@ -162,12 +164,14 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8.1</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<docencoding>UTF-8</docencoding>
@@ -195,7 +199,7 @@
 						<configuration>
 							<tasks>
 								<ant antfile="build.xml" target="dist">
-									<property name="ver" value="${version}"/>
+									<property name="ver" value="${project.version}"/>
 								</ant>
 							</tasks>
 						</configuration>
