@@ -33,6 +33,11 @@ public final class _Name
     }
 
     @Override
+    public Class<String> getValueClass() {
+        return String.class;
+    }
+
+    @Override
     public Class<org.seasar.doma.extension.gen.it.Name> getDomainClass() {
         return org.seasar.doma.extension.gen.it.Name.class;
     }
