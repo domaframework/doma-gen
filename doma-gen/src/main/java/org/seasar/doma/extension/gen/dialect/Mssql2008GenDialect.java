@@ -25,7 +25,7 @@ import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
 
 /**
- * DB2用の方言です。
+ * SQL Server 2008用の方言です。
  * 
  * @author taedium
  * 
