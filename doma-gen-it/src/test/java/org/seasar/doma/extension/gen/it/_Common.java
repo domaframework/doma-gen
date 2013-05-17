@@ -34,7 +34,7 @@ public final class _Common extends
     private static final _Common __singleton = new _Common();
 
     /** the version */
-    public final org.seasar.doma.jdbc.entity.VersionPropertyType<Object, Common, java.lang.Integer, Object> version = new org.seasar.doma.jdbc.entity.VersionPropertyType<Object, Common, java.lang.Integer, Object>(
+    public final org.seasar.doma.jdbc.entity.VersionPropertyType<Object, Common, java.lang.Integer, Object> $version = new org.seasar.doma.jdbc.entity.VersionPropertyType<Object, Common, java.lang.Integer, Object>(
             Common.class, java.lang.Integer.class, IntegerWrapper.class, null,
             null, "version", "version");
 
@@ -71,8 +71,8 @@ public final class _Common extends
                 1);
         java.util.Map<String, org.seasar.doma.jdbc.entity.EntityPropertyType<Common, ?>> __map = new java.util.HashMap<String, org.seasar.doma.jdbc.entity.EntityPropertyType<Common, ?>>(
                 1);
-        __list.add(version);
-        __map.put("version", version);
+        __list.add($version);
+        __map.put("version", $version);
         __idPropertyTypes = java.util.Collections.unmodifiableList(__idList);
         __entityPropertyTypes = java.util.Collections.unmodifiableList(__list);
         __entityPropertyTypeMap = java.util.Collections.unmodifiableMap(__map);
@@ -161,7 +161,7 @@ public final class _Common extends
 
     @Override
     public org.seasar.doma.jdbc.entity.VersionPropertyType<Object, Common, ?, ?> getVersionPropertyType() {
-        return version;
+        return $version;
     }
 
     @Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="doma-gen-it-hsqldb" default="gen" basedir=".">
+<project name="doma-gen-it-mssql2008" default="gen" basedir=".">
 	
 	<property name="temp" value="temp"/>
 	<property name="build" value="${temp}/build"/>
@@ -46,7 +46,6 @@
 			/>
 			<daoConfig
 				destDir="${src}"
-				configClassname="org.seasar.doma.jdbc.ConfigProxy"
 			/>
 			<sqlConfig
 				destDir="${src}"

@@ -43,6 +43,7 @@ public class GenDialectRegistry {
         register(new OracleGenDialect());
         register(new Db2GenDialect());
         register(new Mssql2008GenDialect());
+        register(new MssqlGenDialect());
     }
 
     /**
