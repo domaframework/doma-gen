@@ -15,6 +15,8 @@
  */
 package org.seasar.doma.extension.gen.it;
 
+import java.util.Map;
+
 import org.seasar.doma.jdbc.entity.PostDeleteContext;
 import org.seasar.doma.jdbc.entity.PostInsertContext;
 import org.seasar.doma.jdbc.entity.PostUpdateContext;
@@ -170,6 +172,11 @@ public final class _Common extends
     }
 
     @Override
+    public Common newEntity(Map<String, Object> __args) {
+        return null;
+    }
+
+    @Override
     public Class<Common> getEntityClass() {
         return Common.class;
     }
@@ -181,6 +188,11 @@ public final class _Common extends
 
     @Override
     public void saveCurrentStates(Common __entity) {
+    }
+
+    @Override
+    public boolean isImmutable() {
+        return false;
     }
 
     /**
