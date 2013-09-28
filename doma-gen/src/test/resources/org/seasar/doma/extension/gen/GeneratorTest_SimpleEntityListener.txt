@@ -14,26 +14,26 @@ import org.seasar.doma.jdbc.entity.PreUpdateContext;
 public class HogeListener implements EntityListener<Hoge> {
 
     @Override
-    public void preInsert(Hoge entity, PreInsertContext context) {
+    public void preInsert(Hoge entity, PreInsertContext<Hoge> context) {
     }
 
     @Override
-    public void preUpdate(Hoge entity, PreUpdateContext context) {
+    public void preUpdate(Hoge entity, PreUpdateContext<Hoge> context) {
     }
 
     @Override
-    public void preDelete(Hoge entity, PreDeleteContext context) {
+    public void preDelete(Hoge entity, PreDeleteContext<Hoge> context) {
     }
 
     @Override
-    public void postInsert(Hoge entity, PostInsertContext context) {
+    public void postInsert(Hoge entity, PostInsertContext<Hoge> context) {
     }
 
     @Override
-    public void postUpdate(Hoge entity, PostUpdateContext context) {
+    public void postUpdate(Hoge entity, PostUpdateContext<Hoge> context) {
     }
 
     @Override
-    public void postDelete(Hoge entity, PostDeleteContext context) {
+    public void postDelete(Hoge entity, PostDeleteContext<Hoge> context) {
     }
 }

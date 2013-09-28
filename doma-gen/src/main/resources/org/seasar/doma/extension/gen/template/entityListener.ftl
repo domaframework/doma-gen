@@ -21,27 +21,27 @@ public class ${simpleName}<#if superclassSimpleName??> extends ${superclassSimpl
 <#if !superclassSimpleName??>
 
     @Override
-    public void preInsert(${entityClassSimpleName} entity, PreInsertContext context) {
+    public void preInsert(${entityClassSimpleName} entity, PreInsertContext<${entityClassSimpleName}> context) {
     }
 
     @Override
-    public void preUpdate(${entityClassSimpleName} entity, PreUpdateContext context) {
+    public void preUpdate(${entityClassSimpleName} entity, PreUpdateContext<${entityClassSimpleName}> context) {
     }
 
     @Override
-    public void preDelete(${entityClassSimpleName} entity, PreDeleteContext context) {
+    public void preDelete(${entityClassSimpleName} entity, PreDeleteContext<${entityClassSimpleName}> context) {
     }
 
     @Override
-    public void postInsert(${entityClassSimpleName} entity, PostInsertContext context) {
+    public void postInsert(${entityClassSimpleName} entity, PostInsertContext<${entityClassSimpleName}> context) {
     }
 
     @Override
-    public void postUpdate(${entityClassSimpleName} entity, PostUpdateContext context) {
+    public void postUpdate(${entityClassSimpleName} entity, PostUpdateContext<${entityClassSimpleName}> context) {
     }
 
     @Override
-    public void postDelete(${entityClassSimpleName} entity, PostDeleteContext context) {
+    public void postDelete(${entityClassSimpleName} entity, PostDeleteContext<${entityClassSimpleName}> context) {
     }
 </#if>
 }

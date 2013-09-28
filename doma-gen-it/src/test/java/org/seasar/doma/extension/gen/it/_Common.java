@@ -40,7 +40,7 @@ public final class _Common extends
             Common.class, java.lang.Integer.class, IntegerWrapper.class, null,
             null, "version", "version");
 
-    private final org.seasar.doma.jdbc.entity.NullEntityListener __listener;
+    private final org.seasar.doma.jdbc.entity.NullEntityListener<Common> __listener;
 
     private final org.seasar.doma.jdbc.entity.NamingType __namingType;
 
@@ -61,7 +61,7 @@ public final class _Common extends
     private final java.util.Map<String, org.seasar.doma.jdbc.entity.EntityPropertyType<Common, ?>> __entityPropertyTypeMap;
 
     private _Common() {
-        __listener = new org.seasar.doma.jdbc.entity.NullEntityListener();
+        __listener = new org.seasar.doma.jdbc.entity.NullEntityListener<Common>();
         __namingType = org.seasar.doma.jdbc.entity.NamingType.NONE;
         __name = "Common";
         __catalogName = "";
@@ -111,32 +111,32 @@ public final class _Common extends
     }
 
     @Override
-    public void preInsert(Common entity, PreInsertContext context) {
+    public void preInsert(Common entity, PreInsertContext<Common> context) {
         __listener.preInsert(entity, context);
     }
 
     @Override
-    public void preUpdate(Common entity, PreUpdateContext context) {
+    public void preUpdate(Common entity, PreUpdateContext<Common> context) {
         __listener.preUpdate(entity, context);
     }
 
     @Override
-    public void preDelete(Common entity, PreDeleteContext context) {
+    public void preDelete(Common entity, PreDeleteContext<Common> context) {
         __listener.preDelete(entity, context);
     }
 
     @Override
-    public void postInsert(Common entity, PostInsertContext context) {
+    public void postInsert(Common entity, PostInsertContext<Common> context) {
         __listener.postInsert(entity, context);
     }
 
     @Override
-    public void postUpdate(Common entity, PostUpdateContext context) {
+    public void postUpdate(Common entity, PostUpdateContext<Common> context) {
         __listener.postUpdate(entity, context);
     }
 
     @Override
-    public void postDelete(Common entity, PostDeleteContext context) {
+    public void postDelete(Common entity, PostDeleteContext<Common> context) {
         __listener.postDelete(entity, context);
     }
 
