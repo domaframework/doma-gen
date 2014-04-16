@@ -33,9 +33,6 @@ public class DaoConfig extends DataType {
     /** 同名のDaoインタフェースのJavaファイルを上書きする場合{@code true}、しない場合{@code false} */
     protected boolean overwrite = false;
 
-    /** 同名のDaoデリゲートのJavaファイルを上書きする場合{@code true}、しない場合{@code false} */
-    protected boolean overwriteDelegate = false;
-
     /** 生成されるJavaファイルの出力先ディレクトリ */
     protected File destDir = null;
 
@@ -54,13 +51,6 @@ public class DaoConfig extends DataType {
     /** ベースディレクトリ */
     protected File baseDir = null;
 
-    /**
-     * デリゲートを使用する場合 {@code false}
-     * 
-     * @since 1.7.0
-     */
-    protected boolean useDelegate = false;
-
     public boolean isGenerate() {
         return generate;
     }
@@ -75,14 +65,6 @@ public class DaoConfig extends DataType {
 
     public void setOverwrite(boolean overwrite) {
         this.overwrite = overwrite;
-    }
-
-    public boolean isOverwriteDelegate() {
-        return overwriteDelegate;
-    }
-
-    public void setOverwriteDelegate(boolean overwriteDelegate) {
-        this.overwriteDelegate = overwriteDelegate;
     }
 
     public String getPackageName() {
@@ -127,25 +109,6 @@ public class DaoConfig extends DataType {
 
     public void setEncoding(String encoding) {
         this.encoding = encoding;
-    }
-
-    /**
-     * 
-     * @return Daoデリゲートクラスを使用する場合 {@code true}
-     * @since 1.7.0
-     */
-    public boolean isUseDelegate() {
-        return useDelegate;
-    }
-
-    /**
-     * 
-     * @param useDelegate
-     *            デリゲートを使うかどうか
-     * @since 1.7.0
-     */
-    public void setUseDelegate(boolean useDelegate) {
-        this.useDelegate = useDelegate;
     }
 
     /**

@@ -71,9 +71,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -110,9 +112,12 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, "original", false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, "original", false, false, true, true, true,
+                false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -137,9 +142,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, true);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, null, null, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, true);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -172,9 +179,12 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", CommonEntity.class, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, null, null, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", CommonEntity.class,
+                entityPropertyDescFactory, NamingType.NONE, null, false, false,
+                true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -199,9 +209,12 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.SNAKE_UPPER_CASE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, null, null, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.SNAKE_UPPER_CASE, null, false, false, true, true,
+                true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -233,9 +246,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, false, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, null, null, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, false, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -267,9 +282,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, false);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, null, null, false);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -295,9 +312,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, null, null, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -322,9 +341,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", GenerationType.SEQUENCE, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        GenerationType.SEQUENCE, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -349,9 +370,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", GenerationType.TABLE, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        GenerationType.TABLE, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -384,9 +407,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, null, null, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, null, null, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -426,9 +451,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(file);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         generator.generate(new EntityContext(entityDesc));
 
@@ -453,9 +480,11 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         EntityListenerDescFactory entityListenerDescFactory = factory
                 .createEntityListenerDescFactory("example.entity", null);
@@ -484,12 +513,15 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
         EntityListenerDescFactory entityListenerDescFactory = factory
-                .createEntityListenerDescFactory("example.entity", "aaa.FooListener");
+                .createEntityListenerDescFactory("example.entity",
+                        "aaa.FooListener");
         EntityListenerDesc entityListenerDesc = entityListenerDescFactory
                 .createEntityListenerDesc(entityDesc);
         generator.generate(new EntityListenerContext(entityListenerDesc));
@@ -521,13 +553,15 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        DaoDescFactory daoDescFactory = factory
-                .createDaoDescFactory("example.dao", "Dao", "dao.config.MyConfig");
+        DaoDescFactory daoDescFactory = factory.createDaoDescFactory(
+                "example.dao", "Dao", "dao.config.MyConfig");
         DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
         generator.generate(new DaoContext(daoDesc));
 
@@ -558,57 +592,17 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        DaoDescFactory daoDescFactory = factory
-                .createDaoDescFactory("example.dao", "Dao", null);
+        DaoDescFactory daoDescFactory = factory.createDaoDescFactory(
+                "example.dao", "Dao", null);
         DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
         generator.generate(new DaoContext(daoDesc));
-
-        assertEquals(expect(), generator.getResult());
-    }
-
-    public void testDaoDelegate() throws Exception {
-        ColumnMeta id = new ColumnMeta();
-        id.setComment("COMMENT for ID");
-        id.setName("ID");
-        id.setTypeName("integer");
-        id.setPrimaryKey(true);
-        id.setNullable(false);
-
-        ColumnMeta version = new ColumnMeta();
-        version.setComment("COMMENT for VERSION");
-        version.setName("VERSION");
-        version.setTypeName("integer");
-
-        TableMeta tableMeta = new TableMeta();
-        tableMeta.setCatalogName("CATALOG");
-        tableMeta.setSchemaName("SCHEMA");
-        tableMeta.setName("HOGE");
-        tableMeta.setComment("COMMENT for HOGE");
-        tableMeta.addColumnMeta(id);
-        tableMeta.addColumnMeta(version);
-
-        EntityPropertyClassNameResolver resolver = factory
-                .createEntityPropertyClassNameResolver(null);
-        EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
-        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
-
-        DaoDescFactory daoDescFactory = factory
-                .createDaoDescFactory("example.dao", "Dao", null);
-        DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
-        DaoDelegateDescFactory daoDelegateDescFactory = factory
-                .createDaoDelegateDescFactory();
-        DaoDelegateDesc daoDelegateDesc = daoDelegateDescFactory
-                .createDaoDelegateDesc(daoDesc);
-
-        generator.generate(new DaoDelegateContext(daoDelegateDesc));
 
         assertEquals(expect(), generator.getResult());
     }
@@ -637,15 +631,17 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory
-                .createSqlDescFactory(null, dialect);
-        SqlDesc sqlDesc = sqlDescFactory
-                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null,
+                dialect);
+        SqlDesc sqlDesc = sqlDescFactory.createSqlDesc(entityDesc, "dummy",
+                "selectById.sql.ftl");
         generator.generate(new SqlContext(sqlDesc));
 
         assertEquals(expect(), generator.getResult());
@@ -675,15 +671,18 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", ParentEntity.class, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", ParentEntity.class,
+                entityPropertyDescFactory, NamingType.NONE, null, false, false,
+                true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory
-                .createSqlDescFactory(null, dialect);
-        SqlDesc sqlDesc = sqlDescFactory
-                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null,
+                dialect);
+        SqlDesc sqlDesc = sqlDescFactory.createSqlDesc(entityDesc, "dummy",
+                "selectById.sql.ftl");
         generator.generate(new SqlContext(sqlDesc));
 
         assertEquals(expect(), generator.getResult());
@@ -714,9 +713,12 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", ParentEntity.class, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", ParentEntity.class,
+                entityPropertyDescFactory, NamingType.NONE, null, false, false,
+                true, true, true, false);
 
         try {
             entityDescFactory.createEntityDesc(tableMeta);
@@ -740,7 +742,10 @@ public class GeneratorTest extends TestCase {
         sqlFiles.add(ResourceUtil.getResourceAsFile("META-INF/"
                 + getClass().getName().replace(".", "/") + "/update.sql"));
         SqlTestDescFactory sqlFileTestDescFactory = factory
-                .createSqlTestDescFactory("example.dao.SqlTest", false, "org.seasar.doma.jdbc.dialect.StandardDialect", "org.hsqldb.jdbcDriver", "jdbc:hsqldb:mem:example", "sa", "", sqlFiles);
+                .createSqlTestDescFactory("example.dao.SqlTest", false,
+                        "org.seasar.doma.jdbc.dialect.StandardDialect",
+                        "org.hsqldb.jdbcDriver", "jdbc:hsqldb:mem:example",
+                        "sa", "", sqlFiles);
         SqlTestDesc sqlTestDesc = sqlFileTestDescFactory
                 .createSqlFileTestDesc();
         generator.generate(new SqlTestContext(sqlTestDesc));
@@ -772,15 +777,17 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory
-                .createSqlDescFactory(null, dialect);
-        SqlDesc sqlDesc = sqlDescFactory
-                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null,
+                dialect);
+        SqlDesc sqlDesc = sqlDescFactory.createSqlDesc(entityDesc, "dummy",
+                "selectById.sql.ftl");
 
         generator.generate(new SqlContext(sqlDesc));
 
@@ -811,15 +818,17 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory
-                .createSqlDescFactory(null, dialect);
-        SqlDesc sqlDesc = sqlDescFactory
-                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null,
+                dialect);
+        SqlDesc sqlDesc = sqlDescFactory.createSqlDesc(entityDesc, "dummy",
+                "selectById.sql.ftl");
 
         generator.generate(new SqlContext(sqlDesc));
 
@@ -850,15 +859,17 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory
-                .createSqlDescFactory(null, dialect);
-        SqlDesc sqlDesc = sqlDescFactory
-                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null,
+                dialect);
+        SqlDesc sqlDesc = sqlDescFactory.createSqlDesc(entityDesc, "dummy",
+                "selectById.sql.ftl");
 
         generator.generate(new SqlContext(sqlDesc));
 
@@ -889,15 +900,17 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory
-                .createSqlDescFactory(null, dialect);
-        SqlDesc sqlDesc = sqlDescFactory
-                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null,
+                dialect);
+        SqlDesc sqlDesc = sqlDescFactory.createSqlDesc(entityDesc, "dummy",
+                "selectById.sql.ftl");
 
         generator.generate(new SqlContext(sqlDesc));
 
@@ -928,15 +941,17 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory
-                .createSqlDescFactory(null, dialect);
-        SqlDesc sqlDesc = sqlDescFactory
-                .createSqlDesc(entityDesc, "dummy", "selectById.sql.ftl");
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null,
+                dialect);
+        SqlDesc sqlDesc = sqlDescFactory.createSqlDesc(entityDesc, "dummy",
+                "selectById.sql.ftl");
 
         generator.generate(new SqlContext(sqlDesc));
 
@@ -973,15 +988,17 @@ public class GeneratorTest extends TestCase {
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
         EntityPropertyDescFactory entityPropertyDescFactory = factory
-                .createEntityPropertyDescFactory(dialect, resolver, "version", null, 100L, 50L, true);
-        EntityDescFactory entityDescFactory = factory
-                .createEntityDescFactory("example.entity", null, entityPropertyDescFactory, NamingType.NONE, null, false, false, true, true, true, false);
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
 
-        SqlDescFactory sqlDescFactory = factory
-                .createSqlDescFactory(null, dialect);
-        SqlDesc sqlDesc = sqlDescFactory
-                .createSqlDesc(entityDesc, "dummy", "selectByIdAndVersion.sql.ftl");
+        SqlDescFactory sqlDescFactory = factory.createSqlDescFactory(null,
+                dialect);
+        SqlDesc sqlDesc = sqlDescFactory.createSqlDesc(entityDesc, "dummy",
+                "selectByIdAndVersion.sql.ftl");
 
         generator.generate(new SqlContext(sqlDesc));
 
@@ -1015,14 +1032,6 @@ public class GeneratorTest extends TestCase {
     private class DaoContext extends GenerationContext {
 
         public DaoContext(DaoDesc model) {
-            super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
-                    true);
-        }
-    }
-
-    private class DaoDelegateContext extends GenerationContext {
-
-        public DaoDelegateContext(DaoDelegateDesc model) {
             super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
                     true);
         }

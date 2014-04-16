@@ -171,15 +171,6 @@ public class GlobalFactory {
     }
 
     /**
-     * Daoデリゲート記述のファクトリを作成します。
-     * 
-     * @return Daoデリゲート記述のファクトリ
-     */
-    public DaoDelegateDescFactory createDaoDelegateDescFactory() {
-        return new DaoDelegateDescFactory();
-    }
-
-    /**
      * エンティティプロパティのクラス名リゾルバを作成します。
      * 
      * @param propertyFile
