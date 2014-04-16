@@ -1,0 +1,127 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'signing'
+apply plugin: 'maven'
+
+group = 'org.seasar.doma'
+version = '2.0-beta-4-SNAPSHOT'
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+ext.encoding = 'UTF-8'
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
+
+compileJava {
+    doFirst {
+        ant.replaceregexp(
+            match: /(private static final String VERSION = ")[^"]*(")/,
+            replace: "\\1${version}\\2",
+            encoding: encoding, 
+            flags: 'g') {
+                fileset(dir: '.') {
+                    include(name: '**/Artifact.java')
+                }
+            }
+    }
+    options.encoding = encoding
+}
+
+compileTestJava {
+    options.encoding = encoding
+    options.compilerArgs = ['-proc:none']
+}
+
+javadoc {
+    options.encoding = encoding
+    options.charSet = encoding
+    options.docEncoding = encoding
+    exclude '**/internal/**'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Doma-Gen', 'Implementation-Version': version
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
+
+repositories {
+    mavenCentral()
+    maven {url 'http://maven.seasar.org/maven2'}
+}
+
+dependencies {
+    compile "org.seasar.doma:doma:2.0-beta-3"
+    compile 'org.freemarker:freemarker:2.3.13'
+    compile 'org.apache.ant:ant:1.7.0'
+    testCompile 'org.seasar.aptina:aptina-unit:1.0.0'
+    testCompile 'junit:junit:4.11'
+}
+
+task sourcesJar (type : Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar (type : Jar, dependsOn : javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives javadocJar
+}
+
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask('uploadArchives') }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        beforeDeployment {MavenDeployment deployment ->
+            signing.signPom(deployment)
+        }
+        repository (url : sonatypeUrl) {
+            authentication (
+                    userName : sonatypeUsername,
+                    password : sonatypePassword)
+        }
+        snapshotRepository (url : sonatypeSnapshotUrl) {
+            authentication (
+                    userName : sonatypeUsername,
+                    password : sonatypePassword)
+        }
+        pom.project {
+            name project.name
+            packaging 'jar'
+            description 'Domain Oriented Database Mapping Framework for Java 8'
+            url projectUrl
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url githubUrl
+                connection "scm:git:${githubUrl}"
+                developerConnection "scm:git:${githubUrl}"
+            }
+            developers {
+                developer {
+                    id 'nakamura-to'
+                    name 'Toshihiro Nakamura'
+                    email 'toshihiro.nakamura@gmail.com'
+                }
+            }
+        }
+    }
+}
+
+apply from:'eclipse.gradle'
