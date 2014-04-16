@@ -27,6 +27,7 @@ public interface LoggerDelegate {
      * DEBUGレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      */
     void debug(String message);
 
@@ -34,6 +35,7 @@ public interface LoggerDelegate {
      * DEBUGレベルの情報を記録します。
      * 
      * @param throwable
+     *            ログに関連した {@link Throwable}
      */
     void debug(Throwable throwable);
 
@@ -41,7 +43,9 @@ public interface LoggerDelegate {
      * DEBUGレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      * @param throwable
+     *            ログに関連した {@link Throwable}
      */
     void debug(String message, Throwable throwable);
 
@@ -49,6 +53,7 @@ public interface LoggerDelegate {
      * INFOレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      */
     void info(String message);
 
@@ -56,6 +61,7 @@ public interface LoggerDelegate {
      * INFOレベルの情報を記録します。
      * 
      * @param throwable
+     *            ログに関連した {@link Throwable}
      */
     void info(Throwable throwable);
 
@@ -63,7 +69,9 @@ public interface LoggerDelegate {
      * INFOレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      * @param throwable
+     *            ログに関連した {@link Throwable}
      */
     void info(String message, Throwable throwable);
 
@@ -71,6 +79,7 @@ public interface LoggerDelegate {
      * ERRORレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      */
     void error(String message);
 
@@ -78,6 +87,7 @@ public interface LoggerDelegate {
      * ERRORレベルの情報を記録します。
      * 
      * @param throwable
+     *            ログに関連した {@link Throwable}
      */
     void error(Throwable throwable);
 
@@ -85,7 +95,9 @@ public interface LoggerDelegate {
      * ERRORレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      * @param throwable
+     *            ログに関連した {@link Throwable}
      */
     void error(String message, Throwable throwable);
 

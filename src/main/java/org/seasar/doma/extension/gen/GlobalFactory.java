@@ -119,6 +119,8 @@ public class GlobalFactory {
      *            エンティティプロパティ記述のファクトリ
      * @param namingType
      *            ネーミング規約
+     * @param originalStatesPropertyName
+     *            オリジナルの状態を表すプロパティの名前
      * @param showCatalogName
      *            カタログ名を表示する場合 {@code true}
      * @param showSchemaName
@@ -129,6 +131,8 @@ public class GlobalFactory {
      *            データベースのコメントを表示する場合 {@code true}
      * @param useAccessor
      *            アクセッサーを使用する場合 {@code true}
+     * @param useListener
+     *            エンティティリスナーを使用する場合 {@code true}
      * @return エンティティ記述のファクトリ
      */
     public EntityDescFactory createEntityDescFactory(String packageName,

@@ -56,6 +56,8 @@ public abstract class ClassDesc {
 
     /**
      * インポート名のソートされたセットを返します。
+     * 
+     * @return インポート名のソートされたセット
      */
     public SortedSet<String> getImportNames() {
         return importNames;
@@ -73,6 +75,8 @@ public abstract class ClassDesc {
 
     /**
      * パッケージ名を返します。
+     * 
+     * @return パッケージ名
      */
     public String getPackageName() {
         return packageName;
@@ -90,6 +94,8 @@ public abstract class ClassDesc {
 
     /**
      * クラスの単純名を返します。
+     * 
+     * @return クラスの単純名
      */
     public String getSimpleName() {
         return simpleName;
@@ -107,6 +113,8 @@ public abstract class ClassDesc {
 
     /**
      * コメントを返します。
+     * 
+     * @return コメント
      */
     public String getComment() {
         return comment;
@@ -114,6 +122,8 @@ public abstract class ClassDesc {
 
     /**
      * 完全修飾名を返します。
+     * 
+     * @return 完全修飾名
      */
     public String getQualifiedName() {
         if (packageName == null || packageName.isEmpty()) {

@@ -134,6 +134,7 @@ public class SqlTestConfig extends DataType {
     /**
      * 
      * @param fileSet
+     *            SQLファイルの集合
      */
     public void addConfiguredFileSet(FileSet fileSet) {
         DirectoryScanner scanner = fileSet.getDirectoryScanner(getProject());

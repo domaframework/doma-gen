@@ -43,6 +43,7 @@ public final class Logger {
      * DEBUGレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      * 
      */
     public static void debug(String message) {
@@ -53,6 +54,7 @@ public final class Logger {
      * DEBUGレベルの情報を記録します。
      * 
      * @param throwable
+     *            ログに関する {@link Throwable}
      */
     public static void debug(Throwable throwable) {
         delegate.debug(throwable);
@@ -62,7 +64,9 @@ public final class Logger {
      * DEBUGレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      * @param throwable
+     *            ログに関する {@link Throwable}
      */
     public static void debug(String message, Throwable throwable) {
         delegate.debug(message, throwable);
@@ -72,6 +76,7 @@ public final class Logger {
      * INFOレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      */
     public static void info(String message) {
         delegate.info(message);
@@ -81,6 +86,7 @@ public final class Logger {
      * INFOレベルの情報を記録します。
      * 
      * @param throwable
+     *            ログに関する {@link Throwable}
      */
     public static void info(Throwable throwable) {
         delegate.info(throwable);
@@ -90,7 +96,9 @@ public final class Logger {
      * INFOレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      * @param throwable
+     *            ログに関する {@link Throwable}
      */
     public static void info(String message, Throwable throwable) {
         delegate.info(message, throwable);
@@ -100,6 +108,7 @@ public final class Logger {
      * ERRORレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      */
     public static void error(String message) {
         delegate.error(message);
@@ -109,6 +118,7 @@ public final class Logger {
      * ERRORレベルの情報を記録します。
      * 
      * @param throwable
+     *            ログに関する {@link Throwable}
      */
     public static void error(Throwable throwable) {
         delegate.error(throwable);
@@ -118,7 +128,9 @@ public final class Logger {
      * ERRORレベルの情報を記録します。
      * 
      * @param message
+     *            メッセージ
      * @param throwable
+     *            ログに関する {@link Throwable}
      */
     public static void error(String message, Throwable throwable) {
         delegate.error(message, throwable);

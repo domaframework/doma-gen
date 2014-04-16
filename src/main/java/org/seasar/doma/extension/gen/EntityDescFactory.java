@@ -88,12 +88,16 @@ public class EntityDescFactory {
      *            エンティティプロパティ記述のファクトリ
      * @param namingType
      *            ネーミング規約
+     * @param originalStatesPropertyName
+     *            オリジナルの状態を表すプロパティの名前
      * @param showCatalogName
      *            カタログ名を表示する場合 {@code true}
      * @param showSchemaName
      *            スキーマ名を表示する場合 {@code true}
      * @param showTableName
      *            テーブル名を表示する場合 {@code true}
+     * @param showDbComment
+     *            コメントを表示する場合 {@code true}
      * @param useAccessor
      *            アクセッサーを使用する場合 {@code true}
      * @param useListener
@@ -216,8 +220,8 @@ public class EntityDescFactory {
         for (ColumnMeta columnMeta : tableMeta.getColumnMetas()) {
             EntityPropertyDesc propertyDesc = entityPropertyDescFactory
                     .createEntityPropertyDesc(entityDesc, columnMeta);
-            propertyDescMap
-                    .put(propertyDesc.getColumnName().toLowerCase(), propertyDesc);
+            propertyDescMap.put(propertyDesc.getColumnName().toLowerCase(),
+                    propertyDesc);
         }
         for (EntityPropertyInfo propertyInfo : getSuperclassEntityPropertyInfo()) {
             EntityPropertyDesc propertyDesc = propertyDescMap
@@ -362,45 +366,44 @@ public class EntityDescFactory {
             classDescSupport.addImportName(entityDesc, superclass.getName());
         }
         if (namingType != NamingType.NONE) {
-            classDescSupport.addImportName(entityDesc, namingType
-                    .getEnumConstant());
+            classDescSupport.addImportName(entityDesc,
+                    namingType.getEnumConstant());
         }
         if (originalStatesPropertyName != null) {
-            classDescSupport
-                    .addImportName(entityDesc, ClassConstants.OriginalStates);
+            classDescSupport.addImportName(entityDesc,
+                    ClassConstants.OriginalStates);
         }
         for (EntityPropertyDesc propertyDesc : entityDesc
                 .getEntityPropertyDescs()) {
             if (propertyDesc.isId()) {
                 classDescSupport.addImportName(entityDesc, ClassConstants.Id);
                 if (propertyDesc.getGenerationType() != null) {
-                    classDescSupport
-                            .addImportName(entityDesc, ClassConstants.GeneratedValue);
-                    classDescSupport
-                            .addImportName(entityDesc, ClassConstants.GenerationType);
+                    classDescSupport.addImportName(entityDesc,
+                            ClassConstants.GeneratedValue);
+                    classDescSupport.addImportName(entityDesc,
+                            ClassConstants.GenerationType);
                     GenerationType generationType = propertyDesc
                             .getGenerationType();
                     if (generationType != null) {
-                        classDescSupport
-                                .addImportName(entityDesc, generationType
-                                        .getEnumConstant());
+                        classDescSupport.addImportName(entityDesc,
+                                generationType.getEnumConstant());
                         if (generationType == GenerationType.SEQUENCE) {
-                            classDescSupport
-                                    .addImportName(entityDesc, ClassConstants.SequenceGenerator);
+                            classDescSupport.addImportName(entityDesc,
+                                    ClassConstants.SequenceGenerator);
                         } else if (generationType == GenerationType.TABLE) {
-                            classDescSupport
-                                    .addImportName(entityDesc, ClassConstants.TableGenerator);
+                            classDescSupport.addImportName(entityDesc,
+                                    ClassConstants.TableGenerator);
                         }
                     }
                 }
             }
             classDescSupport.addImportName(entityDesc, ClassConstants.Column);
             if (propertyDesc.isVersion()) {
-                classDescSupport
-                        .addImportName(entityDesc, ClassConstants.Version);
+                classDescSupport.addImportName(entityDesc,
+                        ClassConstants.Version);
             }
-            classDescSupport.addImportName(entityDesc, propertyDesc
-                    .getPropertyClassName());
+            classDescSupport.addImportName(entityDesc,
+                    propertyDesc.getPropertyClassName());
         }
     }
 

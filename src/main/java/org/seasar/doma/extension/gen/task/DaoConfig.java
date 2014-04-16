@@ -141,6 +141,7 @@ public class DaoConfig extends DataType {
     /**
      * 
      * @param useDelegate
+     *            デリゲートを使うかどうか
      * @since 1.7.0
      */
     public void setUseDelegate(boolean useDelegate) {
