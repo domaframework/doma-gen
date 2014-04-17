@@ -46,6 +46,7 @@ import org.seasar.doma.extension.gen.dialect.GenDialectRegistry;
 import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.AssertionUtil;
 import org.seasar.doma.extension.gen.internal.util.FileUtil;
+import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
 
 /**
  * コードを生成します。
@@ -312,13 +313,6 @@ public class Gen extends AbstractTask {
 
     @Override
     protected void doValidate() {
-        if (dialectName == null && genDialectClassName == null) {
-            throw new GenException(Message.DOMAGEN0012, "dialectName",
-                    "genDialectClassName");
-        }
-        if (driverClassName == null) {
-            throw new GenException(Message.DOMAGEN0007, "driverClassName");
-        }
         if (url == null) {
             throw new GenException(Message.DOMAGEN0007, "url");
         }
@@ -332,6 +326,22 @@ public class Gen extends AbstractTask {
 
     @Override
     protected void doPrepare() {
+        if (dialectName == null && genDialectClassName == null) {
+            String name = JdbcUtil.inferDialectName(url);
+            if (name == null) {
+                throw new GenException(Message.DOMAGEN0022, "url",
+                        "dialectName");
+            }
+            dialectName = new DialectNameAttribute();
+            dialectName.setValue(name);
+        }
+        if (driverClassName == null) {
+            driverClassName = JdbcUtil.inferDriverClassName(url);
+            if (driverClassName == null) {
+                throw new GenException(Message.DOMAGEN0022, "url",
+                        "driverClassName");
+            }
+        }
         if (entityConfig == null) {
             entityConfig = new EntityConfig();
             entityConfig.setBaseDir(getProject().getBaseDir());

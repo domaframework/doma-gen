@@ -27,6 +27,7 @@ import org.seasar.doma.extension.gen.dialect.GenDialect;
 import org.seasar.doma.extension.gen.dialect.GenDialectRegistry;
 import org.seasar.doma.extension.gen.internal.message.Message;
 import org.seasar.doma.extension.gen.internal.util.FileUtil;
+import org.seasar.doma.extension.gen.internal.util.JdbcUtil;
 
 /**
  * テスト用のコードを生成します。
@@ -167,13 +168,6 @@ public class GenTest extends AbstractTask {
 
     @Override
     protected void doValidate() {
-        if (dialectName == null && dialectClassName == null) {
-            throw new GenException(Message.DOMAGEN0012, "dialectName",
-                    "dialectClassName");
-        }
-        if (driverClassName == null) {
-            throw new GenException(Message.DOMAGEN0007, "driverClassName");
-        }
         if (url == null) {
             throw new GenException(Message.DOMAGEN0007, "url");
         }
@@ -187,6 +181,22 @@ public class GenTest extends AbstractTask {
 
     @Override
     protected void doPrepare() {
+        if (dialectName == null && dialectClassName == null) {
+            String name = JdbcUtil.inferDialectName(url);
+            if (name == null) {
+                throw new GenException(Message.DOMAGEN0022, "url",
+                        "dialectName");
+            }
+            dialectName = new DialectNameAttribute();
+            dialectName.setValue(name);
+        }
+        if (driverClassName == null) {
+            driverClassName = JdbcUtil.inferDriverClassName(url);
+            if (driverClassName == null) {
+                throw new GenException(Message.DOMAGEN0022, "url",
+                        "driverClassName");
+            }
+        }
         if (sqlTestConfig == null) {
             sqlTestConfig = new SqlTestConfig();
             sqlTestConfig.setBaseDir(getProject().getBaseDir());
@@ -207,10 +217,10 @@ public class GenTest extends AbstractTask {
      * @return SQLテスト記述ファクトリ
      */
     protected SqlTestDescFactory createSqlTestDescFactory() {
-        return globalFactory
-                .createSqlTestDescFactory(sqlTestConfig.getSqlTestClassName(), sqlTestConfig
-                        .isAbstrct(), dialectClassName, driverClassName, url, user, password, sqlTestConfig
-                        .getSqlFiles());
+        return globalFactory.createSqlTestDescFactory(
+                sqlTestConfig.getSqlTestClassName(), sqlTestConfig.isAbstrct(),
+                dialectClassName, driverClassName, url, user, password,
+                sqlTestConfig.getSqlFiles());
     }
 
     /**
@@ -219,8 +229,8 @@ public class GenTest extends AbstractTask {
      * @return ジェネレータ
      */
     protected Generator createGenerator() {
-        return globalFactory
-                .createGenerator(templateEncoding, templatePrimaryDir);
+        return globalFactory.createGenerator(templateEncoding,
+                templatePrimaryDir);
     }
 
     @Override
@@ -238,12 +248,11 @@ public class GenTest extends AbstractTask {
      *            SQLテスト記述
      */
     protected void generateSqlTest(SqlTestDesc sqlTestDesc) {
-        File javaFile = FileUtil
-                .createJavaFile(sqlTestConfig.getDestDir(), sqlTestDesc
-                        .getQualifiedName());
+        File javaFile = FileUtil.createJavaFile(sqlTestConfig.getDestDir(),
+                sqlTestDesc.getQualifiedName());
         GenerationContext context = new GenerationContext(sqlTestDesc,
-                javaFile, sqlTestDesc.getTemplateName(), sqlTestConfig
-                        .getEncoding(), true);
+                javaFile, sqlTestDesc.getTemplateName(),
+                sqlTestConfig.getEncoding(), true);
         generator.generate(context);
     }
 

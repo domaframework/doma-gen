@@ -44,6 +44,7 @@ public enum Message implements MessageResource {
     DOMAGEN0019("ファイルを作成しました。{0}"),
     DOMAGEN0020("ファイルを上書きしました。{0}"),
     DOMAGEN0021("エンティティクラス[{0}]のプロパティ[{1}]に対応するカラム[{2}]がテーブル[{3}]に定義されていません。"),
+    DOMAGEN0022("プロパティ[{0}]からプロパティ[{1}]を推測できません。プロパティ[{1}]を明示的に指定してください。"),
 
     DOMAGEN5001("JDBCドライバがロードされていない可能性があります。JDBCドライバをロードするには、クラスパスが通されたMETA-INF/services/java.sql.DriverファイルにJDBCドライバのクラスの完全修飾名を記述してください。 ex) oracle.jdbc.driver.OracleDriver"),
     DOMAGEN5002("urlプロパティが設定されていません。"),
