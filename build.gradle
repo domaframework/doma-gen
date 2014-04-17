@@ -49,11 +49,12 @@ task wrapper(type: Wrapper) {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {url 'http://maven.seasar.org/maven2'}
 }
 
 dependencies {
-    compile "org.seasar.doma:doma:2.0-beta-3"
+    compile "org.seasar.doma:doma:${version}"
     compile 'org.freemarker:freemarker:2.3.20'
     compile 'org.apache.ant:ant:1.9.3'
     testCompile 'junit:junit:4.11'
