@@ -16,8 +16,7 @@
 package org.seasar.doma.extension.gen;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -730,25 +729,23 @@ public class GeneratorTest extends TestCase {
     }
 
     public void testSimpleSqlTest() throws Exception {
-        Set<File> sqlFiles = new HashSet<File>();
-        sqlFiles.add(ResourceUtil.getResourceAsFile("META-INF/"
-                + getClass().getName().replace(".", "/") + "/select.sql"));
-        sqlFiles.add(ResourceUtil
-                .getResourceAsFile("META-INF/"
-                        + getClass().getName().replace(".", "/")
-                        + "/select-oracle.sql"));
-        sqlFiles.add(ResourceUtil.getResourceAsFile("META-INF/"
-                + getClass().getName().replace(".", "/") + "/insert.txt"));
-        sqlFiles.add(ResourceUtil.getResourceAsFile("META-INF/"
-                + getClass().getName().replace(".", "/") + "/update.sql"));
-        SqlTestDescFactory sqlFileTestDescFactory = factory
-                .createSqlTestDescFactory("example.dao.SqlTest", false,
+        SqlTestMethodDesc select = new SqlTestMethodDesc("testSelect",
+                "META-INF/" + getClass().getName().replace(".", "/")
+                        + "/select.sql");
+        SqlTestMethodDesc insert = new SqlTestMethodDesc("testInsert",
+                "META-INF/" + getClass().getName().replace(".", "/")
+                        + "/insert.sql");
+        SqlTestMethodDesc update = new SqlTestMethodDesc("testUpdate",
+                "META-INF/" + getClass().getName().replace(".", "/")
+                        + "/update.sql");
+        SqlTestCaseDescFactory sqlFileTestDescFactory = factory
+                .createSqlTestCaseDescFactory(
                         "org.seasar.doma.jdbc.dialect.StandardDialect",
                         "org.hsqldb.jdbcDriver", "jdbc:hsqldb:mem:example",
-                        "sa", "", sqlFiles);
-        SqlTestDesc sqlTestDesc = sqlFileTestDescFactory
-                .createSqlFileTestDesc();
-        generator.generate(new SqlTestContext(sqlTestDesc));
+                        "sa", "");
+        SqlTestCaseDesc sqlTestCaseDesc = sqlFileTestDescFactory.createSqlFileTestDesc(
+                "example.dao.SqlTest", Arrays.asList(select, insert, update));
+        generator.generate(new SqlTestContext(sqlTestCaseDesc));
 
         assertEquals(expect(), generator.getResult());
     }
@@ -1039,7 +1036,7 @@ public class GeneratorTest extends TestCase {
 
     private class SqlTestContext extends GenerationContext {
 
-        public SqlTestContext(SqlTestDesc model) {
+        public SqlTestContext(SqlTestCaseDesc model) {
             super(model, new File("dummy"), model.getTemplateName(), "UTF-8",
                     true);
         }

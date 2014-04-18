@@ -24,21 +24,15 @@ import org.apache.tools.ant.types.DataType;
 import org.apache.tools.ant.types.FileSet;
 
 /**
- * SQLテストの設定です。
+ * SQLテストケースの設定です。
  * 
  * @author taedium
  * 
  */
-public class SqlTestConfig extends DataType {
+public class SqlTestCaseConfig extends DataType {
 
     /** 生成する場合{@code true} */
     protected boolean generate = true;
-
-    /** 抽象クラスとする場合{@code true} */
-    protected boolean abstrct = false;
-
-    /** テストクラス名 */
-    protected String testClassName = "example.SqlTest";
 
     /** ベースディレクトリ */
     protected File baseDir = null;
@@ -72,21 +66,6 @@ public class SqlTestConfig extends DataType {
     }
 
     /**
-     * @return the testClassName
-     */
-    public String getSqlTestClassName() {
-        return testClassName;
-    }
-
-    /**
-     * @param testClassName
-     *            the testClassName to set
-     */
-    public void setTestClassName(String testClassName) {
-        this.testClassName = testClassName;
-    }
-
-    /**
      * @return the encoding
      */
     public String getEncoding() {
@@ -114,21 +93,6 @@ public class SqlTestConfig extends DataType {
      */
     public void setGenerate(boolean generate) {
         this.generate = generate;
-    }
-
-    /**
-     * @return the abstrct
-     */
-    public boolean isAbstrct() {
-        return abstrct;
-    }
-
-    /**
-     * @param abstrct
-     *            the abstrct to set
-     */
-    public void setAbstrct(boolean abstrct) {
-        this.abstrct = abstrct;
     }
 
     /**

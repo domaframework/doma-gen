@@ -19,12 +19,12 @@ import java.sql.Driver;
 import java.util.List;
 
 /**
- * SQLテスト記述です。
+ * SQLテストケース記述です。
  * 
  * @author taedium
  * 
  */
-public class SqlTestDesc extends ClassDesc {
+public class SqlTestCaseDesc extends ClassDesc {
 
     /** テンプレート名 */
     protected String templateName;
@@ -47,8 +47,8 @@ public class SqlTestDesc extends ClassDesc {
     /** 抽象クラスの場合 {@code true} */
     protected boolean abstrct;
 
-    /** テスト対象SQLファイルのリソースパスのリスト */
-    protected List<String> sqlFilePaths;
+    /** メソッド記述のリスト */
+    protected List<SqlTestMethodDesc> methodDescs;
 
     /**
      * @return the templateName
@@ -156,18 +156,18 @@ public class SqlTestDesc extends ClassDesc {
     }
 
     /**
-     * @return the sqlFilePaths
+     * @return the methodDescs
      */
-    public List<String> getSqlFilePaths() {
-        return sqlFilePaths;
+    public List<SqlTestMethodDesc> getMethodDescs() {
+        return methodDescs;
     }
 
     /**
-     * @param sqlFilePaths
-     *            the sqlFilePaths to set
+     * @param methodDescs
+     *            the methodDescs to set
      */
-    public void setSqlFilePaths(List<String> sqlFilePaths) {
-        this.sqlFilePaths = sqlFilePaths;
+    public void setMethodDescs(List<SqlTestMethodDesc> methodDescs) {
+        this.methodDescs = methodDescs;
     }
 
 }

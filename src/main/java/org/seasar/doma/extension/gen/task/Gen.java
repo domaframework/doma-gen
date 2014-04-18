@@ -39,6 +39,10 @@ import org.seasar.doma.extension.gen.Logger;
 import org.seasar.doma.extension.gen.NamingType;
 import org.seasar.doma.extension.gen.SqlDesc;
 import org.seasar.doma.extension.gen.SqlDescFactory;
+import org.seasar.doma.extension.gen.SqlTestCaseDesc;
+import org.seasar.doma.extension.gen.SqlTestCaseDescFactory;
+import org.seasar.doma.extension.gen.SqlTestSuiteDesc;
+import org.seasar.doma.extension.gen.SqlTestSuiteDescFactory;
 import org.seasar.doma.extension.gen.TableMeta;
 import org.seasar.doma.extension.gen.TableMetaReader;
 import org.seasar.doma.extension.gen.dialect.GenDialect;
@@ -67,6 +71,9 @@ public class Gen extends AbstractTask {
 
     /** 方言名 */
     protected DialectNameAttribute dialectName = null;
+
+    /** {@code org.seasar.doma.jdbc.dialect.Dialect} のサブタイプのクラス名 */
+    protected String dialectClassName = null;
 
     /** {@link GenDialect} のサブタイプのクラス名 */
     protected String genDialectClassName = null;
@@ -131,6 +138,12 @@ public class Gen extends AbstractTask {
     /** SQL記述ファクトリ */
     protected SqlDescFactory sqlDescFactory;
 
+    /** SQLテストケース記述ファクトリ */
+    protected SqlTestCaseDescFactory sqlTestCaseDescFactory;
+
+    /** SQLテストスイート記述ファクトリ */
+    protected SqlTestSuiteDescFactory sqlTestSuiteDescFactory;
+
     /** ジェネレータ */
     protected Generator generator;
 
@@ -142,6 +155,9 @@ public class Gen extends AbstractTask {
 
     /** SQLの設定 */
     protected SqlConfig sqlConfig;
+
+    /** SQLテストケースの設定 */
+    protected SqlTestCaseConfig sqlTestCaseConfig;
 
     /**
      * JDBC接続ユーザーを設定します。
@@ -311,6 +327,16 @@ public class Gen extends AbstractTask {
         return sqlConfig;
     }
 
+    /**
+     * SQLテストケースの設定を作成します。
+     * 
+     * @return SQLテストケースの設定
+     */
+    public SqlTestCaseConfig createSqlTestConfig() {
+        sqlTestCaseConfig = new SqlTestCaseConfig();
+        return sqlTestCaseConfig;
+    }
+
     @Override
     protected void doValidate() {
         if (url == null) {
@@ -357,6 +383,11 @@ public class Gen extends AbstractTask {
             sqlConfig.setBaseDir(getProject().getBaseDir());
             sqlConfig.setGenerate(false);
         }
+        if (sqlTestCaseConfig == null) {
+            sqlTestCaseConfig = new SqlTestCaseConfig();
+            sqlTestCaseConfig.setBaseDir(getProject().getBaseDir());
+            sqlTestCaseConfig.setGenerate(false);
+        }
         if (genDialectClassName != null) {
             dialect = newInstance(GenDialect.class, genDialectClassName,
                     "genDialectClassName");
@@ -373,6 +404,9 @@ public class Gen extends AbstractTask {
                         java.sql.Timestamp.class.getName(), newClassName);
             }
         }
+        if (dialectClassName == null) {
+            dialectClassName = dialect.getDialectClassName();
+        }
         Logger.info(Message.DOMAGEN0017
                 .getMessage(dialect.getClass().getName()));
 
@@ -385,6 +419,8 @@ public class Gen extends AbstractTask {
         entityListenerDescFactory = createEntityListenerDescFactory();
         daoDescFactory = createDaoDescFactory();
         sqlDescFactory = createSqlDescFactory();
+        sqlTestCaseDescFactory = createSqlTestCaseDescFactory();
+        sqlTestSuiteDescFactory = createSqlTestSuiteDescFactory();
         generator = createGenerator();
     }
 
@@ -486,6 +522,26 @@ public class Gen extends AbstractTask {
     }
 
     /**
+     * SQLテストケース記述ファクトリを作成します。
+     * 
+     * @return SQLテストケース記述ファクトリ
+     */
+    protected SqlTestCaseDescFactory createSqlTestCaseDescFactory() {
+        return globalFactory.createSqlTestCaseDescFactory(dialectClassName,
+                driverClassName, url, user, password);
+    }
+
+    /**
+     * SQLテストスイート記述ファクトリを作成します。
+     * 
+     * @return SQLテストスイート記述ファクトリ
+     */
+    protected SqlTestSuiteDescFactory createSqlTestSuiteDescFactory() {
+        return globalFactory
+                .createSqlTestSuiteDescFactory(sqlTestCaseDescFactory);
+    }
+
+    /**
      * ジェネレータを作成します。
      * 
      * @return ジェネレータ
@@ -522,6 +578,11 @@ public class Gen extends AbstractTask {
                     generateSql(daoDesc, sqlDesc);
                 }
             }
+        }
+        if (sqlTestCaseConfig.isGenerate()) {
+            SqlTestSuiteDesc sqlTestSuiteDesc = sqlTestSuiteDescFactory
+                    .createSqlTestSuiteDesc(sqlTestCaseConfig.getSqlFiles());
+            sqlTestSuiteDesc.getTestCaseDescs().forEach(this::generateSqlTest);
         }
     }
 
@@ -577,6 +638,21 @@ public class Gen extends AbstractTask {
                 daoDesc.getQualifiedName(), sqlDesc.getFileName());
         GenerationContext context = new GenerationContext(sqlDesc, sqlFile,
                 sqlDesc.getTemplateName(), "UTF-8", sqlConfig.isOverwrite());
+        generator.generate(context);
+    }
+
+    /**
+     * SQLのテストコードを生成します。
+     * 
+     * @param sqlTestCaseDesc
+     *            SQLテスト記述
+     */
+    protected void generateSqlTest(SqlTestCaseDesc sqlTestCaseDesc) {
+        File javaFile = FileUtil.createJavaFile(sqlTestCaseConfig.getDestDir(),
+                sqlTestCaseDesc.getQualifiedName());
+        GenerationContext context = new GenerationContext(sqlTestCaseDesc,
+                javaFile, sqlTestCaseDesc.getTemplateName(),
+                sqlTestCaseConfig.getEncoding(), true);
         generator.generate(context);
     }
 

@@ -1,5 +1,6 @@
 package example.dao;
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -90,10 +91,19 @@ public class SqlTest extends TestCase {
 
     /**
      * 
+     * @return method
      * @throws Exception
      */
-    public void test0() throws Exception {
-        SqlFile sqlFile = repository.getSqlFile("META-INF/org/seasar/doma/extension/gen/GeneratorTest/select.sql", dialect);
+    protected Method getMethod() throws Exception {
+        return getClass().getMethod(getName(), null);
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    public void testSelect() throws Exception {
+        SqlFile sqlFile = repository.getSqlFile(getMethod(), "META-INF/org/seasar/doma/extension/gen/GeneratorTest/select.sql", dialect);
         execute(sqlFile);
     }
 
@@ -101,8 +111,17 @@ public class SqlTest extends TestCase {
      * 
      * @throws Exception
      */
-    public void test1() throws Exception {
-        SqlFile sqlFile = repository.getSqlFile("META-INF/org/seasar/doma/extension/gen/GeneratorTest/update.sql", dialect);
+    public void testInsert() throws Exception {
+        SqlFile sqlFile = repository.getSqlFile(getMethod(), "META-INF/org/seasar/doma/extension/gen/GeneratorTest/insert.sql", dialect);
+        execute(sqlFile);
+    }
+
+    /**
+     * 
+     * @throws Exception
+     */
+    public void testUpdate() throws Exception {
+        SqlFile sqlFile = repository.getSqlFile(getMethod(), "META-INF/org/seasar/doma/extension/gen/GeneratorTest/update.sql", dialect);
         execute(sqlFile);
     }
 

@@ -18,7 +18,6 @@ package org.seasar.doma.extension.gen;
 import java.io.File;
 import java.sql.Driver;
 import java.util.List;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -183,12 +182,8 @@ public class GlobalFactory {
     }
 
     /**
-     * SQLテスト記述ファクトリを作成します。
+     * SQLテストケース記述ファクトリを作成します。
      * 
-     * @param sqlTestClassName
-     *            SQLのテストクラス名
-     * @param abstrct
-     *            抽象クラスの場合{@code true}
      * @param dialectClassName
      *            {@code org.seasar.doma.jdbc.dialect.Dialect}のサブクラスの名前
      * @param driverClassName
@@ -199,16 +194,25 @@ public class GlobalFactory {
      *            JDBC接続ユーザ
      * @param password
      *            JDBC接続パスワード
-     * @param sqlFiles
-     *            テスト対象のSQLファイルのセット
      * @return SQLテスト記述ファクトリ
      */
-    public SqlTestDescFactory createSqlTestDescFactory(String sqlTestClassName,
-            boolean abstrct, String dialectClassName, String driverClassName,
-            String url, String user, String password, Set<File> sqlFiles) {
-        return new SqlTestDescFactory(sqlTestClassName, abstrct,
-                dialectClassName, driverClassName, url, user, password,
-                sqlFiles);
+    public SqlTestCaseDescFactory createSqlTestCaseDescFactory(
+            String dialectClassName, String driverClassName, String url,
+            String user, String password) {
+        return new SqlTestCaseDescFactory(dialectClassName, driverClassName,
+                url, user, password);
+    }
+
+    /**
+     * SQLテストスイート記述ファクトリを作成します。
+     * 
+     * @param sqlTestCaseDescFactory
+     *            SQLテストケース記述ファクトリ
+     * @return SQLテストスイート記述ファクトリ
+     */
+    public SqlTestSuiteDescFactory createSqlTestSuiteDescFactory(
+            SqlTestCaseDescFactory sqlTestCaseDescFactory) {
+        return new SqlTestSuiteDescFactory(sqlTestCaseDescFactory);
     }
 
     /**

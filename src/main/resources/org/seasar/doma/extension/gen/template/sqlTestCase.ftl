@@ -1,4 +1,4 @@
-<#-- このテンプレートに対応するデータモデルのクラスは org.seasar.doma.extension.gen.SqlTestDesc です -->
+<#-- このテンプレートに対応するデータモデルのクラスは org.seasar.doma.extension.gen.SqlTestCaseDesc です -->
 <#import "/lib.ftl" as lib>
 <#if lib.copyright??>
 ${lib.copyright}
@@ -7,6 +7,7 @@ ${lib.copyright}
 package ${packageName};
 </#if>
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -25,7 +26,7 @@ import org.seasar.doma.jdbc.dialect.Dialect;
  * @author ${lib.author}
 </#if>
  */
-public<#if abstrct> abstract</#if> class ${simpleName} extends TestCase {
+public class ${simpleName} extends TestCase {
 
     /** */
     protected SqlFileRepository repository;
@@ -97,14 +98,23 @@ public<#if abstrct> abstract</#if> class ${simpleName} extends TestCase {
     protected Connection getConnection() throws Exception {
         return DriverManager.getConnection(url, user, password);
     }
-<#list sqlFilePaths as path>
+
+    /**
+     * 
+     * @return method
+     * @throws Exception
+     */
+    protected Method getMethod() throws Exception {
+        return getClass().getMethod(getName(), null);
+    }
+<#list methodDescs as methodDesc>
 
     /**
      * 
      * @throws Exception
      */
-    public void test${path_index}() throws Exception {
-        SqlFile sqlFile = repository.getSqlFile("${path}", dialect);
+    public void ${methodDesc.methodName}() throws Exception {
+        SqlFile sqlFile = repository.getSqlFile(getMethod(), "${methodDesc.path}", dialect);
         execute(sqlFile);
     }
 </#list>

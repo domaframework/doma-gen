@@ -17,27 +17,18 @@ package org.seasar.doma.extension.gen;
 
 import java.io.File;
 import java.sql.Driver;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.seasar.doma.extension.gen.internal.util.ClassUtil;
-import org.seasar.doma.extension.gen.internal.util.FileUtil;
 
 /**
- * SQLテスト記述のファクトリです。
+ * SQLテストケース記述のファクトリです。
  * 
  * @author taedium
  */
-public class SqlTestDescFactory {
-
-    /** SQLのテストクラス名 */
-    protected final String sqlTestClassName;
-
-    /** 抽象クラスの場合{@code true} */
-    protected final boolean abstrct;
+public class SqlTestCaseDescFactory {
 
     /** {@code org.seasar.doma.jdbc.dialect.Dialect}のサブクラスの名前 */
     protected final String dialectClassName;
@@ -63,10 +54,6 @@ public class SqlTestDescFactory {
     /**
      * インスタンスを構築します。
      * 
-     * @param sqlTestClassName
-     *            SQLのテストクラス名
-     * @param abstrct
-     *            抽象クラスの場合{@code true}
      * @param dialectClassName
      *            {@code org.seasar.doma.jdbc.dialect.Dialect}のサブクラスの名前
      * @param driverClassName
@@ -77,15 +64,9 @@ public class SqlTestDescFactory {
      *            JDBC接続ユーザ
      * @param password
      *            JDBC接続パスワード
-     * @param sqlFiles
-     *            テスト対象のSQLファイルのセット
      */
-    public SqlTestDescFactory(String sqlTestClassName, boolean abstrct,
-            String dialectClassName, String driverClassName, String url,
-            String user, String password, Set<File> sqlFiles) {
-        if (sqlTestClassName == null) {
-            throw new GenNullPointerException("sqlTestClassName");
-        }
+    public SqlTestCaseDescFactory(String dialectClassName,
+            String driverClassName, String url, String user, String password) {
         if (dialectClassName == null) {
             throw new GenNullPointerException("dialectClassName");
         }
@@ -104,8 +85,6 @@ public class SqlTestDescFactory {
         if (sqlFiles == null) {
             throw new GenNullPointerException("sqlFiles");
         }
-        this.sqlTestClassName = sqlTestClassName;
-        this.abstrct = abstrct;
         this.dialectClassName = dialectClassName;
         this.driverClassName = driverClassName;
         this.url = url;
@@ -117,53 +96,26 @@ public class SqlTestDescFactory {
     /**
      * SQLテスト記述を作成します。
      * 
+     * @param className
+     *            クラス名
+     * @param methodDescs
+     *            メソッド記述のリスト
      * @return SQLテスト記述
      */
-    public SqlTestDesc createSqlFileTestDesc() {
-        SqlTestDesc sqlTestDesc = new SqlTestDesc();
-        sqlTestDesc.setPackageName(ClassUtil.getPackageName(sqlTestClassName));
-        sqlTestDesc.setSimpleName(ClassUtil.getSimpleName(sqlTestClassName));
-        sqlTestDesc.setAbstrct(abstrct);
-        sqlTestDesc.setDialectClassName(dialectClassName);
-        sqlTestDesc.setDriverClassName(driverClassName);
-        sqlTestDesc.setUrl(url);
-        sqlTestDesc.setUser(user);
-        sqlTestDesc.setPassword(password);
-        sqlTestDesc.setTemplateName(Constants.SQL_TEST_TEMPLATE);
-        handleSqlFilePath(sqlTestDesc);
-        return sqlTestDesc;
+    public SqlTestCaseDesc createSqlFileTestDesc(String className,
+            List<SqlTestMethodDesc> methodDescs) {
+        SqlTestCaseDesc sqlTestCaseDesc = new SqlTestCaseDesc();
+        sqlTestCaseDesc.setPackageName(ClassUtil.getPackageName(className));
+        sqlTestCaseDesc.setSimpleName(ClassUtil.getSimpleName(className));
+        sqlTestCaseDesc.setAbstrct(false);
+        sqlTestCaseDesc.setDialectClassName(dialectClassName);
+        sqlTestCaseDesc.setDriverClassName(driverClassName);
+        sqlTestCaseDesc.setUrl(url);
+        sqlTestCaseDesc.setUser(user);
+        sqlTestCaseDesc.setPassword(password);
+        sqlTestCaseDesc.setTemplateName(Constants.SQL_TEST_CASE_TEMPLATE);
+        sqlTestCaseDesc.setMethodDescs(methodDescs);
+        return sqlTestCaseDesc;
     }
 
-    /**
-     * SQLファイルのパスを扱います。
-     * 
-     * @param sqlTestDesc
-     *            SQLテスト記述
-     */
-    protected void handleSqlFilePath(SqlTestDesc sqlTestDesc) {
-        List<String> sqlFilePaths = new ArrayList<String>(sqlFiles.size());
-        for (File file : sqlFiles) {
-            if (file == null) {
-                continue;
-            }
-            if (!file.isFile()) {
-                continue;
-            }
-            if (!file.getName().endsWith(".sql")) {
-                continue;
-            }
-            if (file.getName().contains("-")) {
-                continue;
-            }
-            String canonicalPath = FileUtil.getCanonicalPath(file);
-            String path = canonicalPath.replace(File.separator, "/");
-            int pos = path.indexOf("/META-INF/");
-            if (pos < 0) {
-                continue;
-            }
-            sqlFilePaths.add(path.substring(pos + 1));
-        }
-        Collections.sort(sqlFilePaths);
-        sqlTestDesc.setSqlFilePaths(sqlFilePaths);
-    }
 }
