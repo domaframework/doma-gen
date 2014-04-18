@@ -78,13 +78,6 @@ public class EntityConfig extends DataType {
     /** エンティティリスナーを使用する場合 {@code true} */
     protected boolean useListener = true;
 
-    /**
-     * 日付型に {@link java.sql.Date} ではなく {@link java.util.Date} を利用する場合
-     * 
-     * @since 1.9.0
-     */
-    protected boolean useUtilDate = false;
-
     /** {@code org.seasar.doma.OriginalStates} を注釈する対象のプロパティ名 */
     protected String originalStatesPropertyName = null;
 
@@ -234,14 +227,6 @@ public class EntityConfig extends DataType {
 
     public void setUseListener(boolean useListener) {
         this.useListener = useListener;
-    }
-
-    public boolean isUseUtilDate() {
-        return useUtilDate;
-    }
-
-    public void setUseUtilDate(boolean useUtilDate) {
-        this.useUtilDate = useUtilDate;
     }
 
     public File getEntityPropertyClassNamesFile() {

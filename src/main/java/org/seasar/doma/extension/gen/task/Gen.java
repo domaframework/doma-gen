@@ -394,15 +394,6 @@ public class Gen extends AbstractTask {
         } else {
             dialect = GenDialectRegistry.lookup(dialectName.getValue());
             AssertionUtil.assertNotNull(dialect);
-            if (entityConfig.isUseUtilDate()) {
-                String newClassName = java.util.Date.class.getName();
-                dialect.replacePropertyClassName(java.sql.Date.class.getName(),
-                        newClassName);
-                dialect.replacePropertyClassName(java.sql.Time.class.getName(),
-                        newClassName);
-                dialect.replacePropertyClassName(
-                        java.sql.Timestamp.class.getName(), newClassName);
-            }
         }
         if (dialectClassName == null) {
             dialectClassName = dialect.getDialectClassName();

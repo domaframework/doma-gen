@@ -19,7 +19,7 @@ import java.math.BigInteger;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
@@ -37,7 +37,7 @@ public class MysqlGenDialect extends StandardGenDialect {
      */
     public MysqlGenDialect() {
         classNameMap.put("bigint unsigned", BigInteger.class.getName());
-        classNameMap.put("datetime", Timestamp.class.getName());
+        classNameMap.put("datetime", LocalDateTime.class.getName());
         classNameMap.put("int", Integer.class.getName());
         classNameMap.put("int unsigned", Long.class.getName());
         classNameMap.put("longblob", Blob.class.getName());

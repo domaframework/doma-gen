@@ -16,8 +16,8 @@
 package org.seasar.doma.extension.gen.dialect;
 
 import java.sql.Blob;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.seasar.doma.extension.gen.ClassConstants;
 
@@ -47,8 +47,8 @@ public class PostgresGenDialect extends StandardGenDialect {
         classNameMap.put("oid", Blob.class.getName());
         classNameMap.put("serial", Integer.class.getName());
         classNameMap.put("text", String.class.getName());
-        classNameMap.put("timestamptz", Timestamp.class.getName());
-        classNameMap.put("timetz", Time.class.getName());
+        classNameMap.put("timestamptz", LocalDateTime.class.getName());
+        classNameMap.put("timetz", LocalTime.class.getName());
         classNameMap.put("varbit", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("varchar", String.class.getName());
     }

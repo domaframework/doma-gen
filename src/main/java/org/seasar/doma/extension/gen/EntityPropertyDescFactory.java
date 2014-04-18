@@ -20,6 +20,9 @@ import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.regex.Pattern;
 
 import org.seasar.doma.extension.gen.dialect.GenDialect;
@@ -87,8 +90,8 @@ public class EntityPropertyDescFactory {
         }
         this.dialect = dialect;
         this.propertyClassNameResolver = propertyClassNameResolver;
-        this.versionColumnNamePattern = Pattern
-                .compile(versionColumnNamePattern, Pattern.CASE_INSENSITIVE);
+        this.versionColumnNamePattern = Pattern.compile(
+                versionColumnNamePattern, Pattern.CASE_INSENSITIVE);
         this.generationType = generationType;
         this.initialValue = initialValue;
         this.allocationSize = allocationSize;
@@ -183,8 +186,8 @@ public class EntityPropertyDescFactory {
             EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
         String defaultClassName = dialect
                 .getMappedPropertyClassName(columnMeta);
-        String className = propertyClassNameResolver
-                .resolve(entityDesc, propertyDesc.getName(), defaultClassName);
+        String className = propertyClassNameResolver.resolve(entityDesc,
+                propertyDesc.getName(), defaultClassName);
         if (className == null) {
             Logger.info(Message.DOMAGEN0018.getMessage(columnMeta
                     .getTableMeta().getName(), columnMeta.getName(), columnMeta
@@ -224,12 +227,15 @@ public class EntityPropertyDescFactory {
                 || float.class.getName().equals(defaultClassName)
                 || double.class.getName().equals(defaultClassName)) {
             propertyDesc.setNumber(true);
-        } else if (Time.class.getName().equals(defaultClassName)) {
+        } else if (Time.class.getName().equals(defaultClassName)
+                || LocalTime.class.getName().equals(defaultClassName)) {
             propertyDesc.setTime(true);
-        } else if (Date.class.getName().equals(defaultClassName)) {
+        } else if (Date.class.getName().equals(defaultClassName)
+                || LocalDate.class.getName().equals(defaultClassName)) {
             propertyDesc.setDate(true);
         } else if (Timestamp.class.getName().equals(defaultClassName)
-                || java.util.Date.class.getName().equals(defaultClassName)) {
+                || java.util.Date.class.getName().equals(defaultClassName)
+                || LocalDateTime.class.getName().equals(defaultClassName)) {
             propertyDesc.setTimestamp(true);
         }
     }
@@ -247,7 +253,8 @@ public class EntityPropertyDescFactory {
     protected void handleShowColumnName(EntityDesc entityDesc,
             EntityPropertyDesc propertyDesc, ColumnMeta columnMeta) {
         if (showColumnName
-                || isNameDifferentBetweenPropertyAndColumn(entityDesc, propertyDesc)) {
+                || isNameDifferentBetweenPropertyAndColumn(entityDesc,
+                        propertyDesc)) {
             propertyDesc.setShowColumnName(true);
         }
     }

@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.NClob;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
@@ -36,14 +36,14 @@ public class Mssql2008GenDialect extends StandardGenDialect {
      * インスタンスを構築します。
      */
     public Mssql2008GenDialect() {
-        classNameMap.put("datetime", Timestamp.class.getName());
-        classNameMap.put("datetime2", Timestamp.class.getName());
-        classNameMap.put("datetimeoffset", Timestamp.class.getName());
+        classNameMap.put("datetime", LocalDateTime.class.getName());
+        classNameMap.put("datetime2", LocalDateTime.class.getName());
+        classNameMap.put("datetimeoffset", LocalDateTime.class.getName());
         classNameMap.put("image", Blob.class.getName());
         classNameMap.put("int", Integer.class.getName());
         classNameMap.put("money", BigDecimal.class.getName());
         classNameMap.put("ntext", NClob.class.getName());
-        classNameMap.put("smalldatetime", Timestamp.class.getName());
+        classNameMap.put("smalldatetime", LocalDateTime.class.getName());
         classNameMap.put("smallmoney", BigDecimal.class.getName());
         classNameMap.put("text", Clob.class.getName());
         classNameMap.put("timestamp", ClassConstants.bytes.getQualifiedName());

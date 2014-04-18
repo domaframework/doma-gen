@@ -16,6 +16,7 @@
 package org.seasar.doma.extension.gen.dialect;
 
 import java.sql.Types;
+import java.time.LocalDate;
 
 import junit.framework.TestCase;
 
@@ -31,11 +32,12 @@ public class StandardGenDialectTest extends TestCase {
      */
     public void testReplacePropertyClassName() throws Exception {
         StandardGenDialect dialect = new StandardGenDialect();
-        String sqlDateClassName = java.sql.Date.class.getName();
+        String localDateClassName = LocalDate.class.getName();
         String utilDateClassName = java.util.Date.class.getName();
-        dialect.replacePropertyClassName(sqlDateClassName, utilDateClassName);
+        dialect.replacePropertyClassName(localDateClassName, utilDateClassName);
         assertEquals(utilDateClassName, dialect.classNameMap.get("date"));
-        assertEquals(utilDateClassName, dialect.fallbackClassNameMap.get(Types.DATE));
+        assertEquals(utilDateClassName,
+                dialect.fallbackClassNameMap.get(Types.DATE));
     }
 
     /**

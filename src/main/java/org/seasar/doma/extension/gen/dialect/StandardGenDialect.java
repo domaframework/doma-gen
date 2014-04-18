@@ -19,15 +19,15 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.NClob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,14 +63,14 @@ public class StandardGenDialect implements GenDialect {
         classNameMap.put("boolean", Boolean.class.getName());
         classNameMap.put("char", String.class.getName());
         classNameMap.put("clob", Clob.class.getName());
-        classNameMap.put("date", Date.class.getName());
+        classNameMap.put("date", LocalDate.class.getName());
         classNameMap.put("decimal", BigDecimal.class.getName());
         classNameMap.put("double", Double.class.getName());
         classNameMap.put("float", Float.class.getName());
         classNameMap.put("integer", Integer.class.getName());
         classNameMap.put("longnvarchar", String.class.getName());
-        classNameMap.put("longvarbinary", ClassConstants.bytes
-                .getQualifiedName());
+        classNameMap.put("longvarbinary",
+                ClassConstants.bytes.getQualifiedName());
         classNameMap.put("longvarchar", String.class.getName());
         classNameMap.put("nclob", NClob.class.getName());
         classNameMap.put("nchar", String.class.getName());
@@ -78,39 +78,40 @@ public class StandardGenDialect implements GenDialect {
         classNameMap.put("nvarchar", String.class.getName());
         classNameMap.put("real", Float.class.getName());
         classNameMap.put("smallint", Short.class.getName());
-        classNameMap.put("time", Time.class.getName());
-        classNameMap.put("timestamp", Timestamp.class.getName());
+        classNameMap.put("time", LocalTime.class.getName());
+        classNameMap.put("timestamp", LocalDateTime.class.getName());
         classNameMap.put("tinyint", Short.class.getName());
         classNameMap.put("varbinary", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("varchar", String.class.getName());
 
         fallbackClassNameMap.put(Types.BIGINT, Long.class.getName());
-        fallbackClassNameMap.put(Types.BINARY, ClassConstants.bytes
-                .getQualifiedName());
+        fallbackClassNameMap.put(Types.BINARY,
+                ClassConstants.bytes.getQualifiedName());
         fallbackClassNameMap.put(Types.BIT, Boolean.class.getName());
         fallbackClassNameMap.put(Types.BLOB, Blob.class.getName());
         fallbackClassNameMap.put(Types.BOOLEAN, Boolean.class.getName());
         fallbackClassNameMap.put(Types.CHAR, String.class.getName());
         fallbackClassNameMap.put(Types.CLOB, Clob.class.getName());
-        fallbackClassNameMap.put(Types.DATE, Date.class.getName());
+        fallbackClassNameMap.put(Types.DATE, LocalDate.class.getName());
         fallbackClassNameMap.put(Types.DECIMAL, BigDecimal.class.getName());
         fallbackClassNameMap.put(Types.DOUBLE, Double.class.getName());
         fallbackClassNameMap.put(Types.FLOAT, Float.class.getName());
         fallbackClassNameMap.put(Types.INTEGER, Integer.class.getName());
         fallbackClassNameMap.put(Types.LONGNVARCHAR, String.class.getName());
-        fallbackClassNameMap.put(Types.LONGVARBINARY, ClassConstants.bytes
-                .getQualifiedName());
+        fallbackClassNameMap.put(Types.LONGVARBINARY,
+                ClassConstants.bytes.getQualifiedName());
         fallbackClassNameMap.put(Types.LONGVARCHAR, String.class.getName());
         fallbackClassNameMap.put(Types.NCHAR, String.class.getName());
         fallbackClassNameMap.put(Types.NCLOB, NClob.class.getName());
         fallbackClassNameMap.put(Types.NUMERIC, BigDecimal.class.getName());
         fallbackClassNameMap.put(Types.REAL, Float.class.getName());
         fallbackClassNameMap.put(Types.SMALLINT, Short.class.getName());
-        fallbackClassNameMap.put(Types.TIME, Time.class.getName());
-        fallbackClassNameMap.put(Types.TIMESTAMP, Timestamp.class.getName());
+        fallbackClassNameMap.put(Types.TIME, LocalTime.class.getName());
+        fallbackClassNameMap
+                .put(Types.TIMESTAMP, LocalDateTime.class.getName());
         fallbackClassNameMap.put(Types.TINYINT, Short.class.getName());
-        fallbackClassNameMap.put(Types.VARBINARY, ClassConstants.bytes
-                .getQualifiedName());
+        fallbackClassNameMap.put(Types.VARBINARY,
+                ClassConstants.bytes.getQualifiedName());
         fallbackClassNameMap.put(Types.VARCHAR, String.class.getName());
         fallbackClassNameMap.put(Types.NVARCHAR, String.class.getName());
     }
@@ -148,8 +149,8 @@ public class StandardGenDialect implements GenDialect {
         if (columnName == null) {
             throw new GenNullPointerException("columnName");
         }
-        String fullTableName = TableUtil
-                .getQualifiedTableName(catalogName, schemaName, tableName);
+        String fullTableName = TableUtil.getQualifiedTableName(catalogName,
+                schemaName, tableName);
         String sql = "select " + columnName + " from " + fullTableName
                 + " where 1 = 0";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
