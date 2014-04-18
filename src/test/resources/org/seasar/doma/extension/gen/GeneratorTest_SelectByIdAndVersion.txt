@@ -1,7 +1,5 @@
 select
-  ID,
-  EMP_NAME,
-  VERSION
+  /*%expand*/*
 from
   HOGE
 where
