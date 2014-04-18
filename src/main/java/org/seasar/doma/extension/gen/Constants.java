@@ -26,9 +26,6 @@ public class Constants {
     /** */
     public static final String ENTITY_LISTENER_SUFFIX = "Listener";
 
-    /** @since 1.7.0 */
-    public static final String DAO_DELEGATE_SUFFIX = "Delegate";
-
     /** */
     public static final String ENTITY_TEMPLATE = "entity.ftl";
 
@@ -38,11 +35,8 @@ public class Constants {
     /** */
     public static final String DAO_TEMPLATE = "dao.ftl";
 
-    /** @since 1.7.0 */
-    public static final String DAO_DELEGATE_TEMPLATE = "daoDelegate.ftl";
-
     /** */
-    public static final String SQL_TEST_TEMPLATE = "sqlTest.ftl";
+    public static final String SQL_TEST_CASE_TEMPLATE = "sqlTestCase.ftl";
 
     /** */
     public static final String TEMPLATE_EXTENSION = ".ftl";
