@@ -105,7 +105,7 @@ public class ${simpleName} extends TestCase {
      * @throws Exception
      */
     protected Method getMethod() throws Exception {
-        return getClass().getMethod(getName(), null);
+        return getClass().getMethod(getName(), new Class[] {});
     }
 <#list methodDescs as methodDesc>
 
