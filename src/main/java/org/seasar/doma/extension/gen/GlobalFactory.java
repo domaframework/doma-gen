@@ -55,7 +55,7 @@ public class GlobalFactory {
     }
 
     /**
-     * データソースメタデータのファクトリを作成します。
+     * テーブルメタデータのファクトリを作成します。
      * 
      * @param dialect
      *            方言
@@ -76,6 +76,20 @@ public class GlobalFactory {
             String ignoredTableNamePattern, List<String> tableTypes) {
         return new TableMetaReader(dialect, dataSource, schemaName,
                 tableNamePattern, ignoredTableNamePattern, tableTypes);
+    }
+
+    /**
+     * 結果セットメタデータのファクトリを作成します。
+     * 
+     * @param dialect
+     *            方言
+     * @param dataSource
+     *            データソース
+     * @return 結果セットメタデータのファクトリ
+     */
+    public ResultSetMetaReader createResultSetMetaReader(GenDialect dialect,
+            DataSource dataSource) {
+        return new ResultSetMetaReader(dialect, dataSource);
     }
 
     /**

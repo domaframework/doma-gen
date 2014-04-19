@@ -93,6 +93,10 @@ public class EntityConfig extends DataType {
     /** ベースディレクトリ */
     protected File baseDir = null;
 
+    protected String sql = null;
+
+    protected String entityName = "MyEntity";
+
     public boolean isGenerate() {
         return generate;
     }
@@ -266,12 +270,23 @@ public class EntityConfig extends DataType {
         this.originalStatesPropertyName = originalStatesPropertyName;
     }
 
-    /**
-     * @param baseDir
-     *            the baseDir to set
-     */
     protected void setBaseDir(File baseDir) {
         this.baseDir = baseDir;
     }
 
+    public String getSql() {
+        return sql;
+    }
+
+    public void setSql(String sql) {
+        this.sql = sql;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
 }

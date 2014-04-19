@@ -37,6 +37,7 @@ import org.seasar.doma.extension.gen.GenerationContext;
 import org.seasar.doma.extension.gen.Generator;
 import org.seasar.doma.extension.gen.Logger;
 import org.seasar.doma.extension.gen.NamingType;
+import org.seasar.doma.extension.gen.ResultSetMetaReader;
 import org.seasar.doma.extension.gen.SqlDesc;
 import org.seasar.doma.extension.gen.SqlDescFactory;
 import org.seasar.doma.extension.gen.SqlTestCaseDesc;
@@ -117,8 +118,11 @@ public class Gen extends AbstractTask {
     /** データソース */
     protected DataSource dataSource;
 
-    /** テーブルメタデータ */
+    /** テーブルメタデータのファクトリ */
     protected TableMetaReader tableMetaReader;
+
+    /** 結果セットメタデータのファクトリ */
+    protected ResultSetMetaReader resultSetMetaReader;
 
     /** エンティティプロパティのクラス名リゾルバ */
     protected EntityPropertyClassNameResolver entityPropertyClassNameResolver;
@@ -373,6 +377,10 @@ public class Gen extends AbstractTask {
             entityConfig.setBaseDir(getProject().getBaseDir());
             entityConfig.setGenerate(false);
         }
+        if (entityConfig.getSql() != null) {
+            entityConfig.setGenerate(true);
+            entityConfig.setUseListener(false);
+        }
         if (daoConfig == null) {
             daoConfig = new DaoConfig();
             daoConfig.setBaseDir(getProject().getBaseDir());
@@ -403,6 +411,7 @@ public class Gen extends AbstractTask {
 
         dataSource = createDataSource();
         tableMetaReader = createTableMetaReader();
+        resultSetMetaReader = createResultSetMetaReader();
         entityPropertyClassNameResolver = createEntityPropertyClassNameResolver();
         entityPropertyDescFactory = createEntityPropertyDescFactory();
 
@@ -427,14 +436,23 @@ public class Gen extends AbstractTask {
     }
 
     /**
-     * テーブルメタデータを作成します。
+     * テーブルメタデータのファクトリを作成します。
      * 
-     * @return テーブルメタデータ
+     * @return テーブルメタデータのファクトリ
      */
     protected TableMetaReader createTableMetaReader() {
         return globalFactory.createTableMetaReader(dialect, dataSource,
                 schemaName, tableNamePattern, ignoredTableNamePattern,
                 tableTypes);
+    }
+
+    /**
+     * 結果セットメタデータのファクトリを作成します。
+     * 
+     * @return 結果セットメタデータのファクトリ
+     */
+    protected ResultSetMetaReader createResultSetMetaReader() {
+        return globalFactory.createResultSetMetaReader(dialect, dataSource);
     }
 
     /**
@@ -544,41 +562,57 @@ public class Gen extends AbstractTask {
 
     @Override
     protected void doRun() {
-        List<TableMeta> tableMetas = tableMetaReader.read();
-        if (tableMetas.isEmpty()) {
-            throw new GenException(Message.DOMAGEN0005);
+        if (entityConfig.getSql() == null) {
+            processAll();
+        } else {
+            processSingleEntity();
         }
-        for (TableMeta tableMeta : tableMetas) {
-            EntityDesc entityDesc = entityDescFactory
-                    .createEntityDesc(tableMeta);
-            if (entityConfig.isGenerate()) {
-                generateEntity(entityDesc);
-                if (entityConfig.isUseListener()) {
-                    EntityListenerDesc entityListenerDesc = entityListenerDescFactory
-                            .createEntityListenerDesc(entityDesc);
-                    generateEntityListener(entityListenerDesc);
+    }
+
+    protected void processAll() {
+        if (entityConfig.isGenerate() || daoConfig.isGenerate()
+                || sqlConfig.isGenerate()) {
+            List<TableMeta> tableMetas = tableMetaReader.read();
+            if (tableMetas.isEmpty()) {
+                throw new GenException(Message.DOMAGEN0005);
+            }
+            for (TableMeta tableMeta : tableMetas) {
+                EntityDesc entityDesc = entityDescFactory
+                        .createEntityDesc(tableMeta);
+                if (entityConfig.isGenerate()) {
+                    generateEntity(entityDesc);
+                    if (entityConfig.isUseListener()) {
+                        EntityListenerDesc entityListenerDesc = entityListenerDescFactory
+                                .createEntityListenerDesc(entityDesc);
+                        generateEntityListener(entityListenerDesc);
+                    }
                 }
-            }
-            DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
-            if (daoConfig.isGenerate()) {
-                generateDao(daoDesc);
-            }
-            if (sqlConfig.isGenerate()) {
-                for (SqlDesc sqlDesc : sqlDescFactory
-                        .createSqlDescs(entityDesc)) {
-                    generateSql(daoDesc, sqlDesc);
+                DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
+                if (daoConfig.isGenerate()) {
+                    generateDao(daoDesc);
+                }
+                if (sqlConfig.isGenerate()) {
+                    for (SqlDesc sqlDesc : sqlDescFactory
+                            .createSqlDescs(entityDesc)) {
+                        generateSql(daoDesc, sqlDesc);
+                    }
                 }
             }
         }
         if (sqlTestCaseConfig.isGenerate()) {
             SqlTestSuiteDesc sqlTestSuiteDesc = sqlTestSuiteDescFactory
                     .createSqlTestSuiteDesc(sqlTestCaseConfig.getSqlFiles());
-
-            Logger.info("count: " + sqlTestCaseConfig.getSqlFiles().size());
-            Logger.info("count: " + sqlTestSuiteDesc.getTestCaseDescs().size());
-
             sqlTestSuiteDesc.getTestCaseDescs().forEach(this::generateSqlTest);
         }
+    }
+
+    protected void processSingleEntity() {
+        ResultSetMetaReader reader = new ResultSetMetaReader(dialect,
+                dataSource);
+        TableMeta tableMeta = reader.read(entityConfig.getSql());
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta,
+                entityConfig.getEntityName());
+        generateEntity(entityDesc);
     }
 
     /**

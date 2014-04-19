@@ -136,6 +136,20 @@ public class EntityDescFactory {
      * @return エンティティ記述
      */
     public EntityDesc createEntityDesc(TableMeta tableMeta) {
+        String name = StringUtil.fromSnakeCaseToCamelCase(tableMeta.getName());
+        return createEntityDesc(tableMeta, StringUtil.capitalize(name));
+    }
+
+    /**
+     * エンティティの名前を指定してエンティティ記述を作成します。
+     * 
+     * @param tableMeta
+     *            テーブルメタデータ
+     * @param simpleName
+     *            エンティティ名
+     * @return エンティティ記述
+     */
+    public EntityDesc createEntityDesc(TableMeta tableMeta, String simpleName) {
         EntityDesc entityDesc = new EntityDesc();
         entityDesc.setNamingType(namingType);
         entityDesc.setOriginalStatesPropertyName(originalStatesPropertyName);
@@ -144,7 +158,7 @@ public class EntityDescFactory {
         entityDesc.setTableName(tableMeta.getName());
         entityDesc.setQualifiedTableName(tableMeta.getQualifiedTableName());
         entityDesc.setPackageName(packageName);
-        handleSimpleName(entityDesc, tableMeta);
+        entityDesc.setSimpleName(simpleName);
         if (superclass != null) {
             entityDesc.setSuperclassSimpleName(superclass.getSimpleName());
         }
@@ -163,19 +177,6 @@ public class EntityDescFactory {
         handleEntityPropertyDesc(entityDesc, tableMeta);
         handleImportName(entityDesc, tableMeta);
         return entityDesc;
-    }
-
-    /**
-     * 単純名を処理します。
-     * 
-     * @param entityDesc
-     *            エンティティ記述
-     * @param tableMeta
-     *            テーブルメタデータ
-     */
-    protected void handleSimpleName(EntityDesc entityDesc, TableMeta tableMeta) {
-        String name = StringUtil.fromSnakeCaseToCamelCase(tableMeta.getName());
-        entityDesc.setSimpleName(StringUtil.capitalize(name));
     }
 
     /**
