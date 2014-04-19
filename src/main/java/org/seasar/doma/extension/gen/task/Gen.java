@@ -332,7 +332,7 @@ public class Gen extends AbstractTask {
      * 
      * @return SQLテストケースの設定
      */
-    public SqlTestCaseConfig createSqlTestConfig() {
+    public SqlTestCaseConfig createSqlTestCaseConfig() {
         sqlTestCaseConfig = new SqlTestCaseConfig();
         return sqlTestCaseConfig;
     }
@@ -573,6 +573,10 @@ public class Gen extends AbstractTask {
         if (sqlTestCaseConfig.isGenerate()) {
             SqlTestSuiteDesc sqlTestSuiteDesc = sqlTestSuiteDescFactory
                     .createSqlTestSuiteDesc(sqlTestCaseConfig.getSqlFiles());
+
+            Logger.info("count: " + sqlTestCaseConfig.getSqlFiles().size());
+            Logger.info("count: " + sqlTestSuiteDesc.getTestCaseDescs().size());
+
             sqlTestSuiteDesc.getTestCaseDescs().forEach(this::generateSqlTest);
         }
     }
