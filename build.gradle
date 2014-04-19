@@ -99,7 +99,7 @@ uploadArchives {
         pom.project {
             name project.name
             packaging 'jar'
-            description 'Domain Oriented Database Mapping Framework for Java 8'
+            description 'Code generator for Doma'
             url projectUrl
             licenses {
                 license {
