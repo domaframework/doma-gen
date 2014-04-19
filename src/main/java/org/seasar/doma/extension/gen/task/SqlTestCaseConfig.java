@@ -52,7 +52,7 @@ public class SqlTestCaseConfig extends DataType {
     public File getDestDir() {
         if (destDir == null) {
             destDir = new File(baseDir != null ? baseDir : getProject()
-                    .getBaseDir(), "src");
+                    .getBaseDir(), "src/test/java");
         }
         return destDir;
     }

@@ -58,7 +58,7 @@ public class SqlConfig extends DataType {
     public File getDestDir() {
         if (destDir == null) {
             destDir = new File(baseDir != null ? baseDir : getProject()
-                    .getBaseDir(), "src");
+                    .getBaseDir(), "src/main/resources");
         }
         return destDir;
     }

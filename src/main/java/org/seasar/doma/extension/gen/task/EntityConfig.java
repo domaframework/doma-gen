@@ -245,7 +245,7 @@ public class EntityConfig extends DataType {
     public File getDestDir() {
         if (destDir == null) {
             destDir = new File(baseDir != null ? baseDir : getProject()
-                    .getBaseDir(), "src");
+                    .getBaseDir(), "src/main/java");
         }
         return destDir;
     }
