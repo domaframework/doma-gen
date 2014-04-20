@@ -95,7 +95,7 @@ public class EntityConfig extends DataType {
 
     protected String sql = null;
 
-    protected String entityName = "MyEntity";
+    protected String entityName = "Example";
 
     public boolean isGenerate() {
         return generate;
