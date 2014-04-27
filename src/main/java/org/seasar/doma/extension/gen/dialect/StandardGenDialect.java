@@ -24,6 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.SQLXML;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -83,6 +84,7 @@ public class StandardGenDialect implements GenDialect {
         classNameMap.put("tinyint", Short.class.getName());
         classNameMap.put("varbinary", ClassConstants.bytes.getQualifiedName());
         classNameMap.put("varchar", String.class.getName());
+        classNameMap.put("xml", SQLXML.class.getName());
 
         fallbackClassNameMap.put(Types.BIGINT, Long.class.getName());
         fallbackClassNameMap.put(Types.BINARY,
@@ -106,6 +108,7 @@ public class StandardGenDialect implements GenDialect {
         fallbackClassNameMap.put(Types.NUMERIC, BigDecimal.class.getName());
         fallbackClassNameMap.put(Types.REAL, Float.class.getName());
         fallbackClassNameMap.put(Types.SMALLINT, Short.class.getName());
+        fallbackClassNameMap.put(Types.SQLXML, SQLXML.class.getName());
         fallbackClassNameMap.put(Types.TIME, LocalTime.class.getName());
         fallbackClassNameMap
                 .put(Types.TIMESTAMP, LocalDateTime.class.getName());
