@@ -1,8 +1,16 @@
 language: java
 jdk: oraclejdk8
+branches:
+  only:
+  - master
 env:
   global:
-  - secure: fqH3cw76E/T/B+lHkViZkjuPMMe2tvkzuPBTW+AoPQ2ZsfM8PU+jbfNaaHQ72L3xOsjrdE5ErXWA54eeuXzICpNH8kvFKo///c2LFsFkK6D4E2+hyYdtJrTb0M16HUuBd36+kF3Sizx5zbVcR8vDGRKUjChiwMdwK5X6hA6hufQ=
-  - secure: Ld9iRSxvicdr4+XHEA1AgV+b4+JdkWbZZ5hGp4nWvrfaKrMuigvvZchWOMpAa1djbSCSnHaIrsXWhygtl9R9Lnf195fSgakQYo2Dw20RI7hRCfXqr/xUk5K52ACY6Jclh13rgB+t5zzKSKKHae+JvWdrmZ5vqNsvrjXRATCumog=
+  - secure: DDh7vbCi2rdJslDMipgyz6j5Dud/vk5UAULXyf9g1XdivKNFPJOH9JO9/WRcILYVBuCtEYHs5Af2om8pMZ0A5a0CADaPOEb3JlY8XJ2IqrLsFu84pTomFQW/5674oQYGn/A59dbpuzlQ4SQWUJQehJhYbEtDkeKq68xHfiQZZC8=
+  - secure: P/w/aOrwQNPZ0J5lzYP+u5s/WFEUJe7aA/CIy2v+s/qHd3UDFWTFmasb5tv2pRej5yJ34JKpU+cJIidNC41WDymDcYDGCGJAkOCPGKuShN4WLm4bRl3EFVKlei6d+zvxGfw0weN0SsLZyBu0CkX1toy970Y50GS13m5CWwJ9ei4=
+  - secure: crjEogEOBsGQcypA5qkb54Lr+BCg5ch7qClWjevgsL3nUMPAKHyoYaV/LlhAtXl3FyE5c0fDWhzy7jCRp4O3g6OMpZ/FFbCzSsQ0Z5ux7/ALwVoxWYZDkTb5IiEzKDEMJwdTlz/LZAUH6c3mz4LWpCkXXKdVoSkAK4fFABcc/os=
+  - secure: QApMz+3jiYXVr0ljxTxtS0xNponUh0ga11gs/6k2Uazo4Kbk3tPwzOThx/p1zzkZ/3RC/Q2PbKlwWrW2hf2FW6JyZdMdjZzrGjvNjjY3lMKcXChYQ5Dqu+cP2ixYx6GeYgJlMEXglaUoo0k/rJOAtwwIdc4WYPaBTbYZd+16w7g=
+  - secure: PxrRWt1UpF9zsbzWhISvuYNnJpiaNS2yBrVd8BL5WsDT6c+JFx6tHikOr7O/3pEU6yHupfpY4O5xPbKunDpr5kuqauCiIDlIBfVDbts4ARJGHwL17QYfmZoLO4/Hr43ikjJGJuEhoToLIjknh6dk8egSILxttVnG0XWY05flnYY=
+  - secure: BBaMHBw526ir/Q0zMSdL0UXK/lkic8bORH03dq0zzFxL1q77FNqWBewOOyM2PZ5Wcq5PQO60f9N7Lfy+TrtwsldTOYt/npGuvjGpV2DPsA+T8IlYu15VhCGRywFqrrP+vq3hJmwuoph3ywDQwzzzKJGBlDUk/tpvj/JsRTI6+3Q=
 after_success:
-- "./gradlew uploadArchives -s -PsonatypeUsername=$SONATYPE_USERNAME -PsonatypePassword=$SONATYPE_PASSWORD"
+- chmod +x publish.sh
+- "./publish.sh"
