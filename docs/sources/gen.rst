@@ -245,6 +245,7 @@ Gradle_ で使用するための設定例を示します。
 
   repositories {
       mavenCentral()
+      maven {url 'https://oss.sonatype.org/content/repositories/snapshots/'}
   }
 
   dependencies {
