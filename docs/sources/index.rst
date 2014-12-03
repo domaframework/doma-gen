@@ -44,6 +44,7 @@ Links
 =====
 
 * `GitHub repository <https://github.com/domaframework/doma-gen>`_
+* `JavaDoc <http://www.javadoc.io/doc/org.seasar.doma/doma-gen>`_
 
 .. _Doma 2: http://doma.readthedocs.org/ja/latest/
 .. _Ant: http://ant.apache.org/
