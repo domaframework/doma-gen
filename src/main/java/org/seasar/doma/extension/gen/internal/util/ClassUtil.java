@@ -15,8 +15,6 @@
  */
 package org.seasar.doma.extension.gen.internal.util;
 
-import static org.seasar.doma.internal.util.AssertionUtil.*;
-
 /**
  * @author taedium
  * 
@@ -42,7 +40,7 @@ public final class ClassUtil {
     }
 
     public static Class<?> toBoxedPrimitiveTypeIfPossible(Class<?> clazz) {
-        assertNotNull(clazz);
+        AssertionUtil.assertNotNull(clazz);
         if (clazz == void.class) {
             return Void.class;
         }
