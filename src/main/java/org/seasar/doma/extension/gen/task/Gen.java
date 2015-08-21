@@ -261,12 +261,12 @@ public class Gen extends AbstractTask {
      */
     public void setTableTypes(String tableTypes) {
         if (tableTypes != null && tableTypes.length() > 0) {
-            StringTokenizer tokenizer = new StringTokenizer(tableTypes,
-                    ", \t\n\r\f", false);
+            StringTokenizer tokenizer = new StringTokenizer(tableTypes, ",",
+                    false);
             this.tableTypes = new ArrayList<String>();
             while (tokenizer.hasMoreTokens()) {
                 String tableType = tokenizer.nextToken();
-                this.tableTypes.add(tableType.toUpperCase());
+                this.tableTypes.add(tableType.trim().toUpperCase());
             }
         }
     }
