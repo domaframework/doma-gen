@@ -2,6 +2,11 @@
 リリースノート
 ==============
 
+v2.4.1: 2015-09-12
+======================
+* `GH12 <https://github.com/domaframework/doma-gen/pull/12>`_
+  GenタスクのtableTypesパラメーターに空白を含む値を設定できない
+
 v2.4.0: 2015-08-14
 ======================
 * `GH10 <https://github.com/domaframework/doma-gen/pull/10>`_
