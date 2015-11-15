@@ -95,6 +95,8 @@ public class EntityConfig extends DataType {
 
     protected String sql = null;
 
+    protected String entityPrefix;
+
     protected String entityName = "Example";
 
     public boolean isGenerate() {
@@ -280,6 +282,14 @@ public class EntityConfig extends DataType {
 
     public void setSql(String sql) {
         this.sql = sql;
+    }
+
+    public String getEntityPrefix() {
+        return entityPrefix;
+    }
+
+    public void setEntityPrefix(String entityPrefix) {
+        this.entityPrefix = entityPrefix;
     }
 
     public String getEntityName() {

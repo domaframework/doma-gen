@@ -17,6 +17,8 @@ package org.seasar.doma.extension.gen;
 
 import org.seasar.doma.extension.gen.internal.util.ClassUtil;
 
+import java.util.Objects;
+
 /**
  * {@link DaoDesc} のファクトリです。
  * 
@@ -66,7 +68,10 @@ public class DaoDescFactory {
     public DaoDesc createDaoDesc(EntityDesc entityDesc) {
         DaoDesc daoDesc = new DaoDesc();
         daoDesc.setPackageName(packageName);
-        daoDesc.setSimpleName(entityDesc.getSimpleName() + suffix);
+        String entityPrefix = Objects.nonNull(entityDesc.getEntityPrefix()) ?
+                entityDesc.getEntityPrefix() : "";
+        String simpleName = entityPrefix + entityDesc.getSimpleName() + suffix;
+        daoDesc.setSimpleName(simpleName);
         if (configClassName != null) {
             daoDesc.setConfigClassSimpleName(ClassUtil
                     .getSimpleName(configClassName));

@@ -17,6 +17,8 @@ package org.seasar.doma.extension.gen;
 
 import org.seasar.doma.extension.gen.internal.util.ClassUtil;
 
+import java.util.Objects;
+
 /**
  * エンティティ記述のファクトリです。
  * 
@@ -55,8 +57,12 @@ public class EntityListenerDescFactory {
      */
     public EntityListenerDesc createEntityListenerDesc(EntityDesc entityDesc) {
         EntityListenerDesc entityListenerDesc = new EntityListenerDesc();
+        entityListenerDesc.setEntityDesc(entityDesc);
         entityListenerDesc.setPackageName(entityDesc.getPackageName());
-        entityListenerDesc.setSimpleName(entityDesc.getSimpleName()
+        String entityPrefix = Objects.nonNull(entityDesc.getEntityPrefix()) ?
+                entityDesc.getEntityPrefix() : "";
+        String entityName = entityPrefix + entityDesc.getSimpleName();
+        entityListenerDesc.setSimpleName(entityName
                 + Constants.ENTITY_LISTENER_SUFFIX);
         entityListenerDesc.setEntityClassSimpleName(entityDesc.getSimpleName());
         if (superclassName != null) {

@@ -24,10 +24,10 @@ public interface ${simpleName} {
 <#list entityDesc.idEntityPropertyDescs as property>
      * @param ${property.name}
 </#list>
-     * @return the ${entityDesc.simpleName} entity
+     * @return the <#if entityDesc.entityPrefix??>${entityDesc.entityPrefix}</#if>${entityDesc.simpleName} entity
      */
     @Select
-    ${entityDesc.simpleName} selectById(<#list entityDesc.idEntityPropertyDescs as property>${property.propertyClassSimpleName} ${property.name}<#if property_has_next>, </#if></#list>);
+    <#if entityDesc.entityPrefix??>${entityDesc.entityPrefix}</#if>${entityDesc.simpleName} selectById(<#list entityDesc.idEntityPropertyDescs as property>${property.propertyClassSimpleName} ${property.name}<#if property_has_next>, </#if></#list>);
 
 </#if>
 <#if entityDesc.idEntityPropertyDescs?size gt 0 && entityDesc.versionEntityPropertyDesc??>
@@ -36,10 +36,10 @@ public interface ${simpleName} {
      * @param ${property.name}
 </#list>
      * @param ${entityDesc.versionEntityPropertyDesc.name}
-     * @return the ${entityDesc.simpleName} entity
+     * @return the <#if entityDesc.entityPrefix??>${entityDesc.entityPrefix}</#if>${entityDesc.simpleName} entity
      */
     @Select(ensureResult = true)
-    ${entityDesc.simpleName} selectByIdAndVersion(<#list entityDesc.idEntityPropertyDescs as property>${property.propertyClassSimpleName} ${property.name}, </#list>${entityDesc.versionEntityPropertyDesc.propertyClassSimpleName} ${entityDesc.versionEntityPropertyDesc.name});
+    <#if entityDesc.entityPrefix??>${entityDesc.entityPrefix}</#if>${entityDesc.simpleName} selectByIdAndVersion(<#list entityDesc.idEntityPropertyDescs as property>${property.propertyClassSimpleName} ${property.name}, </#list>${entityDesc.versionEntityPropertyDesc.propertyClassSimpleName} ${entityDesc.versionEntityPropertyDesc.name});
 
 </#if>
     /**
@@ -47,19 +47,19 @@ public interface ${simpleName} {
      * @return affected rows
      */
     @Insert
-    int insert(${entityDesc.simpleName} entity);
+    int insert(<#if entityDesc.entityPrefix??>${entityDesc.entityPrefix}</#if>${entityDesc.simpleName} entity);
 
     /**
      * @param entity
      * @return affected rows
      */
     @Update
-    int update(${entityDesc.simpleName} entity);
+    int update(<#if entityDesc.entityPrefix??>${entityDesc.entityPrefix}</#if>${entityDesc.simpleName} entity);
 
     /**
      * @param entity
      * @return affected rows
      */
     @Delete
-    int delete(${entityDesc.simpleName} entity);
+    int delete(<#if entityDesc.entityPrefix??>${entityDesc.entityPrefix}</#if>${entityDesc.simpleName} entity);
 }

@@ -31,6 +31,9 @@ public class EntityListenerDesc extends ClassDesc {
     /** リスナークラスの単純名 */
     protected String listenerClassSimpleName;
 
+    /** エンティティ記述 */
+    protected EntityDesc entityDesc;
+
     /** テンプレート名 */
     protected String templateName;
 
@@ -110,4 +113,22 @@ public class EntityListenerDesc extends ClassDesc {
         this.listenerClassSimpleName = listenerClassSimpleName;
     }
 
+    /**
+     * エンティティ記述を返します。
+     *
+     * @return エンティティ記述
+     */
+    public EntityDesc getEntityDesc() {
+        return entityDesc;
+    }
+
+    /**
+     * エンティティ記述を設定します。
+     *
+     * @param entityDesc
+     *            エンティティ記述
+     */
+    public void setEntityDesc(EntityDesc entityDesc) {
+        this.entityDesc = entityDesc;
+    }
 }
