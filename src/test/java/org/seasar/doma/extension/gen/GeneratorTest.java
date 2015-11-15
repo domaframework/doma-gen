@@ -81,6 +81,47 @@ public class GeneratorTest extends TestCase {
         assertEquals(expect(), generator.getResult());
     }
 
+    public void testSimpleEntity_with_prefix() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta empName = new ColumnMeta();
+        empName.setComment("COMMENT for NAME");
+        empName.setName("EMP_NAME");
+        empName.setTypeName("varcar");
+
+        ColumnMeta version = new ColumnMeta();
+        version.setComment("COMMENT for VERSION");
+        version.setName("VERSION");
+        version.setTypeName("integer");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(empName);
+        tableMeta.addColumnMeta(version);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta, "T");
+        generator.generate(new EntityContext(entityDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
     public void testOriginalStates() throws Exception {
         ColumnMeta id = new ColumnMeta();
         id.setComment("COMMENT for ID");
@@ -494,6 +535,39 @@ public class GeneratorTest extends TestCase {
         assertEquals(expect(), generator.getResult());
     }
 
+    public void testSimpleEntityListener_with_prefix() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta, "T");
+        EntityListenerDescFactory entityListenerDescFactory = factory
+                .createEntityListenerDescFactory("example.entity", null);
+        EntityListenerDesc entityListenerDesc = entityListenerDescFactory
+                .createEntityListenerDesc(entityDesc);
+        generator.generate(new EntityListenerContext(entityListenerDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
     public void testExtendingEntityListener() throws Exception {
         ColumnMeta id = new ColumnMeta();
         id.setComment("COMMENT for ID");
@@ -558,6 +632,45 @@ public class GeneratorTest extends TestCase {
                 "example.entity", null, entityPropertyDescFactory,
                 NamingType.NONE, null, false, false, true, true, true, false);
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta);
+
+        DaoDescFactory daoDescFactory = factory.createDaoDescFactory(
+                "example.dao", "Dao", "dao.config.MyConfig");
+        DaoDesc daoDesc = daoDescFactory.createDaoDesc(entityDesc);
+        generator.generate(new DaoContext(daoDesc));
+
+        assertEquals(expect(), generator.getResult());
+    }
+
+    public void testSimpleDao_with_prefix() throws Exception {
+        ColumnMeta id = new ColumnMeta();
+        id.setComment("COMMENT for ID");
+        id.setName("ID");
+        id.setTypeName("integer");
+        id.setPrimaryKey(true);
+        id.setNullable(false);
+
+        ColumnMeta version = new ColumnMeta();
+        version.setComment("COMMENT for VERSION");
+        version.setName("VERSION");
+        version.setTypeName("integer");
+
+        TableMeta tableMeta = new TableMeta();
+        tableMeta.setCatalogName("CATALOG");
+        tableMeta.setSchemaName("SCHEMA");
+        tableMeta.setName("HOGE");
+        tableMeta.setComment("COMMENT for HOGE");
+        tableMeta.addColumnMeta(id);
+        tableMeta.addColumnMeta(version);
+
+        EntityPropertyClassNameResolver resolver = factory
+                .createEntityPropertyClassNameResolver(null);
+        EntityPropertyDescFactory entityPropertyDescFactory = factory
+                .createEntityPropertyDescFactory(dialect, resolver, "version",
+                        null, 100L, 50L, true);
+        EntityDescFactory entityDescFactory = factory.createEntityDescFactory(
+                "example.entity", null, entityPropertyDescFactory,
+                NamingType.NONE, null, false, false, true, true, true, false);
+        EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta, "T");
 
         DaoDescFactory daoDescFactory = factory.createDaoDescFactory(
                 "example.dao", "Dao", "dao.config.MyConfig");

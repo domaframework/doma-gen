@@ -137,7 +137,21 @@ public class EntityDescFactory {
      */
     public EntityDesc createEntityDesc(TableMeta tableMeta) {
         String name = StringUtil.fromSnakeCaseToCamelCase(tableMeta.getName());
-        return createEntityDesc(tableMeta, StringUtil.capitalize(name));
+        return createEntityDesc(tableMeta, null, StringUtil.capitalize(name));
+    }
+
+    /**
+     * エンティティ記述を作成します。
+     *
+     * @param tableMeta
+     *            テーブルメタデータ
+     * @param entityPrefix
+     *            エンティティクラスのプリフィックス
+     * @return エンティティ記述
+     */
+    public EntityDesc createEntityDesc(TableMeta tableMeta, String entityPrefix) {
+        String name = StringUtil.fromSnakeCaseToCamelCase(tableMeta.getName());
+        return createEntityDesc(tableMeta, entityPrefix, StringUtil.capitalize(name));
     }
 
     /**
@@ -145,11 +159,14 @@ public class EntityDescFactory {
      * 
      * @param tableMeta
      *            テーブルメタデータ
+     * @param entityPrefix
+     *            エンティティクラスのプリフィックス
      * @param simpleName
      *            エンティティ名
      * @return エンティティ記述
      */
-    public EntityDesc createEntityDesc(TableMeta tableMeta, String simpleName) {
+    public EntityDesc createEntityDesc(TableMeta tableMeta,
+                                       String entityPrefix, String simpleName) {
         EntityDesc entityDesc = new EntityDesc();
         entityDesc.setNamingType(namingType);
         entityDesc.setOriginalStatesPropertyName(originalStatesPropertyName);
@@ -158,12 +175,13 @@ public class EntityDescFactory {
         entityDesc.setTableName(tableMeta.getName());
         entityDesc.setQualifiedTableName(tableMeta.getQualifiedTableName());
         entityDesc.setPackageName(packageName);
+        entityDesc.setEntityPrefix(StringUtil.defaultString(entityPrefix, ""));
         entityDesc.setSimpleName(simpleName);
         if (superclass != null) {
             entityDesc.setSuperclassSimpleName(superclass.getSimpleName());
         }
-        entityDesc.setListenerClassSimpleName(ClassUtil
-                .getSimpleName(entityDesc.getSimpleName()
+        entityDesc.setListenerClassSimpleName(entityDesc.getEntityPrefix()
+                + ClassUtil.getSimpleName(entityDesc.getSimpleName()
                         + Constants.ENTITY_LISTENER_SUFFIX));
         entityDesc.setCompositeId(tableMeta.hasCompositePrimaryKey());
         entityDesc.setComment(tableMeta.comment);
@@ -202,7 +220,8 @@ public class EntityDescFactory {
      * @return エンティティ名とテーブル名が異なる場合 {@code true}
      */
     protected boolean isNameDifferentBetweenEntityAndTable(EntityDesc entityDesc) {
-        String entityName = entityDesc.getSimpleName();
+        String entityPrefix = StringUtil.defaultString(entityDesc.getEntityPrefix(), "");
+        String entityName = entityPrefix + entityDesc.getSimpleName();
         String tableName = entityDesc.getTableName();
         return !tableName.equalsIgnoreCase(namingType.apply(entityName));
     }

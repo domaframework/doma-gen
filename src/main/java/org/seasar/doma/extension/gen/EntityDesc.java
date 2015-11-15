@@ -15,6 +15,8 @@
  */
 package org.seasar.doma.extension.gen;
 
+import org.seasar.doma.extension.gen.internal.util.StringUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,9 @@ public class EntityDesc extends ClassDesc {
 
     /** テーブルの完全修飾名 */
     protected String qualifiedTableName;
+
+    /** エンティティクラスのプリフィックス */
+    protected String entityPrefix;
 
     /** スーパークラスの単純名 */
     protected String superclassSimpleName;
@@ -169,6 +174,25 @@ public class EntityDesc extends ClassDesc {
      */
     public String getTableName() {
         return tableName;
+    }
+
+    /**
+     * エンティティクラスのプリフィックスを返します。
+     *
+     * @return エンティティクラスのプリフィックス
+     */
+    public String getEntityPrefix() {
+        return entityPrefix;
+    }
+
+    /**
+     * エンティティクラスのプリフィックスを設定します。
+     *
+     * @param entityPrefix
+     *            エンティティクラスのプリフィックス
+     */
+    public void setEntityPrefix(String entityPrefix) {
+        this.entityPrefix = entityPrefix;
     }
 
     /**
@@ -453,6 +477,22 @@ public class EntityDesc extends ClassDesc {
      */
     public void setQualifiedTableName(String qualifiedTableName) {
         this.qualifiedTableName = qualifiedTableName;
+    }
+
+    /**
+     * 完全修飾名を返します。
+     *
+     * @return 完全修飾名
+     */
+    @Override
+    public String getQualifiedName() {
+        String prefix = StringUtil.defaultString(entityPrefix, "");
+
+        if (packageName == null || packageName.isEmpty()) {
+            return prefix + simpleName;
+        }
+
+        return packageName + "." + prefix + simpleName;
     }
 
 }

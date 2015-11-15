@@ -20,6 +20,7 @@ import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
@@ -578,7 +579,7 @@ public class Gen extends AbstractTask {
             }
             for (TableMeta tableMeta : tableMetas) {
                 EntityDesc entityDesc = entityDescFactory
-                        .createEntityDesc(tableMeta);
+                        .createEntityDesc(tableMeta, entityConfig.getEntityPrefix());
                 if (entityConfig.isGenerate()) {
                     generateEntity(entityDesc);
                     if (entityConfig.isUseListener()) {
@@ -611,6 +612,7 @@ public class Gen extends AbstractTask {
                 dataSource);
         TableMeta tableMeta = reader.read(entityConfig.getSql());
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta,
+                entityConfig.getEntityPrefix(),
                 entityConfig.getEntityName());
         generateEntity(entityDesc);
     }
@@ -630,6 +632,13 @@ public class Gen extends AbstractTask {
         generator.generate(context);
     }
 
+
+    /**
+     * エンティティリスナーのJavaコードを生成します。
+     *
+     * @param entityListenerDesc
+     *            エンティティリスナー記述
+     */
     protected void generateEntityListener(EntityListenerDesc entityListenerDesc) {
         File javaFile = FileUtil.createJavaFile(entityConfig.getDestDir(),
                 entityListenerDesc.getQualifiedName());
