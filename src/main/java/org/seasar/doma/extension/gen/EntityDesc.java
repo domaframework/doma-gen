@@ -19,7 +19,6 @@ import org.seasar.doma.extension.gen.internal.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * エンティティ記述です。

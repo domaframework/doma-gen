@@ -20,7 +20,6 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import org.seasar.doma.Column;

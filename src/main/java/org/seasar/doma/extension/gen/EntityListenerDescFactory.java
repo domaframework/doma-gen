@@ -18,8 +18,6 @@ package org.seasar.doma.extension.gen;
 import org.seasar.doma.extension.gen.internal.util.ClassUtil;
 import org.seasar.doma.extension.gen.internal.util.StringUtil;
 
-import java.util.Objects;
-
 /**
  * エンティティ記述のファクトリです。
  * 
