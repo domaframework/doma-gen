@@ -125,13 +125,13 @@ public final class StringUtil {
     }
 
     /**
-     * {@param str} が {@code null} の場合 {@param defaultStr} を返します。
+     * {@code str} が {@code null} の場合 {@code defaultStr} を返します。
      *
      * @param str
      *            文字列
      * @param defaultStr
      *            nullの場合のデフォルト文字列
-     * @return {@code text} が {@code null} もしくは空文字の場合 {@code true}
+     * @return 文字列
      */
     public static String defaultString(final String str, final String defaultStr) {
         return str == null ? defaultStr : str;
