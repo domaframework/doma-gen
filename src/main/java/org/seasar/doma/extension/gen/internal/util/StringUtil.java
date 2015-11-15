@@ -124,4 +124,16 @@ public final class StringUtil {
         return text == null || text.isEmpty();
     }
 
+    /**
+     * {@param str} が {@code null} の場合 {@param defaultStr} を返します。
+     *
+     * @param str
+     *            文字列
+     * @param defaultStr
+     *            nullの場合のデフォルト文字列
+     * @return {@code text} が {@code null} もしくは空文字の場合 {@code true}
+     */
+    public static String defaultString(final String str, final String defaultStr) {
+        return str == null ? defaultStr : str;
+    }
 }

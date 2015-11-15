@@ -176,7 +176,7 @@ public class EntityDescFactory {
         entityDesc.setTableName(tableMeta.getName());
         entityDesc.setQualifiedTableName(tableMeta.getQualifiedTableName());
         entityDesc.setPackageName(packageName);
-        entityDesc.setEntityPrefix(Objects.nonNull(entityPrefix) ? entityPrefix : "");
+        entityDesc.setEntityPrefix(StringUtil.defaultString(entityPrefix, ""));
         entityDesc.setSimpleName(simpleName);
         if (superclass != null) {
             entityDesc.setSuperclassSimpleName(superclass.getSimpleName());
@@ -221,8 +221,7 @@ public class EntityDescFactory {
      * @return エンティティ名とテーブル名が異なる場合 {@code true}
      */
     protected boolean isNameDifferentBetweenEntityAndTable(EntityDesc entityDesc) {
-        String entityPrefix = Objects.nonNull(entityDesc.getEntityPrefix()) ?
-                entityDesc.getEntityPrefix() : "";
+        String entityPrefix = StringUtil.defaultString(entityDesc.getEntityPrefix(), "");
         String entityName = entityPrefix + entityDesc.getSimpleName();
         String tableName = entityDesc.getTableName();
         return !tableName.equalsIgnoreCase(namingType.apply(entityName));

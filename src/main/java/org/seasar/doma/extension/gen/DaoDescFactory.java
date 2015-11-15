@@ -16,6 +16,7 @@
 package org.seasar.doma.extension.gen;
 
 import org.seasar.doma.extension.gen.internal.util.ClassUtil;
+import org.seasar.doma.extension.gen.internal.util.StringUtil;
 
 import java.util.Objects;
 
@@ -68,8 +69,7 @@ public class DaoDescFactory {
     public DaoDesc createDaoDesc(EntityDesc entityDesc) {
         DaoDesc daoDesc = new DaoDesc();
         daoDesc.setPackageName(packageName);
-        String entityPrefix = Objects.nonNull(entityDesc.getEntityPrefix()) ?
-                entityDesc.getEntityPrefix() : "";
+        String entityPrefix = StringUtil.defaultString(entityDesc.getEntityPrefix(), "");
         String simpleName = entityPrefix + entityDesc.getSimpleName() + suffix;
         daoDesc.setSimpleName(simpleName);
         if (configClassName != null) {

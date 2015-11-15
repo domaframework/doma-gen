@@ -15,6 +15,8 @@
  */
 package org.seasar.doma.extension.gen;
 
+import org.seasar.doma.extension.gen.internal.util.StringUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -485,7 +487,7 @@ public class EntityDesc extends ClassDesc {
      */
     @Override
     public String getQualifiedName() {
-        String prefix = Objects.nonNull(entityPrefix) ? entityPrefix : "";
+        String prefix = StringUtil.defaultString(entityPrefix, "");
 
         if (packageName == null || packageName.isEmpty()) {
             return prefix + simpleName;
