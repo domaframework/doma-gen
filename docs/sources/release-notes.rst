@@ -2,6 +2,13 @@
 リリースノート
 ==============
 
+v2.6.0: 2015-11-21
+======================
+* `GH17 <https://github.com/domaframework/doma-gen/pull/17>`_
+  ドキュメントにもentityPrefixを追記
+* `GH16 <https://github.com/domaframework/doma-gen/pull/16>`_
+  エンティティクラスにプリフィックスを付けられるようにする
+
 v2.5.1: 2015-11-01
 ======================
 
