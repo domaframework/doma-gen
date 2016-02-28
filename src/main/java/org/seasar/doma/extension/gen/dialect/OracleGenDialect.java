@@ -136,7 +136,7 @@ public class OracleGenDialect extends StandardGenDialect {
 
     @Override
     public String getMappedPropertyClassName(ColumnMeta columnMeta) {
-        if ("number".equalsIgnoreCase(columnMeta.getTypeName())) {
+        if ("number".equals(columnMeta.getTypeName())) {
             if (columnMeta.getScale() != 0) {
                 return BigDecimal.class.getName();
             }

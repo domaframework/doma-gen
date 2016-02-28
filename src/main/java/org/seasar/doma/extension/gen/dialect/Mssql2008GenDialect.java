@@ -73,7 +73,7 @@ public class Mssql2008GenDialect extends StandardGenDialect {
 
     @Override
     public String getMappedPropertyClassName(ColumnMeta columnMeta) {
-        String typeName = columnMeta.getTypeName().toLowerCase();
+        String typeName = columnMeta.getTypeName();
         if (typeName.startsWith("int")) {
             typeName = "int";
         } else if (typeName.startsWith("bigint")) {

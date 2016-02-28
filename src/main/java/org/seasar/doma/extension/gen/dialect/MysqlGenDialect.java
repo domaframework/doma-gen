@@ -72,7 +72,7 @@ public class MysqlGenDialect extends StandardGenDialect {
         classNameMap.put("time", LocalTime.class.getName());
         classNameMap.put("year", Short.class.getName());
 
-        // BLOB型とTEXT型
+        // BLOB型
         classNameMap.put("tinyblob", Blob.class.getName());
         classNameMap.put("blob", Blob.class.getName());
         classNameMap.put("mediumblob", Blob.class.getName());
@@ -95,12 +95,12 @@ public class MysqlGenDialect extends StandardGenDialect {
 
     @Override
     public String getMappedPropertyClassName(ColumnMeta columnMeta) {
-        if ("bit".equalsIgnoreCase(columnMeta.getTypeName()) ||
-                "tinyint".equalsIgnoreCase(columnMeta.getTypeName())) {
+        if ("bit".equals(columnMeta.getTypeName()) ||
+                "tinyint".equals(columnMeta.getTypeName())) {
             return columnMeta.getLength() <= 1 ? Boolean.class.getName()
                     : Byte.class.getName();
         }
-        if ("tinyint unsigned".equalsIgnoreCase(columnMeta.getTypeName())) {
+        if ("tinyint unsigned".equals(columnMeta.getTypeName())) {
             return columnMeta.getLength() <= 1 ? Boolean.class.getName()
                     : Short.class.getName();
         }
