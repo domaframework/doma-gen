@@ -29,6 +29,12 @@ public class JdbcUtilTest extends TestCase {
         assertEquals("postgres", dialectName);
     }
 
+    public void testInferDialectName_mysql() throws Exception {
+        String dialectName = JdbcUtil
+                .inferDialectName("jdbc:mysql://localhost:3306/hoge");
+        assertEquals("mysql", dialectName);
+    }
+
     public void testInferDialectName_unknown() throws Exception {
         String dialectName = JdbcUtil
                 .inferDialectName("jdbc:unknown://localhost/hoge");
@@ -44,6 +50,12 @@ public class JdbcUtilTest extends TestCase {
         String driverClassName = JdbcUtil
                 .inferDriverClassName("jdbc:postgresql://localhost/hoge");
         assertEquals("org.postgresql.Driver", driverClassName);
+    }
+
+    public void testInferDriverClassName_mysql() throws Exception {
+        String driverClassName = JdbcUtil
+                .inferDriverClassName("jdbc:mysql://localhost:3306/hoge");
+        assertEquals("com.mysql.jdbc.Driver", driverClassName);
     }
 
     public void testInferDriverClassName_unknown() throws Exception {

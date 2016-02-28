@@ -15,11 +15,12 @@
  */
 package org.seasar.doma.extension.gen.dialect;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import org.seasar.doma.extension.gen.ClassConstants;
 import org.seasar.doma.extension.gen.ColumnMeta;
@@ -34,25 +35,52 @@ public class MysqlGenDialect extends StandardGenDialect {
 
     /**
      * インスタンスを構築します。
+     *
+     * @see <a href="https://dev.mysql.com/doc/refman/5.6/ja/data-types.html">MySQL 5.6 リファレンスマニュアル / データ型</a>
+     * @see <a href="https://dev.mysql.com/doc/connector-j/en/connector-j-reference-type-conversions.html">MySQL Connector/J Developer Guide / Java, JDBC and MySQL Types</a>
      */
     public MysqlGenDialect() {
-        classNameMap.put("bigint unsigned", BigInteger.class.getName());
-        classNameMap.put("datetime", LocalDateTime.class.getName());
-        classNameMap.put("int", Integer.class.getName());
-        classNameMap.put("int unsigned", Long.class.getName());
-        classNameMap.put("longblob", Blob.class.getName());
-        classNameMap.put("longtext", Clob.class.getName());
-        classNameMap.put("mediumblob", Blob.class.getName());
+        // 数値型
+        classNameMap.put("bool", Boolean.class.getName());
+        classNameMap.put("boolean", Boolean.class.getName());
+        classNameMap.put("smallint", Short.class.getName());
+        classNameMap.put("smallint unsigned", Integer.class.getName());
         classNameMap.put("mediumint", Integer.class.getName());
         classNameMap.put("mediumint unsigned", Integer.class.getName());
-        classNameMap.put("mediumtext", Clob.class.getName());
-        classNameMap.put("smallint unsigned", Integer.class.getName());
+        classNameMap.put("int", Integer.class.getName());
+        classNameMap.put("int unsigned", Long.class.getName());
+        classNameMap.put("integer", Integer.class.getName());
+        classNameMap.put("integer unsigned", Long.class.getName());
+        classNameMap.put("bigint", Long.class.getName());
+        classNameMap.put("bigint unsigned", BigInteger.class.getName());
+        classNameMap.put("serial", BigInteger.class.getName());
+        classNameMap.put("decimal", BigDecimal.class.getName());
+        classNameMap.put("decimal unsigned", BigDecimal.class.getName());
+        classNameMap.put("dec", BigDecimal.class.getName());
+        classNameMap.put("dec unsigned", BigDecimal.class.getName());
+        classNameMap.put("float", Float.class.getName());
+        classNameMap.put("float unsigned", Float.class.getName());
+        classNameMap.put("double", Double.class.getName());
+        classNameMap.put("double unsigned", Double.class.getName());
+        classNameMap.put("double precision", Double.class.getName());
+        classNameMap.put("double precision unsigned", Double.class.getName());
+
+        // 日付と時間型
+        classNameMap.put("date", LocalDate.class.getName());
+        classNameMap.put("datetime", LocalDateTime.class.getName());
+        classNameMap.put("timestamp", LocalDateTime.class.getName());
+        classNameMap.put("time", LocalTime.class.getName());
+        classNameMap.put("year", Short.class.getName());
+
+        // BLOB型
         classNameMap.put("tinyblob", Blob.class.getName());
-        classNameMap.put("tinyint", Byte.class.getName());
-        classNameMap.put("tinyint unsigned", Short.class.getName());
-        classNameMap.put("tinytext", Clob.class.getName());
-        classNameMap.put("text", Clob.class.getName());
-        classNameMap.put("year", Date.class.getName());
+        classNameMap.put("blob", Blob.class.getName());
+        classNameMap.put("mediumblob", Blob.class.getName());
+        classNameMap.put("longblob", Blob.class.getName());
+
+        // BINARYおよびVARBINARY型
+        classNameMap.put("binary", ClassConstants.bytes.getQualifiedName());
+        classNameMap.put("varbinary", ClassConstants.bytes.getQualifiedName());
     }
 
     @Override
@@ -67,9 +95,14 @@ public class MysqlGenDialect extends StandardGenDialect {
 
     @Override
     public String getMappedPropertyClassName(ColumnMeta columnMeta) {
-        if ("bit".equalsIgnoreCase(columnMeta.getTypeName())) {
-            return columnMeta.getLength() == 1 ? Boolean.class.getName()
-                    : ClassConstants.bytes.getQualifiedName();
+        if ("bit".equals(columnMeta.getTypeName()) ||
+                "tinyint".equals(columnMeta.getTypeName())) {
+            return columnMeta.getLength() <= 1 ? Boolean.class.getName()
+                    : Byte.class.getName();
+        }
+        if ("tinyint unsigned".equals(columnMeta.getTypeName())) {
+            return columnMeta.getLength() <= 1 ? Boolean.class.getName()
+                    : Short.class.getName();
         }
         return super.getMappedPropertyClassName(columnMeta);
     }

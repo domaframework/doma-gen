@@ -82,7 +82,7 @@ public class ResultSetMetaReader {
             ColumnMeta columnMeta = new ColumnMeta();
             columnMeta.setName(rsmd.getColumnLabel(i));
             columnMeta.setSqlType(rsmd.getColumnType(i));
-            columnMeta.setTypeName(rsmd.getTableName(i));
+            columnMeta.setTypeName(rsmd.getTableName(i).toLowerCase());
             columnMeta.setLength(rsmd.getPrecision(i));
             columnMeta.setScale(rsmd.getScale(i));
             tableMeta.addColumnMeta(columnMeta);

@@ -192,7 +192,7 @@ public class TableMetaReader {
                 ColumnMeta columnMeta = new ColumnMeta();
                 columnMeta.setName(rs.getString("COLUMN_NAME"));
                 columnMeta.setSqlType(rs.getInt("DATA_TYPE"));
-                columnMeta.setTypeName(rs.getString("TYPE_NAME"));
+                columnMeta.setTypeName(rs.getString("TYPE_NAME").toLowerCase());
                 columnMeta.setLength(rs.getInt("COLUMN_SIZE"));
                 columnMeta.setScale(rs.getInt("DECIMAL_DIGITS"));
                 columnMeta.setNullable(rs.getBoolean("NULLABLE"));
