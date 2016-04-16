@@ -2,6 +2,13 @@
 リリースノート
 ==============
 
+v2.8.0: 2016-04-16
+======================
+* `GH23 <https://github.com/domaframework/doma-gen/pull/23>`_
+  container-based infrastructure を利用 
+* `GH22 <https://github.com/domaframework/doma-gen/pull/22>`_
+  MySQLのEntityフィールドの型を修正
+
 v2.7.0: 2016-02-27
 ======================
 
