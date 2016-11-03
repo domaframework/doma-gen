@@ -21,9 +21,9 @@ import org.apache.tools.ant.types.DataType;
 
 /**
  * エンティティの設定です。
- * 
+ *
  * @author taedium
- * 
+ *
  */
 public class EntityConfig extends DataType {
 
@@ -96,6 +96,9 @@ public class EntityConfig extends DataType {
     protected String sql = null;
 
     protected String entityPrefix;
+
+    /** エンティティクラスのサフィックス */
+    protected String entitySuffix;
 
     protected String entityName = "Example";
 
@@ -290,6 +293,14 @@ public class EntityConfig extends DataType {
 
     public void setEntityPrefix(String entityPrefix) {
         this.entityPrefix = entityPrefix;
+    }
+
+    public String getEntitySuffix() {
+        return entitySuffix;
+    }
+
+    public void setEntitySuffix(String entitySuffix) {
+        this.entitySuffix = entitySuffix;
     }
 
     public String getEntityName() {

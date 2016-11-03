@@ -59,7 +59,8 @@ public class EntityListenerDescFactory {
         entityListenerDesc.setEntityDesc(entityDesc);
         entityListenerDesc.setPackageName(entityDesc.getPackageName());
         String entityPrefix = StringUtil.defaultString(entityDesc.getEntityPrefix(), "");
-        String entityName = entityPrefix + entityDesc.getSimpleName();
+        String entitySuffix = StringUtil.defaultString(entityDesc.getEntitySuffix(), "");
+        String entityName = entityPrefix + entityDesc.getSimpleName() + entitySuffix;
         entityListenerDesc.setSimpleName(entityName
                 + Constants.ENTITY_LISTENER_SUFFIX);
         entityListenerDesc.setEntityClassSimpleName(entityDesc.getSimpleName());

@@ -42,6 +42,9 @@ public class EntityDesc extends ClassDesc {
     /** エンティティクラスのプリフィックス */
     protected String entityPrefix;
 
+    /** エンティティクラスのサフィックス */
+    protected String entitySuffix;
+
     /** スーパークラスの単純名 */
     protected String superclassSimpleName;
 
@@ -193,6 +196,25 @@ public class EntityDesc extends ClassDesc {
      */
     public void setEntityPrefix(String entityPrefix) {
         this.entityPrefix = entityPrefix;
+    }
+
+    /**
+     * エンティティクラスのサフィックスを返します。
+     *
+     * @return エンティティクラスのサフィックス
+     */
+    public String getEntitySuffix() {
+        return entitySuffix;
+    }
+
+    /**
+     * エンティティクラスのサフィックスを設定します。
+     *
+     * @param entitySuffix
+     *            エンティティクラスのサフィックス
+     */
+    public void setEntitySuffix(String entitySuffix) {
+        this.entitySuffix = entitySuffix;
     }
 
     /**
@@ -487,12 +509,13 @@ public class EntityDesc extends ClassDesc {
     @Override
     public String getQualifiedName() {
         String prefix = StringUtil.defaultString(entityPrefix, "");
+        String suffix = StringUtil.defaultString(entitySuffix, "");
 
         if (packageName == null || packageName.isEmpty()) {
-            return prefix + simpleName;
+            return prefix + simpleName + suffix;
         }
 
-        return packageName + "." + prefix + simpleName;
+        return packageName + "." + prefix + simpleName + suffix;
     }
 
 }

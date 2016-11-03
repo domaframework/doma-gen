@@ -26,7 +26,7 @@ import org.seasar.doma.jdbc.dialect.Dialect;
  * @author ${lib.author}
 </#if>
  */
-public class <#if entityPrefix??>${entityPrefix}</#if>${simpleName} extends TestCase {
+public class <#if entityPrefix??>${entityPrefix}</#if>${simpleName}<#if entitySuffix??>${entitySuffix}</#if> extends TestCase {
 
     /** */
     protected SqlFileRepository repository;
