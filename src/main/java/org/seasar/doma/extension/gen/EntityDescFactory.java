@@ -137,7 +137,7 @@ public class EntityDescFactory {
      */
     public EntityDesc createEntityDesc(TableMeta tableMeta) {
         String name = StringUtil.fromSnakeCaseToCamelCase(tableMeta.getName());
-        return createEntityDesc(tableMeta, null, StringUtil.capitalize(name));
+        return createEntityDesc(tableMeta, null, null, StringUtil.capitalize(name));
     }
 
     /**
@@ -147,11 +147,15 @@ public class EntityDescFactory {
      *            テーブルメタデータ
      * @param entityPrefix
      *            エンティティクラスのプリフィックス
+     * @param entitySuffix
+     *            エンティティクラスのサフィックス
      * @return エンティティ記述
      */
-    public EntityDesc createEntityDesc(TableMeta tableMeta, String entityPrefix) {
+    public EntityDesc createEntityDesc(TableMeta tableMeta,
+                                       String entityPrefix, String entitySuffix) {
         String name = StringUtil.fromSnakeCaseToCamelCase(tableMeta.getName());
-        return createEntityDesc(tableMeta, entityPrefix, StringUtil.capitalize(name));
+        return createEntityDesc(tableMeta, entityPrefix, entitySuffix,
+                StringUtil.capitalize(name));
     }
 
     /**
@@ -161,12 +165,15 @@ public class EntityDescFactory {
      *            テーブルメタデータ
      * @param entityPrefix
      *            エンティティクラスのプリフィックス
+     * @param entitySuffix
+     *            エンティティクラスのサフィックス
      * @param simpleName
      *            エンティティ名
      * @return エンティティ記述
      */
     public EntityDesc createEntityDesc(TableMeta tableMeta,
-                                       String entityPrefix, String simpleName) {
+                                       String entityPrefix, String entitySuffix,
+                                       String simpleName) {
         EntityDesc entityDesc = new EntityDesc();
         entityDesc.setNamingType(namingType);
         entityDesc.setOriginalStatesPropertyName(originalStatesPropertyName);
@@ -176,12 +183,14 @@ public class EntityDescFactory {
         entityDesc.setQualifiedTableName(tableMeta.getQualifiedTableName());
         entityDesc.setPackageName(packageName);
         entityDesc.setEntityPrefix(StringUtil.defaultString(entityPrefix, ""));
+        entityDesc.setEntitySuffix(StringUtil.defaultString(entitySuffix, ""));
         entityDesc.setSimpleName(simpleName);
         if (superclass != null) {
             entityDesc.setSuperclassSimpleName(superclass.getSimpleName());
         }
         entityDesc.setListenerClassSimpleName(entityDesc.getEntityPrefix()
                 + ClassUtil.getSimpleName(entityDesc.getSimpleName()
+                        + entityDesc.getEntitySuffix()
                         + Constants.ENTITY_LISTENER_SUFFIX));
         entityDesc.setCompositeId(tableMeta.hasCompositePrimaryKey());
         entityDesc.setComment(tableMeta.comment);
@@ -221,7 +230,8 @@ public class EntityDescFactory {
      */
     protected boolean isNameDifferentBetweenEntityAndTable(EntityDesc entityDesc) {
         String entityPrefix = StringUtil.defaultString(entityDesc.getEntityPrefix(), "");
-        String entityName = entityPrefix + entityDesc.getSimpleName();
+        String entitySuffix = StringUtil.defaultString(entityDesc.getEntitySuffix(), "");
+        String entityName = entityPrefix + entityDesc.getSimpleName() + entitySuffix;
         String tableName = entityDesc.getTableName();
         return !tableName.equalsIgnoreCase(namingType.apply(entityName));
     }

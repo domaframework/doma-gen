@@ -23,7 +23,7 @@ import ${importName};
 <#if showCatalogName && catalogName?? || showSchemaName && schemaName?? || showTableName && tableName??>
 @Table(<#if showCatalogName && catalogName??>catalog = "${catalogName}"</#if><#if showSchemaName && schemaName??><#if showCatalogName && catalogName??>, </#if>schema = "${schemaName}"</#if><#if showTableName><#if showCatalogName && catalogName?? || showSchemaName && schemaName??>, </#if>name = "${tableName}"</#if>)
 </#if>
-public class <#if entityPrefix??>${entityPrefix}</#if>${simpleName}<#if superclassSimpleName??> extends ${superclassSimpleName}</#if> {
+public class <#if entityPrefix??>${entityPrefix}</#if>${simpleName}<#if entitySuffix??>${entitySuffix}</#if><#if superclassSimpleName??> extends ${superclassSimpleName}</#if> {
 <#list ownEntityPropertyDescs as property>
 
   <#if showDbComment && property.comment??>
@@ -54,7 +54,7 @@ public class <#if entityPrefix??>${entityPrefix}</#if>${simpleName}<#if supercla
 
     /** */
     @OriginalStates
-    <#if entityPrefix??>${entityPrefix}</#if>${simpleName} ${originalStatesPropertyName};
+    <#if entityPrefix??>${entityPrefix}</#if>${simpleName}<#if entitySuffix??>${entitySuffix}</#if> ${originalStatesPropertyName};
 </#if>
 <#if useAccessor>
   <#list ownEntityPropertyDescs as property>

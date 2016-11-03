@@ -579,7 +579,8 @@ public class Gen extends AbstractTask {
             }
             for (TableMeta tableMeta : tableMetas) {
                 EntityDesc entityDesc = entityDescFactory
-                        .createEntityDesc(tableMeta, entityConfig.getEntityPrefix());
+                        .createEntityDesc(tableMeta, entityConfig.getEntityPrefix(),
+                                entityConfig.getEntitySuffix());
                 if (entityConfig.isGenerate()) {
                     generateEntity(entityDesc);
                     if (entityConfig.isUseListener()) {

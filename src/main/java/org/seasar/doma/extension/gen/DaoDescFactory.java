@@ -68,7 +68,8 @@ public class DaoDescFactory {
         DaoDesc daoDesc = new DaoDesc();
         daoDesc.setPackageName(packageName);
         String entityPrefix = StringUtil.defaultString(entityDesc.getEntityPrefix(), "");
-        String simpleName = entityPrefix + entityDesc.getSimpleName() + suffix;
+        String entitySuffix = StringUtil.defaultString(entityDesc.getEntitySuffix(), "");
+        String simpleName = entityPrefix + entityDesc.getSimpleName() + entitySuffix + suffix;
         daoDesc.setSimpleName(simpleName);
         if (configClassName != null) {
             daoDesc.setConfigClassSimpleName(ClassUtil
