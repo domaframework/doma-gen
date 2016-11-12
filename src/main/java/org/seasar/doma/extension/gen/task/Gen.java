@@ -613,7 +613,7 @@ public class Gen extends AbstractTask {
                 dataSource);
         TableMeta tableMeta = reader.read(entityConfig.getSql());
         EntityDesc entityDesc = entityDescFactory.createEntityDesc(tableMeta,
-                entityConfig.getEntityPrefix(),
+                entityConfig.getEntityPrefix(), entityConfig.getEntitySuffix(),
                 entityConfig.getEntityName());
         generateEntity(entityDesc);
     }
