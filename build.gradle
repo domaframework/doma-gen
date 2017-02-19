@@ -5,6 +5,7 @@ apply plugin: 'maven'
 
 group = 'org.seasar.doma'
 version = '2.15.1-SNAPSHOT'
+ext.dependentVersion = '2.15.0' 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 ext.encoding = 'UTF-8'
 sourceCompatibility = jdkVersion
@@ -63,7 +64,7 @@ repositories {
 }
 
 dependencies {
-    compile "org.seasar.doma:doma:${version}"
+    compile "org.seasar.doma:doma:${dependentVersion}"
     compile 'org.freemarker:freemarker:2.3.20'
     compile 'org.apache.ant:ant:1.9.3'
     testCompile 'junit:junit:4.11'
