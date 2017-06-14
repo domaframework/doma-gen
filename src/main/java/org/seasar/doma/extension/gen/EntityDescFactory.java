@@ -337,7 +337,7 @@ public class EntityDescFactory {
         if (superclass == null) {
             return results;
         }
-        for (Class<?> clazz = superclass; clazz != Object.class; clazz = superclass
+        for (Class<?> clazz = superclass; clazz != Object.class; clazz = clazz
                 .getSuperclass()) {
             Entity entity = clazz.getAnnotation(Entity.class);
             if (entity == null) {
