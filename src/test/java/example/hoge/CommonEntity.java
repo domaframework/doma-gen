@@ -23,7 +23,7 @@ import org.seasar.doma.Transient;
  * 
  */
 @Entity
-public class CommonEntity {
+public class CommonEntity extends AbstractBean {
 
     String name;
 
