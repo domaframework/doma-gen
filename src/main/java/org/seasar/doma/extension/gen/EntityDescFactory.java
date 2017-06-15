@@ -404,7 +404,7 @@ public class EntityDescFactory {
                     ClassConstants.OriginalStates);
         }
         for (EntityPropertyDesc propertyDesc : entityDesc
-                .getEntityPropertyDescs()) {
+                .getOwnEntityPropertyDescs()) {
             if (propertyDesc.isId()) {
                 classDescSupport.addImportName(entityDesc, ClassConstants.Id);
                 if (propertyDesc.getGenerationType() != null) {
