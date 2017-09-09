@@ -2,6 +2,14 @@
 リリースノート
 ==============
 
+v2.17.0: 2017-09-09
+======================
+* `GH42 <https://github.com/domaframework/doma-gen/pull/42>`_
+  importName生成について、スーパークラスでのみ使用されているクラスの情報を除外しました
+* `GH41 <https://github.com/domaframework/doma-gen/pull/41>`_
+  Entityのスーパークラスが何かextendsしている場合、無限ループとなってしまう不具合を解消しました
+
+
 v2.16.1: 2017-05-14
 ======================
 * `GH39 <https://github.com/domaframework/doma-gen/pull/39>`_
