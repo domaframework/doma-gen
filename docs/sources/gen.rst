@@ -253,7 +253,7 @@ Gradle_ で使用するための設定例を示します。
   }
 
   dependencies {
-      domaGenRuntime 'org.seasar.doma:doma-gen:2.19.0'
+      domaGenRuntime 'org.seasar.doma:doma-gen:2.20.0-SNAPSHOT'
       domaGenRuntime 'org.postgresql:postgresql:9.3-1100-jdbc41'
   }
 
