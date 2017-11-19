@@ -2,6 +2,11 @@
 リリースノート
 ==============
 
+v2.19.0: 2017-11-19
+======================
+* `GH47 <https://github.com/domaframework/doma-gen/pull/47>`_
+  Recognize private fields in superclass as persistent properties.
+
 v2.18.0: 2017-10-28
 ======================
 
