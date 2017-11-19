@@ -346,7 +346,7 @@ public class EntityDescFactory {
             org.seasar.doma.jdbc.entity.NamingType namingType = entity.naming();
             for (Field field : clazz.getDeclaredFields()) {
                 int m = field.getModifiers();
-                if (Modifier.isPrivate(m) || Modifier.isStatic(m)) {
+                if (Modifier.isStatic(m)) {
                     continue;
                 }
                 if (field.isAnnotationPresent(Transient.class)) {
