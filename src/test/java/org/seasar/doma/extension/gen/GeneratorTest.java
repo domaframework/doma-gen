@@ -290,6 +290,13 @@ public class GeneratorTest extends TestCase {
         name.setPrimaryKey(false);
         name.setNullable(false);
 
+        ColumnMeta privateString = new ColumnMeta();
+        privateString.setComment("COMMENT for PRIVATESTRING");
+        privateString.setName("PRIVATESTRING");
+        privateString.setTypeName("varchar");
+        privateString.setPrimaryKey(false);
+        privateString.setNullable(false);
+
         TableMeta tableMeta = new TableMeta();
         tableMeta.setCatalogName("CATALOG");
         tableMeta.setSchemaName("SCHEMA");
@@ -297,6 +304,7 @@ public class GeneratorTest extends TestCase {
         tableMeta.setComment("COMMENT for HOGE");
         tableMeta.addColumnMeta(id);
         tableMeta.addColumnMeta(name);
+        tableMeta.addColumnMeta(privateString);
 
         EntityPropertyClassNameResolver resolver = factory
                 .createEntityPropertyClassNameResolver(null);
