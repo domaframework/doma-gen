@@ -2,6 +2,16 @@
 リリースノート
 ==============
 
+v2.19.3: 2018-09-02
+======================
+
+* `GH54 <https://github.com/domaframework/doma-gen/pull/54>`_
+  Remove wrapper task
+* `GH53 <https://github.com/domaframework/doma-gen/pull/53>`_
+  Upgrade Gradle version
+* `GH52 <https://github.com/domaframework/doma-gen/pull/52>`_
+  Refactor gradle script for eclipse
+
 v2.19.2: 2018-03-11
 ======================
 
