@@ -53,8 +53,8 @@ jar {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+wrapper {
+    gradleVersion = '4.10'
 }
 
 repositories {
@@ -64,7 +64,9 @@ repositories {
 }
 
 dependencies {
-    compile "org.seasar.doma:doma:${dependentVersion}"
+    annotationProcessor "org.seasar.doma:doma:${dependentVersion}"
+    compileOnly "org.seasar.doma:doma:${dependentVersion}"
+    testCompile "org.seasar.doma:doma:${dependentVersion}"
     compile 'org.freemarker:freemarker:2.3.20'
     compile 'org.apache.ant:ant:1.9.3'
     testCompile 'junit:junit:4.11'
