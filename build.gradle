@@ -61,11 +61,10 @@ repositories {
 
 dependencies {
     annotationProcessor "org.seasar.doma:doma:${dependentVersion}"
-    compileOnly "org.seasar.doma:doma:${dependentVersion}"
-    testCompile "org.seasar.doma:doma:${dependentVersion}"
-    compile 'org.freemarker:freemarker:2.3.20'
-    compile 'org.apache.ant:ant:1.9.3'
-    testCompile 'junit:junit:4.11'
+    implementation "org.seasar.doma:doma:${dependentVersion}"
+    implementation 'org.freemarker:freemarker:2.3.20'
+    implementation 'org.apache.ant:ant:1.9.3'
+    testImplementation 'junit:junit:4.11'
 }
 
 task sourcesJar (type : Jar) {
