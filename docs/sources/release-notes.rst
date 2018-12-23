@@ -2,6 +2,14 @@
 リリースノート
 ==============
 
+v2.20.0: 2018-12-23
+======================
+
+* `GH57 <https://github.com/domaframework/doma-gen/pull/57>`_
+  Use Gradle 5.0
+* `GH56 <https://github.com/domaframework/doma-gen/pull/56>`_
+  Fix typo
+
 v2.19.3: 2018-09-02
 ======================
 
