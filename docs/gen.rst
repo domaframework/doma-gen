@@ -257,23 +257,27 @@ Gradle_ で使用するための設定例を示します。
       domaGenRuntime 'org.postgresql:postgresql:9.3-1100-jdbc41'
   }
 
-  task gen << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
-          entityConfig()
-          daoConfig()
-          sqlConfig()
+  task gen
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
+              entityConfig()
+              daoConfig()
+              sqlConfig()
+          }
       }
   }
 
-  task genTestCases << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
-          sqlTestCaseConfig {
-              fileset(dir: 'src/main/resources') {
-                  include(name: 'META-INF/**/*.sql')
+  task genTestCases {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
+              sqlTestCaseConfig {
+                  fileset(dir: 'src/main/resources') {
+                      include(name: 'META-INF/**/*.sql')
+                  }
               }
           }
       }
@@ -298,13 +302,15 @@ Gradle_ で使用するための設定例を示します。
 
 .. code-block:: groovy
 
-  task gen << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
-          entityConfig()
-          daoConfig()
-          sqlConfig()
+  task gen {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
+              entityConfig()
+              daoConfig()
+              sqlConfig()
+          }
       }
   }
 
@@ -318,13 +324,15 @@ SQL の実行結果からエンティティクラスのファイルを生成す�
 
 .. code-block:: groovy
 
-  task genEntity << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
-          entityConfig(packageName: 'aaa.bbb',
-              entityName: 'GroupByDeptId',
-              sql: 'select dept_id, max(age) as max_age from emp group by dept_id')
+  task genEntity {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
+              entityConfig(packageName: 'aaa.bbb',
+                  entityName: 'GroupByDeptId',
+                  sql: 'select dept_id, max(age) as max_age from emp group by dept_id')
+          }
       }
   }
 
@@ -360,13 +368,15 @@ gradle コマンド の -P オプションを使って外部から値を渡す�
 
 .. code-block:: groovy
 
-  task genEntity << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
-          entityConfig(packageName: 'aaa.bbb',
-              entityName: entityName,
-              sql: sql)
+  task genEntity {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
+              entityConfig(packageName: 'aaa.bbb',
+                  entityName: entityName,
+                  sql: sql)
+          }
       }
   }
 
@@ -378,13 +388,15 @@ gradle コマンド の -P オプションを使って外部から値を渡す�
 
 .. code-block:: groovy
 
-  task genTestCases << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
-          sqlTestCaseConfig {
-              fileset(dir: 'src/main/resources') {
-                  include(name: 'META-INF/**/*.sql')
+  task genTestCases {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
+              sqlTestCaseConfig {
+                  fileset(dir: 'src/main/resources') {
+                      include(name: 'META-INF/**/*.sql')
+                  }
               }
           }
       }
@@ -440,13 +452,15 @@ properties ファイルは ``EntityConfig`` データ型の ``entityPropertyClas
 
 .. code-block:: groovy
 
-  task gen << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
-          entityConfig(entityPropertyClassNamesFile: 'name.properties')
-          daoConfig()
-          sqlConfig()
+  task gen {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '') {
+              entityConfig(entityPropertyClassNamesFile: 'name.properties')
+              daoConfig()
+              sqlConfig()
+          }
       }
   }
 
@@ -479,15 +493,17 @@ Doma-Gen のテンプレートは、ソースコードリポジトリの src/mai
 
 .. code-block:: groovy
 
-  task gen << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '',
-          templatePrimaryDir: 'mytemplate') {
+  task gen {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '',
+              templatePrimaryDir: 'mytemplate') {
 
-          entityConfig()
-          daoConfig()
-          sqlConfig()
+              entityConfig()
+              daoConfig()
+              sqlConfig()
+          }
       }
   }
 
@@ -510,15 +526,17 @@ Doma-Gen のテンプレートは、ソースコードリポジトリの src/mai
 
 .. code-block:: groovy
 
-  task gen << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '',
-          templatePrimaryDir: 'mytemplate') {
+  task gen {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '',
+              templatePrimaryDir: 'mytemplate') {
 
-          entityConfig()
-          daoConfig()
-          sqlConfig()
+              entityConfig()
+              daoConfig()
+              sqlConfig()
+          }
       }
   }
 
@@ -536,15 +554,17 @@ Doma-Gen のテンプレートは、ソースコードリポジトリの src/mai
 
 .. code-block:: groovy
 
-  task gen << {
-      ant.taskdef(resource: 'domagentask.properties',
-          classpath: configurations.domaGenRuntime.asPath)
-      ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '',
-          templatePrimaryDir: 'mytemplate') {
+  task gen {
+      doLast {
+          ant.taskdef(resource: 'domagentask.properties',
+              classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: 'jdbc:postgresql://127.0.0.1/example', user: '', password: '',
+              templatePrimaryDir: 'mytemplate') {
 
-          entityConfig()
-          daoConfig()
-          sqlConfig()
+              entityConfig()
+              daoConfig()
+              sqlConfig()
+          }
       }
   }
 
