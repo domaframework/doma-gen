@@ -5,7 +5,7 @@ apply plugin: 'maven'
 
 group = 'org.seasar.doma'
 version = '2.23.0-SNAPSHOT'
-ext.dependentVersion = '2.22.0' 
+ext.dependentVersion = '2.23.0-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 ext.encoding = 'UTF-8'
 sourceCompatibility = jdkVersion
