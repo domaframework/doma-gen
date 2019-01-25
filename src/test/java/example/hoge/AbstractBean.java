@@ -1,5 +1,3 @@
 package example.hoge;
 
-public abstract class AbstractBean {
-
-}
+public abstract class AbstractBean {}

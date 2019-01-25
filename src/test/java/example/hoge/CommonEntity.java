@@ -18,20 +18,16 @@ package example.hoge;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Transient;
 
-/**
- * @author taedium
- * 
- */
+/** @author taedium */
 @Entity
 public class CommonEntity extends AbstractBean {
 
-    String name;
+  String name;
 
-    @Transient
-    String transientString;
+  @Transient String transientString;
 
-    static String staticString;
+  static String staticString;
 
-    @SuppressWarnings("unused")
-    private String privateString;
+  @SuppressWarnings("unused")
+  private String privateString;
 }

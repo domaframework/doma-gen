@@ -23,223 +23,198 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.Properties;
 import java.util.logging.Logger;
-
 import javax.sql.DataSource;
-
 import org.seasar.doma.extension.gen.internal.message.Message;
 
 /**
  * 単純なデータソースです。
- * 
+ *
  * @author taedium
- * 
  */
 public class SimpleDataSource implements DataSource {
 
-    /**
-     * コネクションが確立できない場合の {@code SQLState} コードです。
-     */
-    protected static final String UNABLE_TO_ESTABLISH_CONNECTION = "08001";
+  /** コネクションが確立できない場合の {@code SQLState} コードです。 */
+  protected static final String UNABLE_TO_ESTABLISH_CONNECTION = "08001";
 
-    /** JDBCドライバ */
-    protected Driver driver;
+  /** JDBCドライバ */
+  protected Driver driver;
 
-    /**
-     * {@code jdbc:subprotocol:subname}という形式のデータベースへの接続URLです。
-     */
-    protected String url;
+  /** {@code jdbc:subprotocol:subname}という形式のデータベースへの接続URLです。 */
+  protected String url;
 
-    /**
-     * データベースの接続ユーザーです。
-     */
-    protected String user;
+  /** データベースの接続ユーザーです。 */
+  protected String user;
 
-    /**
-     * データベースの接続パスワードです。
-     */
-    protected String password;
+  /** データベースの接続パスワードです。 */
+  protected String password;
 
-    /**
-     * JDBCドライバへのプロパティです。
-     */
-    protected final Properties properties = new Properties();
+  /** JDBCドライバへのプロパティです。 */
+  protected final Properties properties = new Properties();
 
-    /**
-     * JDBCドライバを返します。
-     * 
-     * @return JDBCドライバ
-     */
-    public Driver getDriver() {
-        return driver;
+  /**
+   * JDBCドライバを返します。
+   *
+   * @return JDBCドライバ
+   */
+  public Driver getDriver() {
+    return driver;
+  }
+
+  /**
+   * JDBCドライバを設定します。
+   *
+   * @param driver JDBCドライバ
+   */
+  public void setDriver(Driver driver) {
+    this.driver = driver;
+    try {
+      DriverManager.registerDriver(driver);
+    } catch (SQLException e) {
+      throw new GenException(Message.DOMAGEN9001, e, e);
     }
+  }
 
-    /**
-     * JDBCドライバを設定します。
-     * 
-     * @param driver
-     *            JDBCドライバ
-     */
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-        try {
-            DriverManager.registerDriver(driver);
-        } catch (SQLException e) {
-            throw new GenException(Message.DOMAGEN9001, e, e);
-        }
-    }
+  /**
+   * データベースへの接続URLを返します。
+   *
+   * @return データベースへの接続URL
+   */
+  public String getUrl() {
+    return url;
+  }
 
-    /**
-     * データベースへの接続URLを返します。
-     * 
-     * @return データベースへの接続URL
-     */
-    public String getUrl() {
-        return url;
-    }
+  /**
+   * データベースの接続URLを設定します。
+   *
+   * @param url {@code jdbc:subprotocol:subname}という形式のデータベースへの接続URL
+   */
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-    /**
-     * データベースの接続URLを設定します。
-     * 
-     * @param url
-     *            {@code jdbc:subprotocol:subname}という形式のデータベースへの接続URL
-     */
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  /**
+   * データベースの接続ユーザーを返します。
+   *
+   * @return データベースの接続ユーザー
+   */
+  public String getUser() {
+    return user;
+  }
 
-    /**
-     * データベースの接続ユーザーを返します。
-     * 
-     * @return データベースの接続ユーザー
-     */
-    public String getUser() {
-        return user;
-    }
+  /**
+   * データベースの接続ユーザーを設定します。
+   *
+   * @param user データベースの接続ユーザー
+   */
+  public void setUser(String user) {
+    this.user = user;
+  }
 
-    /**
-     * データベースの接続ユーザーを設定します。
-     * 
-     * @param user
-     *            データベースの接続ユーザー
-     */
-    public void setUser(String user) {
-        this.user = user;
-    }
+  /**
+   * データベースの接続パスワードを返します。
+   *
+   * @return データベースの接続パスワード
+   */
+  public String getPassword() {
+    return password;
+  }
 
-    /**
-     * データベースの接続パスワードを返します。
-     * 
-     * @return データベースの接続パスワード
-     */
-    public String getPassword() {
-        return password;
-    }
+  /**
+   * データベースの接続パスワードを設定します。
+   *
+   * @param password データベースの接続パスワード
+   */
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    /**
-     * データベースの接続パスワードを設定します。
-     * 
-     * @param password
-     *            データベースの接続パスワード
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  /**
+   * JDBCドライバへのプロパティを追加します。
+   *
+   * @param key プロパティのキー
+   * @param value プロパティの値
+   */
+  public void addProperty(String key, String value) {
+    properties.setProperty(key, value);
+  }
 
-    /**
-     * JDBCドライバへのプロパティを追加します。
-     * 
-     * @param key
-     *            プロパティのキー
-     * @param value
-     *            プロパティの値
-     */
-    public void addProperty(String key, String value) {
-        properties.setProperty(key, value);
-    }
+  @Override
+  public int getLoginTimeout() {
+    return DriverManager.getLoginTimeout();
+  }
 
-    @Override
-    public int getLoginTimeout() {
-        return DriverManager.getLoginTimeout();
-    }
+  @Override
+  public void setLoginTimeout(int seconds) {
+    DriverManager.setLoginTimeout(seconds);
+  }
 
-    @Override
-    public void setLoginTimeout(int seconds) {
-        DriverManager.setLoginTimeout(seconds);
+  @Override
+  public Connection getConnection() throws SQLException {
+    Properties info = new Properties();
+    info.putAll(properties);
+    if (user != null) {
+      info.setProperty("user", user);
     }
+    if (password != null) {
+      info.setProperty("password", password);
+    }
+    return getConnectionInternal(info);
+  }
 
-    @Override
-    public Connection getConnection() throws SQLException {
-        Properties info = new Properties();
-        info.putAll(properties);
-        if (user != null) {
-            info.setProperty("user", user);
-        }
-        if (password != null) {
-            info.setProperty("password", password);
-        }
-        return getConnectionInternal(info);
+  @Override
+  public Connection getConnection(String user, String password) throws SQLException {
+    Properties info = new Properties();
+    info.putAll(properties);
+    if (user != null) {
+      info.setProperty("user", user);
     }
+    if (password != null) {
+      info.setProperty("password", password);
+    }
+    return getConnectionInternal(info);
+  }
 
-    @Override
-    public Connection getConnection(String user, String password)
-            throws SQLException {
-        Properties info = new Properties();
-        info.putAll(properties);
-        if (user != null) {
-            info.setProperty("user", user);
-        }
-        if (password != null) {
-            info.setProperty("password", password);
-        }
-        return getConnectionInternal(info);
+  /**
+   * 内部的にコネクションを返します。
+   *
+   * @param info JDBCドライバへのプロパティ
+   * @return コネクション
+   * @throws SQLException SQLに関する例外が発生した場合
+   */
+  protected Connection getConnectionInternal(Properties info) throws SQLException {
+    if (url == null) {
+      throw new SQLException(Message.DOMAGEN5002.getMessage());
     }
+    try {
+      return DriverManager.getConnection(url, info);
+    } catch (SQLException e) {
+      if (UNABLE_TO_ESTABLISH_CONNECTION.equals(e.getSQLState())) {
+        throw new SQLException(Message.DOMAGEN5001.getMessage(), UNABLE_TO_ESTABLISH_CONNECTION, e);
+      }
+      throw e;
+    }
+  }
 
-    /**
-     * 内部的にコネクションを返します。
-     * 
-     * @param info
-     *            JDBCドライバへのプロパティ
-     * @return コネクション
-     * @throws SQLException
-     *             SQLに関する例外が発生した場合
-     */
-    protected Connection getConnectionInternal(Properties info)
-            throws SQLException {
-        if (url == null) {
-            throw new SQLException(Message.DOMAGEN5002.getMessage());
-        }
-        try {
-            return DriverManager.getConnection(url, info);
-        } catch (SQLException e) {
-            if (UNABLE_TO_ESTABLISH_CONNECTION.equals(e.getSQLState())) {
-                throw new SQLException(Message.DOMAGEN5001.getMessage(),
-                        UNABLE_TO_ESTABLISH_CONNECTION, e);
-            }
-            throw e;
-        }
-    }
+  @Override
+  public PrintWriter getLogWriter() throws SQLException {
+    return null;
+  }
 
-    @Override
-    public PrintWriter getLogWriter() throws SQLException {
-        return null;
-    }
+  @Override
+  public void setLogWriter(PrintWriter out) throws SQLException {}
 
-    @Override
-    public void setLogWriter(PrintWriter out) throws SQLException {
-    }
+  @Override
+  public boolean isWrapperFor(Class<?> iface) throws SQLException {
+    return false;
+  }
 
-    @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
-        return false;
-    }
+  @Override
+  public <T> T unwrap(Class<T> iface) throws SQLException {
+    throw new SQLException("unwrap method is unsupported.");
+  }
 
-    @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
-        throw new SQLException("unwrap method is unsupported.");
-    }
-
-    @Override
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        return null;
-    }
+  @Override
+  public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+    return null;
+  }
 }
