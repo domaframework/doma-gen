@@ -267,6 +267,7 @@ Write your build script as follows:
   }
 
   task gen {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -279,6 +280,7 @@ Write your build script as follows:
   }
 
   task genTestCases {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -311,6 +313,7 @@ Define the following task:
 .. code-block:: groovy
 
   task gen {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -337,6 +340,7 @@ Define the following task:
 .. code-block:: groovy
 
   task genEntity {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -380,6 +384,7 @@ It is convenient to use a ``-P`` option of Gradle to pass parameters from a comm
 .. code-block:: groovy
 
   task genEntity {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -399,6 +404,7 @@ Define the following task:
 .. code-block:: groovy
 
   task genTestCases {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -459,6 +465,7 @@ Specify the properties file to the ``EntityConfig``'s ``entityPropertyClassNames
 .. code-block:: groovy
 
   task gen {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -504,6 +511,7 @@ specify "mytemplate" to the ``templatePrimaryDir`` parameter:
 .. code-block:: groovy
 
   task gen {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -537,6 +545,7 @@ specify the directory to the ``templatePrimaryDir`` parameter:
 .. code-block:: groovy
 
   task gen {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
@@ -565,6 +574,7 @@ specify the directory to the ``templatePrimaryDir`` parameter:
 .. code-block:: groovy
 
   task gen {
+      group = 'doma-gen'
       doLast {
           ant.taskdef(resource: 'domagentask.properties',
               classpath: configurations.domaGenRuntime.asPath)
