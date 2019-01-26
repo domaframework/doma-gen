@@ -1,3 +1,7 @@
+plugins {
+    id 'com.diffplug.gradle.spotless' version '3.16.0'
+}
+
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'signing'
@@ -5,11 +9,17 @@ apply plugin: 'maven'
 
 group = 'org.seasar.doma'
 version = '2.23.0-SNAPSHOT'
-ext.dependentVersion = '2.22.0' 
+ext.dependentVersion = '2.23.0-SNAPSHOT'
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 ext.encoding = 'UTF-8'
 sourceCompatibility = jdkVersion
 targetCompatibility = jdkVersion
+
+spotless {
+    java {
+        googleJavaFormat('1.6')
+    }
+}
 
 compileJava {
     doFirst {
