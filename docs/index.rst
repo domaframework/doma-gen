@@ -3,22 +3,23 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Doma-Gen
-===================
+Welcome to Doma-Gen 2
+=====================
 
-Doma-Gen は `Doma 2`_ のためのコードジェネレーターです。
+Doma-Gen 2 is a code generation tool for `Doma 2`_.
 
-Doma-Gen を使うと次のことができます。
+Doma-Gen will generate:
 
-* データベースのメタデータから Java や SQL のファイル一式を生成する
-* SQLの実行結果から エンティティクラスのコードを生成する
-* ディレクトリ中の SQL ファイルを検出し SQL のためのテストケースを生成する
+* Java source code and SQL files from database metadata
+* Java source code from the results of SQL executions
+* test cases for SQL statements from SQL files
 
-Doma-Gen は Ant_ タスクとして作成されているため、 Ant はもちろん、 Gradle_ などのビルドツールから実行できます。
+Doma-Gen is Ant_ task, which can be used by many build tools such as Ant_ and Gradle_.
 
-コードの生成には FreeMarker_ を使用しており、生成されるコードは FreeMarker の記法で自由にカスタマイズ可能です。
+Doma-Gen generates various files using FreeMarker_.
+You can customize all generation code by changing FreeMarker_ template files.
 
-このドキュメントは複数のセクションから成ります。
+This document consists of following sections:
 
 * `User Documentation`_
 * `About Doma-Gen`_
