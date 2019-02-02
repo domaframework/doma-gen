@@ -4,35 +4,32 @@ import org.seasar.doma.extension.gen.MessageResource;
 
 /** @author taedium */
 public enum Message implements MessageResource {
-  DOMAGEN0001("パラメータ[{0}]がnullです。"),
-  DOMAGEN0002("クラス[{0}]はクラス[{1}]のサブタイプでなければいけません。"),
-  DOMAGEN0003("GenerationType.IDENTITYはRDBMS[{0}]でサポートされていません。"),
-  DOMAGEN0004("GenerationType.SEQUENCEはRDBMS[{0}]でサポートされていません。"),
-  DOMAGEN0005("テーブルが1つも取得できませんでした。JDBCの接続先、方言名、検索パターンが正しいか確認してください。"),
-  DOMAGEN0006("SQLの実行に失敗しました(path=[{0}], lineNumber=[{1}], sql=[{2}])。原因は次のものです。{3}"),
-  DOMAGEN0007("必須のプロパティ[{0}]が指定されていません。"),
-  DOMAGEN0008("プロパティファイル[{0}]のキー[{1}]が不正な正規表現です。詳細は次のものです。{2}"),
-  DOMAGEN0009("プロパティファイル[{0}]のキー[{1}]に対する値[{2}]は存在しないクラス名です。詳細は次のものです。{3}"),
-  DOMAGEN0010("プロパティ[{0}]に対応するファイル[{1}]が存在しません。"),
-  DOMAGEN0011("サポートされていないカラムタイプです（カラムタイプ名={0}、SQLタイプ={1}）。"),
-  DOMAGEN0012("プロパティ[{0}]とプロパティ[{1}]のどちらかには値の指定が必須です。"),
-  DOMAGEN0013("プロパティ[{0}]が表すクラス[{1}]が見つかりません。 {2}"),
-  DOMAGEN0014("プロパティ[{0}]が表すクラス[{1}]はクラス[{2}]のサブタイプでなければいけません。"),
-  DOMAGEN0015("プロパティ[{0}]が表すクラス[{1}]のインスタンス化に失敗しました。クラス[{1}]にはpublicのデフォルトコンストラクターが必須です。{2}"),
-  DOMAGEN0016("プロパティ[{0}]が表すクラス[{1}]のインスタンス化に失敗しました。クラス[{1}]にはpublicのデフォルトコンストラクターが必須です。{2}"),
-  DOMAGEN0017("方言にはクラス[{0}]が使用されます。"),
+  DOMAGEN0001("The parameter '{0}' is null."),
+  DOMAGEN0003("GenerationType.IDENTITY is not supported for the RDBMS '{0}'."),
+  DOMAGEN0004("GenerationType.SEQUENCE is not supported for the RDBMS '{0}'."),
+  DOMAGEN0005(
+      "Cannot get any tables. Check parameters such as url, dialectName, tableNamePattern and so on."),
+  DOMAGEN0007("The mandatory parameter '{0}' is not specified."),
+  DOMAGEN0013("The class '{1}' to which the parameter '{0}' refers is not found. {2}"),
+  DOMAGEN0014(
+      "The class '{1}' to which the parameter '{0}' refers must be a subtype of the class '{2}'."),
+  DOMAGEN0015(
+      "The class '{1}' to which the parameter '{0}' refers cannot be instantiated. The class '{1}' must have a public default constructor. {2}"),
+  DOMAGEN0017("The class '{0}' is used as a dialect class."),
   DOMAGEN0018(
-      "テーブル[{0}]のカラム[{1}]をJavaのクラスにマッピングできません。(カラム型[{2}] : JDBCのSQL型[{3}])。java.lang.Stringを使用します。"),
-  DOMAGEN0019("ファイルを作成しました。{0}"),
-  DOMAGEN0020("ファイルを上書きしました。{0}"),
-  DOMAGEN0021("エンティティクラス[{0}]のプロパティ[{1}]に対応するカラム[{2}]がテーブル[{3}]に定義されていません。"),
-  DOMAGEN0022("プロパティ[{0}]からプロパティ[{1}]を推測できません。プロパティ[{1}]を明示的に指定してください。"),
+      "The column '{1}' of the table '{0}' is not mapped to any Java classes. So it will be mapped to java.lang.String. (The column data type is {2} and the JDBC SQL type is {3})"),
+  DOMAGEN0019("The file is created. {0}"),
+  DOMAGEN0020("The file is overwritten. {0}"),
+  DOMAGEN0021(
+      "The column '{2}' which corresponds to the property '{1}' of the entity class '{0}' is not defined in the table '{3}'."),
+  DOMAGEN0022(
+      "Cannot infer the property '{1}' from the property '{0}'. Specify the property '{1}' explicitly."),
 
   DOMAGEN5001(
-      "JDBCドライバがロードされていない可能性があります。JDBCドライバをロードするには、クラスパスが通されたMETA-INF/services/java.sql.DriverファイルにJDBCドライバのクラスの完全修飾名を記述してください。 ex) oracle.jdbc.driver.OracleDriver"),
-  DOMAGEN5002("urlプロパティが設定されていません。"),
+      "The JDBC driver may not be loaded. Check that the JDBC driver is in the classpath. If the JDBC driver is not loaded automatically, load it explicitly using Class.forName. ex) Class.forName(\"oracle.jdbc.driver.OracleDriver\")"),
+  DOMAGEN5002("The url parameter is not specified."),
 
-  DOMAGEN9001("例外が発生しました。{0}"),
+  DOMAGEN9001("The exception was thrown. {0}"),
   ;
 
   private final String messagePattern;
