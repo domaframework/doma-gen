@@ -1,6 +1,21 @@
 =============
-Release Notes
+Release notes
 =============
+
+v2.23.0: 2019-02-03
+======================
+
+* `GH68 <https://github.com/domaframework/doma-gen/pull/68>`_
+  Use a double quotation `"` to indicate message parameters
+* `GH67 <https://github.com/domaframework/doma-gen/pull/67>`_
+  Translate messages from Japanese into English
+* `GH63 <https://github.com/domaframework/doma-gen/pull/63>`_
+  Format code
+* `GH66 <https://github.com/domaframework/doma-gen/pull/66>`_
+  `GH65 <https://github.com/domaframework/doma-gen/pull/65>`_
+  `GH64 <https://github.com/domaframework/doma-gen/pull/64>`_
+  `GH62 <https://github.com/domaframework/doma-gen/pull/62>`_
+  Polish documents
 
 v2.22.0: 2019-01-20
 ======================
