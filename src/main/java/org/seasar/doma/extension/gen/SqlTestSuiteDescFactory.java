@@ -28,8 +28,7 @@ public class SqlTestSuiteDescFactory {
       throw new GenNullPointerException("sqlFileSet");
     }
     SqlTestSuiteDesc suiteDesc = new SqlTestSuiteDesc();
-    sqlFileSet
-        .stream()
+    sqlFileSet.stream()
         .filter(Objects::nonNull)
         .filter(f -> f.isFile())
         .filter(f -> f.getName().endsWith(".sql"))
