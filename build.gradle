@@ -17,7 +17,7 @@ targetCompatibility = jdkVersion
 
 spotless {
     java {
-        googleJavaFormat('1.6')
+        googleJavaFormat('1.7')
     }
 }
 
