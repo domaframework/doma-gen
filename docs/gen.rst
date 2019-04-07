@@ -28,6 +28,8 @@ Top level parameters are as follows:
 +--------------------------+------------------------------------------------------------+----------------------------------+----------+
 | password                 | A database password.                                       |                                  | YES      |
 +--------------------------+------------------------------------------------------------+----------------------------------+----------+
+| driverClassName          | A JDBC driver class name.                                  | Inferred from the ``url`` value. |          |
++--------------------------+------------------------------------------------------------+----------------------------------+----------+
 | dialectName              | | A dialect name for a RDBMS.                              | Inferred from the ``url`` value. |          |
 |                          | | One of following values is available:                    |                                  |          |
 |                          | | ``h2``, ``hsqldb``, ``mysql``, ``postgres``,             |                                  |          |
