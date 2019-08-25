@@ -5,7 +5,7 @@ public class Artifact {
 
   private static final String NAME = "Doma-Gen";
 
-  private static final String VERSION = "2.25.0";
+  private static final String VERSION = "2.25.1";
 
   public static String getName() {
     return NAME;
