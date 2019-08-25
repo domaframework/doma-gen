@@ -2,6 +2,16 @@
 Release notes
 =============
 
+v2.25.0: 2019-08-25
+======================
+
+* `GH73 <https://github.com/domaframework/doma-gen/pull/73>`_
+  Add a description of the driverClassName property
+* `GH72 <https://github.com/domaframework/doma-gen/pull/72>`_
+  Upgrade google-java-format to 1.7
+* `GH71 <https://github.com/domaframework/doma-gen/pull/71>`_
+  Upgrade spotless-plugin-gradle to 3.20.0
+
 v2.24.0: 2019-02-23
 ======================
 
