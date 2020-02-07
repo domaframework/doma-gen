@@ -264,7 +264,7 @@ Write your build script as follows:
   }
 
   dependencies {
-      domaGenRuntime 'org.seasar.doma:doma-gen:2.28.0-SNAPSHOT'
+      domaGenRuntime 'org.seasar.doma:doma-gen:2.27.1'
       domaGenRuntime 'org.postgresql:postgresql:9.3-1100-jdbc41'
   }
 
