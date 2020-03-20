@@ -1,11 +1,9 @@
 plugins {
-    id 'com.diffplug.gradle.spotless' version '3.20.0'
+    id 'com.diffplug.gradle.spotless' version '3.27.2'
+    id 'java-library'
+    id 'signing'
+    id 'maven-publish'
 }
-
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'signing'
-apply plugin: 'maven'
 
 group = 'org.seasar.doma'
 version = '2.28.1-SNAPSHOT'
@@ -59,7 +57,7 @@ javadoc {
 
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Doma-Gen', 'Implementation-Version': version
+        attributes 'Implementation-Title': 'Doma-Gen', 'Implementation-Version': archiveVersion
     }
 }
 
@@ -77,70 +75,54 @@ dependencies {
     testImplementation 'junit:junit:4.11'
 }
 
-task sourcesJar (type : Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = group
+            artifactId = project.name
+            version = version
+            from components.java
 
-task javadocJar (type : Jar, dependsOn : javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives jar
-    archives sourcesJar
-    archives javadocJar
-}
-
-signing {
-    required { isReleaseVersion && gradle.taskGraph.hasTask('uploadArchives') }
-    sign configurations.archives
-}
-
-build.dependsOn install
-
-uploadArchives {
-    repositories.mavenDeployer {
-        beforeDeployment {MavenDeployment deployment ->
-            signing.signPom(deployment)
-        }
-        repository (url : sonatypeUrl) {
-            authentication (
-                    userName : sonatypeUsername,
-                    password : sonatypePassword)
-        }
-        snapshotRepository (url : sonatypeSnapshotUrl) {
-            authentication (
-                    userName : sonatypeUsername,
-                    password : sonatypePassword)
-        }
-        pom.project {
-            name project.name
-            packaging 'jar'
-            description 'Code generator for Doma'
-            url projectUrl
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/license/LICENSE-2.0.txt'
-                    distribution 'repo'
+            pom {
+                name = project.name
+                description = 'Code generator for Doma'
+                url = projectUrl
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'nakamura-to'
+                        name = 'Toshihiro Nakamura'
+                        email = 'toshihiro.nakamura@gmail.com'
+                    }
+                }
+                scm {
+                    connection = "scm:git:${githubUrl}"
+                    developerConnection = "scm:git:${githubUrl}"
+                    url = projectUrl
                 }
             }
-            scm {
-                url githubUrl
-                connection "scm:git:${githubUrl}"
-                developerConnection "scm:git:${githubUrl}"
-            }
-            developers {
-                developer {
-                    id 'nakamura-to'
-                    name 'Toshihiro Nakamura'
-                    email 'toshihiro.nakamura@gmail.com'
+            repositories {
+                maven {
+                    url = isReleaseVersion ? sonatypeUrl : sonatypeSnapshotUrl
+                    credentials {
+                        username = sonatypeUsername
+                        password = sonatypePassword
+                    }
                 }
             }
         }
     }
 }
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+build.dependsOn publishToMavenLocal
 
 apply from:'eclipse.gradle'
