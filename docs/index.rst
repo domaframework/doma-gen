@@ -6,6 +6,11 @@
 Welcome to Doma-Gen 2
 =====================
 
+.. attention::
+
+  This project has been archived.
+  Instead of this project, use the `Doma CodeGen Plugin <https://github.com/domaframework/doma-codegen-plugin>`_.
+
 Doma-Gen 2 is a code generation tool for `Doma 2`_.
 
 Doma-Gen will generate:
@@ -24,14 +29,6 @@ This document consists of following sections:
 * `User Documentation`_
 * `About Doma-Gen`_
 * `Links`_
-
-.. admonition:: Help improve our documentation
-  :class: important
-
-  Have feedback or a question? Found a typo?
-
-  Please add an issue or pull request to
-  https://github.com/domaframework/doma-gen and we’ll get back to you.
 
 
 User Documentation
