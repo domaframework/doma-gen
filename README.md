@@ -1,6 +1,14 @@
 Doma-Gen [![Build Status](https://travis-ci.org/domaframework/doma-gen.svg?branch=master)](https://travis-ci.org/domaframework/doma-gen) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.seasar.doma/doma-gen/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.seasar.doma/doma-gen)
 ========================================
 
+Attension
+---------
+
+**This repository has been archived.**   
+Instead of this project, use [doma-codegen-plugin](https://github.com/domaframework/doma-codegen-plugin).
+
+About this project
+------------------
 Doma-Gen is a code generation tool for [Doma][doma]. 
 
 Documentation
